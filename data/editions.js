@@ -106,6 +106,8 @@ window.PLOTFLOW = {
 "bigzam",
 "dom",
 "zgok",
-"gp02"
+"gp02",
+"gm",
+"guntank"
 ]
 };
