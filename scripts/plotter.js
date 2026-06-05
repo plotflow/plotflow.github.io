@@ -37,6 +37,11 @@
   function load(key) {
     cur = DATA[key]; if (!cur) return;
     if (selSuit) selSuit.value = key;
+
+    // Hide the path BEFORE swapping data so the old dash values don't flash
+    // the full new path for a frame.
+    ppath.style.strokeDasharray = '0 999999';
+    ppath.style.strokeDashoffset = '0';
     ppath.setAttribute('d', cur.d);
 
     // Crop the stage to the suit's bounding box (+ padding) so every suit is
