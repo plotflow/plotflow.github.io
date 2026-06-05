@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /preview.html
+Disallow: /success.html
+
+Sitemap: https://plotflow.io/sitemap.xml

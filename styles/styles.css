@@ -162,6 +162,7 @@ footer .grain{opacity:.3}
 .foot-cols{position:relative;z-index:2;display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px;padding:24px 0}
 .fc h5{font-weight:800;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:11px}
 .fc a{display:block;font-weight:500;font-size:13px;color:var(--mute);margin-bottom:7px}.fc a:hover{color:var(--white)}
+.fc .est{display:block;font-weight:500;font-size:13px;color:var(--dim);margin-bottom:7px}
 .foot-bot{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim)}
 
 /* INTERIOR PAGES */
@@ -221,3 +222,5 @@ footer .grain{opacity:.3}
 .cart-checkout{width:100%;background:var(--red);color:var(--white);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:1px solid var(--red)}
 .cart-checkout:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
 .cart-checkout:disabled{opacity:.45;cursor:not-allowed}
+.cart-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:95;background:var(--ink);color:var(--white);border:1px solid var(--line);padding:12px 18px;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
+.cart-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}

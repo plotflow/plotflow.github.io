@@ -149,9 +149,30 @@
     if (cartBtn) { e.preventDefault(); openDrawer(); }
   });
 
+  var toastEl, toastT;
+  function toast(msg) {
+    if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "cart-toast"; document.body.appendChild(toastEl); }
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.classList.remove("show"); }, 3500);
+  }
+
+  // Notice when returning from a cancelled Stripe checkout (cart is preserved).
+  function checkCancelled() {
+    var params = new URLSearchParams(location.search);
+    if (params.get("checkout") === "cancelled") {
+      toast("Checkout cancelled — your cart is saved.");
+      params.delete("checkout");
+      var qs = params.toString();
+      history.replaceState({}, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+    }
+  }
+
   // public API
   window.PlotflowCart = { add: add, remove: remove, clear: clear, open: openDrawer, count: count };
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { build(); render(); });
-  else { build(); render(); }
+  function init() { build(); render(); checkCancelled(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else { init(); }
 })();
