@@ -14,14 +14,14 @@ OUT = os.path.join(ROOT, "data", "editions.js")
 
 # key -> metadata. `file` is the svg basename in assets/plots (without .svg).
 META = {
- "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. 09/25 · A2", "price":"$240"},
- "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. 18/25 · A3", "price":"$180"},
- "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. 05/25 · A1", "price":"$320"},
- "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · A2", "price":"$240"},
- "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · A3", "price":"$190"},
- "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · A2", "price":"$260"},
- "gm":       {"file":"gm",       "name":"GM",       "code":"RGM-79",    "jp":"ジム",                 "edition":"ED. 07/25 · A3", "price":"$160"},
- "guntank":  {"file":"guntank",  "name":"Guntank",  "code":"RX-75",     "jp":"ガンタンク",            "edition":"ED. 11/25 · A2", "price":"$230"},
+ "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. 09/25 · A2", "price":"$30"},
+ "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. 18/25 · A3", "price":"$30"},
+ "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. 05/25 · A1", "price":"$30"},
+ "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · A2", "price":"$30"},
+ "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · A3", "price":"$30"},
+ "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · A2", "price":"$30"},
+ "gm":       {"file":"gm",       "name":"GM",       "code":"RGM-79",    "jp":"ジム",                 "edition":"ED. 07/25 · A3", "price":"$30"},
+ "guntank":  {"file":"guntank",  "name":"Guntank",  "code":"RX-75",     "jp":"ガンタンク",            "edition":"ED. 11/25 · A2", "price":"$30"},
 }
 
 # order of the dropdown in the live plotter, and of the cards in the shop grid
