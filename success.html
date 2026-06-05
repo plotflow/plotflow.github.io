@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Manifesto — PLOTFLOW*</title>
+<title>Order confirmed — PLOTFLOW*</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
@@ -23,29 +23,15 @@
 <section class="page">
   <div class="wrap">
     <div class="page-head">
-      <h1>Manifesto<span class="star">*</span></h1>
-      <div class="jp">宣言</div>
+      <h1>Order confirmed<span class="star">*</span></h1>
+      <div class="jp">ご注文ありがとうございます</div>
     </div>
-    <div class="page-body manifesto">
-      <blockquote>
-        <p>Drawn, not printed.</p>
-      </blockquote>
-
-      <p>We believe a machine can make art — not by simulating it, but by performing it. A pen plotter doesn't reproduce an image. It draws one. The distinction matters.</p>
-
-      <p>Every PlotFlow edition begins as a single unbroken vector path — 一筆書き, <em>hitofudegaki</em>, one continuous line. The pen never lifts. There are no breaks, no layers, no shortcuts. What the machine draws is what the machine drew: a physical record of movement through space and time.</p>
-
-      <p>We chose the hardest constraint on purpose. A continuous line forces every detail to connect — nothing is isolated, nothing is separate. The suit exists as one gesture. This is not a limitation. It is the work.</p>
-
-      <p>The medium itself is honest. Technical pen on archival paper. Ink flows at a rate determined by gravity, temperature, humidity, and the speed of the carriage. No two runs are identical, even from the same path data. Minor variation in line weight, ink saturation, and pen behavior is a feature of the process — never a flaw.</p>
-
-      <p>We don't print. We don't reproduce. We plot. Each piece is drawn once, for one person, signed, and numbered. When an edition sells out, it is retired. The path data remains, but the physical run is finished.</p>
-
-      <p>PlotFlow exists at the intersection of precision engineering and analog craft. The machine is the tool. The constraint is the art. The ink is the proof.</p>
-
-      <blockquote>
-        <p>機械仕掛けの一筆書き<br><em>One continuous line, drawn by machine.</em></p>
-      </blockquote>
+    <div class="page-body">
+      <h3>Thank you</h3>
+      <p>Your edition is now in the queue to be plotted. A receipt is on its way to your email, and you'll get a tracking number once it ships.</p>
+      <p>Each piece is drawn to order on the AxiDraw — please allow 7–14 days for production before dispatch. See <a href="shipping.html">Shipping</a> for full timing.</p>
+      <p id="ref" class="tiny" style="color:var(--dim);letter-spacing:.06em"></p>
+      <p style="margin-top:24px"><a href="/#shop" style="font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:12px">← Back to the work</a></p>
     </div>
   </div>
 </section>
@@ -66,5 +52,13 @@
 
 <script src="scripts/config.js"></script>
 <script src="scripts/cart.js"></script>
+<script>
+  // Empty the cart on a confirmed order and show the session reference.
+  (function () {
+    try { if (window.PlotflowCart) window.PlotflowCart.clear(); } catch (e) {}
+    var sid = new URLSearchParams(location.search).get("session_id");
+    if (sid) document.getElementById("ref").textContent = "Reference: " + sid;
+  })();
+</script>
 </body>
 </html>
