@@ -60,6 +60,10 @@
     var md = Math.max(vb.w, vb.h);
     mmPerUnit = 420 / md;                 // longest side ≈ 420mm
     totalMin = (len * mmPerUnit) / FEED;
+    // The animated path can't use non-scaling-stroke (it would measure the
+    // dash in screen px while getTotalLength is in user units, revealing the
+    // whole path at once), so set the width in user units to render ~1.2px.
+    ppath.style.strokeWidth = (md * 0.0022) + 'px';
     penC.setAttribute('r', md * 0.014);
     penX.setAttribute('d', 'M ' + (-md * 0.032) + ' 0 H ' + (md * 0.032) + ' M 0 ' + (-md * 0.032) + ' V ' + (md * 0.032));
     ppath.style.strokeDasharray = len;
