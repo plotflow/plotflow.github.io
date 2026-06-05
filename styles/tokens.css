@@ -1,0 +1,18 @@
+/* ============================================================
+   PLOTFLOW · DESIGN TOKENS
+   Edit colors/fonts here; everything else reads these vars.
+   ============================================================ */
+:root{
+  --white:#f5f4ef; --mute:#c3c5b8; --dim:#8f9184; --ink:#15160f; --paper:#efe7d3; --red:#e8351f;
+  --con1:#5b5e54; --con2:#43463e; --line:rgba(245,244,239,.22);
+  --sans:'Archivo',sans-serif; --jp:'Noto Sans JP',sans-serif;
+}
+
+/* scale + layout tokens (adopt these in new components) */
+:root{
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:24px; --space-6:32px; --space-7:48px; --space-8:64px;
+  --maxw:1240px; --radius:0px; --border:1px solid var(--line);
+  /* type scale (display uses clamp() in styles.css) */
+  --fs-micro:8.5px; --fs-label:10px; --fs-body:13px; --fs-lead:1rem;
+}
