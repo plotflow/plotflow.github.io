@@ -1,6 +1,6 @@
 # PLOTFLOW — Design System
 
-A small art house selling **pen-plotter (AxiDraw) line drawings of Universal-Century mobile suits** — each rebuilt as a single continuous line and drawn in red ink on archival paper, signed + numbered. *Plotted, not printed.* est. 2026.
+A small studio selling **pen-plotter (AxiDraw) line drawings of Universal-Century mobile suits** — each rebuilt as a single continuous line and drawn in red ink on archival paper, signed + numbered. *Plotted, not printed.* est. 2026.
 
 Aesthetic: **washed/muted ground · bold white grotesque · Japanese · halftone + asterisk**, with an interactive **Live Plot** hero that draws the suit in front of you. This document is the source of truth for tokens, components, and rules. (`tokens.json` is the machine-readable mirror; `tokens.css` is what the site consumes.)
 
