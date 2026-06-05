@@ -27,7 +27,7 @@
         '<div class="jp">' + s.jp + '</div>' +
         '<span class="ast star">' + STAR + '</span>' +
         '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">一筆書き</span></div>' +
-        '<button class="plotbtn" data-plot="' + key + '">▶ Plot</button>' +
+        '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
       '</div>' +
       '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div></div>' +
         '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '">Acquire</button></div></div>';

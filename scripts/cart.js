@@ -149,6 +149,13 @@
     if (cartBtn) { e.preventDefault(); openDrawer(); }
   });
 
+<<<<<<< HEAD
+  // public API
+  window.PlotflowCart = { add: add, remove: remove, clear: clear, open: openDrawer, count: count };
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { build(); render(); });
+  else { build(); render(); }
+=======
   var toastEl, toastT;
   function toast(msg) {
     if (!toastEl) { toastEl = document.createElement("div"); toastEl.className = "cart-toast"; document.body.appendChild(toastEl); }
@@ -175,4 +182,5 @@
   function init() { build(); render(); checkCancelled(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else { init(); }
+>>>>>>> a4f47b5b80479b6bdd236703ae93d873d3c42872
 })();
