@@ -26,7 +26,7 @@ META = {
 
 # order of the dropdown in the live plotter, and of the cards in the shop grid
 PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02","gm","guntank"]
-SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02"]
+SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02","gm","guntank"]
 
 def extract(file):
     s = open(os.path.join(PLOTS, file + ".svg")).read()

@@ -54,7 +54,7 @@ nav{position:sticky;top:0;z-index:60;background:rgba(31,33,28,.72);backdrop-filt
 #ppath{fill:none;stroke:none}
 .replay{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;background:rgba(20,18,12,.12);cursor:pointer}
 .replay.show{display:flex}
-.replay span{font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#15160f;background:var(--paper);border:1px solid #15160f;padding:10px 18px}
+.replay span{font-family:var(--sans);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#15160f;background:var(--paper);border:1px solid #15160f;padding:10px 18px}
 
 /* big jp lockup lower-left like the reference */
 .hero-jp{position:absolute;z-index:5;left:26px;bottom:96px;pointer-events:none}
@@ -134,7 +134,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .card .cover .jp{position:absolute;z-index:5;right:10px;top:42px;font-family:var(--jp);font-weight:700;font-size:11px;color:var(--mute);writing-mode:vertical-rl}
 .card .cover .ast{position:absolute;z-index:5;width:26px;height:26px;color:var(--red);left:10px;top:40%}
 .card .cover .foot{position:relative;z-index:5;margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;padding:9px 10px}
-.card .cover .plotbtn{position:absolute;z-index:6;right:10px;bottom:10px;font-weight:800;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--white);padding:5px 8px;background:rgba(20,21,16,.4)}
+.card .cover .plotbtn{position:absolute;z-index:6;right:10px;bottom:10px;font-family:var(--sans);font-weight:800;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--white);padding:5px 8px;background:rgba(20,21,16,.4)}
 .card .cover .plotbtn:hover{background:var(--white);color:var(--ink)}
 .card .buy{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 2px 0}
 .card .buy .t{font-weight:800;font-size:1.05rem;line-height:1}
