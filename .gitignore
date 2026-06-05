@@ -4,3 +4,8 @@
 *~
 .env
 Thumbs.db
+
+# Cloudflare Worker
+worker/node_modules/
+worker/.wrangler/
+.dev.vars
