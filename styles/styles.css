@@ -44,13 +44,14 @@ nav{position:sticky;top:0;z-index:60;background:rgba(31,33,28,.72);backdrop-filt
 .hero-head .sub b{color:var(--white);font-weight:700}
 
 .stage-area{position:relative;z-index:5;flex:1;display:flex;align-items:center;justify-content:center;padding:18px 26px;min-height:0}
-.bed{position:relative;background:var(--paper);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.3);width:min(62%,640px);max-height:64vh;aspect-ratio:1493/801}
+.bed{position:relative;background:var(--paper);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.3);width:min(62%,640px);max-height:64vh;aspect-ratio:4/3}
 .bed .corner{position:absolute;width:15px;height:15px;border:1.5px solid #b7ab8a;z-index:3}
 .bed .c-tl{top:8px;left:8px;border-right:none;border-bottom:none}.bed .c-tr{top:8px;right:8px;border-left:none;border-bottom:none}
 .bed .c-bl{bottom:8px;left:8px;border-right:none;border-top:none}.bed .c-br{bottom:8px;right:8px;border-left:none;border-top:none}
 .bed .bl{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-weight:700;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#a99a76;z-index:3}
-#stage{position:absolute;inset:0;width:100%;height:100%}
-#ppath{fill:none;stroke:var(--red);stroke-width:1.1px;stroke-linejoin:round;stroke-linecap:round}
+#pcanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+#stage{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+#ppath{fill:none;stroke:none}
 .replay{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;background:rgba(20,18,12,.12);cursor:pointer}
 .replay.show{display:flex}
 .replay span{font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#15160f;background:var(--paper);border:1px solid #15160f;padding:10px 18px}
@@ -108,7 +109,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .card .cover{position:relative;aspect-ratio:3/4;overflow:hidden;
   background:linear-gradient(180deg,rgba(40,43,36,.25),rgba(22,23,18,.7)),radial-gradient(120% 90% at 60% 15%,#63665b,#33352e);
   border:1px solid var(--line);display:flex;flex-direction:column}
-.card .cover .art{position:absolute;inset:2% 0 6% 0;z-index:2;color:var(--white)}
+.card .cover .art{position:absolute;inset:8% 6% 9% 6%;z-index:2;color:var(--white)}
 .card .cover .art svg{width:100%;height:100%}
 .card .cover .art path{stroke-width:.7px}
 .card .cover .grain{opacity:.4;z-index:3}

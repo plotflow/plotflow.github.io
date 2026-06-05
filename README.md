@@ -1,6 +1,6 @@
 # PLOTFLOW
 
-**Avant-garde pen-plotter art house.** Universal-Century mobile suits, rebuilt as a single unbroken line and drawn in ink by machine.
+**Avant-garde pen-plotter studio.** Universal-Century mobile suits, rebuilt as a single unbroken line and drawn in ink by machine.
 
 一筆書き — *hitofudegaki*, "one continuous line."
 
@@ -63,4 +63,4 @@ git add -A && git commit -m "update site" && git push
 
 ---
 
-<sub>© 2026 PLOTFLOW ART HOUSE* — plotted in the U.S.A. · 一筆書き · one continuous line</sub>
+<sub>© 2026 PLOTFLOW* — plotted in the U.S.A. · 一筆書き · one continuous line</sub>
