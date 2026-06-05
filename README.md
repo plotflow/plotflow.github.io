@@ -1,6 +1,6 @@
 # PLOTFLOW
 
-**Avant-garde pen-plotter studio.** Universal-Century mobile suits, rebuilt as a single unbroken line and drawn in ink by machine.
+**Independent pen-plotter studio.** Universal-Century mobile suits, rebuilt as a single unbroken line and drawn in ink by machine.
 
 一筆書き — *hitofudegaki*, "one continuous line."
 
