@@ -37,11 +37,22 @@
   function load(key) {
     cur = DATA[key]; if (!cur) return;
     if (selSuit) selSuit.value = key;
-    stage.setAttribute('viewBox', '0 0 ' + cur.w + ' ' + cur.h);
-    bed.style.aspectRatio = cur.w + '/' + cur.h;
     ppath.setAttribute('d', cur.d);
+
+    // Crop the stage to the suit's bounding box (+ padding) so every suit is
+    // drawn large and centred on the same sheet, instead of being letterboxed
+    // inside the mostly-empty original canvas. The bed keeps its fixed CSS
+    // shape so the paper is consistent across all editions.
+    var vb = { x: 0, y: 0, w: cur.w, h: cur.h };
+    try {
+      var bb = ppath.getBBox();
+      var pad = Math.max(bb.width, bb.height) * 0.06;
+      vb = { x: bb.x - pad, y: bb.y - pad, w: bb.width + pad * 2, h: bb.height + pad * 2 };
+    } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
+    stage.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
+
     len = ppath.getTotalLength(); if (!len || !isFinite(len)) len = 1;
-    var md = Math.max(cur.w, cur.h);
+    var md = Math.max(vb.w, vb.h);
     mmPerUnit = 420 / md;                 // longest side ≈ 420mm
     totalMin = (len * mmPerUnit) / FEED;
     penC.setAttribute('r', md * 0.014);
@@ -52,7 +63,7 @@
     if (inktot) inktot.textContent = (len * mmPerUnit / 1000).toFixed(2);
     if (total) total.textContent = fmt(totalMin);
     if (bedlabel) bedlabel.textContent = 'BED 01 · ' + cur.code;
-    drawn = 0; playing = true;
+    drawn = 0; playing = true; last = null;   // reset the clock → always start from a blank sheet
     if (replay) replay.classList.remove('show');
     if (playBtn) playBtn.textContent = 'Pause';
     render();

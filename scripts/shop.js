@@ -32,6 +32,19 @@
       '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div></div>' +
         '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq">Acquire</button></div></div>';
     grid.appendChild(card);
+
+    // Crop the viewBox to the suit's actual bounding box (+ padding) so every
+    // edition fills its cover at a consistent scale, instead of being
+    // letterboxed inside the mostly-empty original canvas.
+    var svg = card.querySelector('.art svg');
+    var path = card.querySelector('.art path');
+    try {
+      var bb = path.getBBox();
+      var pad = Math.max(bb.width, bb.height) * 0.06;
+      svg.setAttribute('viewBox',
+        (bb.x - pad) + ' ' + (bb.y - pad) + ' ' +
+        (bb.width + pad * 2) + ' ' + (bb.height + pad * 2));
+    } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
   });
 
   grid.addEventListener('click', function (e) {
