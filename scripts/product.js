@@ -248,7 +248,38 @@
         a.download = key + "-" + color + "-wallpaper.png";
         a.click();
         dlBtn.textContent = "↓ Download phone wallpaper";
+        revealNudge();
       }, 50);
     });
   }
+
+  // ---- soft gate: gentle drop-list nudge after a download ----
+  // The wallpaper is always free; this just invites a signup once per visit,
+  // and only if an email provider is wired up.
+  function revealNudge() {
+    var nudge = $("pdNudge");
+    if (!nudge || nudge.dataset.done) return;
+    if (!(window.PlotflowSubscribe && window.PlotflowSubscribe.configured())) return;
+    try { if (sessionStorage.getItem("pf_nudge")) return; } catch (e) {}
+    nudge.hidden = false;
+  }
+
+  (function wireNudge() {
+    var form = $("pdNudgeForm"); if (!form) return;
+    var inp = $("pdNudgeEmail"), msg = $("pdNudgeMsg"), nudge = $("pdNudge");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var sub = window.PlotflowSubscribe;
+      if (!sub || !sub.valid(inp.value)) {
+        msg.textContent = "Please enter a valid email."; msg.hidden = false;
+        return;
+      }
+      sub.submit(inp.value);
+      form.hidden = true;
+      msg.textContent = "You're on the list. Watch for the next drop.";
+      msg.hidden = false;
+      nudge.dataset.done = "1";
+      try { sessionStorage.setItem("pf_nudge", "1"); } catch (e) {}
+    });
+  })();
 })();

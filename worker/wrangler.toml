@@ -10,4 +10,4 @@ compatibility_date = "2024-11-01"
 # (older wrangler: `wrangler kv:namespace create STOCK`)
 [[kv_namespaces]]
 binding = "STOCK"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "2b13bb3aa5f04e6eae5d65c80844f865"

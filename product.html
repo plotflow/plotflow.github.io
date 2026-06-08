@@ -57,6 +57,14 @@
         </div>
         <div class="pd-stage-meta tiny"><span id="pdInk">マシンドロー</span><span id="pdSize"></span></div>
         <button class="pd-wallpaper tiny" id="pdWallpaper">↓ Download phone wallpaper</button>
+        <div class="pd-nudge" id="pdNudge" hidden>
+          <p class="pd-nudge-copy tiny">Saved to your phone. Want first dibs when the next edition drops?</p>
+          <form class="pd-nudge-form" id="pdNudgeForm" novalidate>
+            <input type="email" id="pdNudgeEmail" placeholder="you@example.com" aria-label="Email address" autocomplete="email" />
+            <button type="submit">Notify me</button>
+          </form>
+          <p class="pd-nudge-msg tiny" id="pdNudgeMsg" hidden></p>
+        </div>
       </div>
 
       <!-- RIGHT: details + acquire -->
@@ -122,6 +130,7 @@
 <script src="data/editions.js"></script>
 <script src="scripts/config.js"></script>
 <script src="scripts/stock.js"></script>
+<script src="scripts/subscribe.js"></script>
 <script src="scripts/product.js"></script>
 <script src="scripts/cart.js"></script>
 </body>
