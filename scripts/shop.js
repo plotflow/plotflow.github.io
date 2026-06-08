@@ -31,7 +31,7 @@
         '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
       '</a>' +
       '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div></div>' +
-        '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><a class="acq" href="' + href + '">Acquire</a></div></div>';
+        '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div></div>';
     grid.appendChild(card);
 
     // Crop the viewBox to the suit's actual bounding box (+ padding) so every

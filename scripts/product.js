@@ -38,7 +38,7 @@
   $("pdPrice").textContent = suit.price || "";
   $("pdAcquirePrice").textContent = suit.price || "";
   $("pdLore").textContent = suit.lore || "";
-  $("pdBedlabel").textContent = "BED 01 · " + suit.code;
+  $("pdBedlabel").textContent = suit.code + " " + suit.name;
   var sizeM = (suit.edition || "").split("·").pop().trim();
   $("pdSize").textContent = sizeM || "11×14″";
 
