@@ -20,8 +20,6 @@ META = {
  "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · 11×14″", "price":"$45"},
  "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · 11×14″", "price":"$45"},
  "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · 11×14″", "price":"$45"},
- "gm":       {"file":"gm",       "name":"GM",       "code":"RGM-79",    "jp":"ジム",                 "edition":"ED. 07/25 · 11×14″", "price":"$45"},
- "guntank":  {"file":"guntank",  "name":"Guntank",  "code":"RX-75",     "jp":"ガンタンク",            "edition":"ED. 11/25 · 11×14″", "price":"$45"},
 }
 
 # Short editorial blurb shown on each edition's product page.
@@ -32,13 +30,11 @@ LORE = {
  "dom":      "A ground-assault suit riding hover thrusters for deceptively fast movement across open terrain. Its scattering beam gun and giant heat saber made it a frontline terror.",
  "zgok":     "An amphibious Zeon suit built for hit-and-run raids from the water. Rounded armor, clawed manipulators, and head-mounted mega particle guns.",
  "gp02":     "A Gundam Development Project unit engineered to carry and fire a tactical warhead. Heavy shielding and a massive plasma-clad shield define its silhouette.",
- "gm":       "The Federation's answer to mass production — a simplified, mass-deployable Gundam derivative that turned the tide through sheer numbers.",
- "guntank":  "Half mobile suit, half tank. A tracked lower body and twin long-range cannons made it the artillery support of the Federation's early V-Project.",
 }
 
 # order of the dropdown in the live plotter, and of the cards in the shop grid
-PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02","gm","guntank"]
-SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02","gm","guntank"]
+PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02"]
+SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02"]
 
 def extract(file):
     s = open(os.path.join(PLOTS, file + ".svg")).read()

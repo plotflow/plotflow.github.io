@@ -25,9 +25,7 @@ const CATALOG = {
   bigzam:    { name: "Big Zam — MA-08",      cents: 4500 },
   dom:       { name: "Dom — MS-09",          cents: 4500 },
   zgok:      { name: "Z'Gok — MSM-07",       cents: 4500 },
-  gp02:      { name: "GP-02A — RX-78GP02",   cents: 4500 },
-  gm:        { name: "GM — RGM-79",          cents: 4500 },
-  guntank:   { name: "Guntank — RX-75",      cents: 4500 }
+  gp02:      { name: "GP-02A — RX-78GP02",   cents: 4500 }
 };
 
 // Pen colors are variants at the same price. Color is cosmetic for pricing
