@@ -33,7 +33,14 @@ const CATALOG = {
 // we know which pen to load before plotting.
 const PEN_COLORS = { black: "Black", red: "Red", blue: "Blue" };
 
-const SHIPPING = { label: "Standard shipping", cents: 900 };
+// U.S. shipping is free (cost is baked into the edition price). International
+// is a flat rate. Stripe shows these as selectable methods at checkout; the
+// order email includes the shipping address so destination mismatches are
+// easy to spot.
+const SHIPPING_OPTIONS = [
+  { label: "United States · Free shipping", cents: 0 },
+  { label: "International · Flat rate",      cents: 2000 }
+];
 
 const SUCCESS_URL = "https://plotflow.io/success.html?session_id={CHECKOUT_SESSION_ID}";
 const CANCEL_URL  = "https://plotflow.io/?checkout=cancelled";
@@ -91,12 +98,12 @@ export default {
     form.set("phone_number_collection[enabled]", "true");
     SHIP_COUNTRIES.forEach((c, i) => form.set(`shipping_address_collection[allowed_countries][${i}]`, c));
 
-    if (SHIPPING.cents > 0) {
-      form.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-      form.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(SHIPPING.cents));
-      form.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", CURRENCY);
-      form.set("shipping_options[0][shipping_rate_data][display_name]", SHIPPING.label);
-    }
+    SHIPPING_OPTIONS.forEach((opt, i) => {
+      form.set(`shipping_options[${i}][shipping_rate_data][type]`, "fixed_amount");
+      form.set(`shipping_options[${i}][shipping_rate_data][fixed_amount][amount]`, String(opt.cents));
+      form.set(`shipping_options[${i}][shipping_rate_data][fixed_amount][currency]`, CURRENCY);
+      form.set(`shipping_options[${i}][shipping_rate_data][display_name]`, opt.label);
+    });
 
     form.set("metadata[editions]", orderSummary.join(", "));
 

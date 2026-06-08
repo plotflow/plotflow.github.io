@@ -70,7 +70,7 @@
       '<div class="cart-items"></div>' +
       '<div class="cart-foot">' +
         '<div class="cart-sub"><span class="tiny">Subtotal</span><span class="cart-sub-val">' + money(0) + '</span></div>' +
-        '<p class="cart-note tiny">Shipping + any taxes calculated at checkout. Each edition is plotted to order.</p>' +
+        '<p class="cart-note tiny">Free U.S. shipping. International + any taxes calculated at checkout. Each edition is plotted to order.</p>' +
         '<button class="cart-checkout">Checkout</button>' +
       '</div>';
 
