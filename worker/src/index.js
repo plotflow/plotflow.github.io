@@ -30,6 +30,11 @@ const CATALOG = {
   guntank:   { name: "Guntank — RX-75",      cents: 4500 }
 };
 
+// Pen colors are variants at the same price. Color is cosmetic for pricing
+// (validated against this allow-list) but rides through to the order email so
+// we know which pen to load before plotting.
+const PEN_COLORS = { black: "Black", red: "Red", blue: "Blue" };
+
 const SHIPPING = { label: "Standard shipping", cents: 900 };
 
 const SUCCESS_URL = "https://plotflow.io/success.html?session_id={CHECKOUT_SESSION_ID}";
@@ -70,11 +75,14 @@ export default {
       const qty = Math.max(1, Math.min(99, parseInt(it && it.qty, 10) || 0));
       const prod = CATALOG[key];
       if (!prod) return json({ error: "Unavailable item: " + key }, 400, cors);
+      const colorKey = String((it && it.color) || "black").toLowerCase();
+      const colorName = PEN_COLORS[colorKey] || PEN_COLORS.black;
+      const lineName = `${prod.name} · ${colorName} ink`;
       form.set(`line_items[${n}][price_data][currency]`, CURRENCY);
       form.set(`line_items[${n}][price_data][unit_amount]`, String(prod.cents));
-      form.set(`line_items[${n}][price_data][product_data][name]`, prod.name);
+      form.set(`line_items[${n}][price_data][product_data][name]`, lineName);
       form.set(`line_items[${n}][quantity]`, String(qty));
-      orderSummary.push(`${qty}× ${prod.name}`);
+      orderSummary.push(`${qty}× ${lineName}`);
       n++;
     }
     if (!n) return json({ error: "Cart is empty" }, 400, cors);

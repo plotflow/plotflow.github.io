@@ -24,6 +24,18 @@ META = {
  "guntank":  {"file":"guntank",  "name":"Guntank",  "code":"RX-75",     "jp":"ガンタンク",            "edition":"ED. 11/25 · 11×14″", "price":"$45"},
 }
 
+# Short editorial blurb shown on each edition's product page.
+LORE = {
+ "zaku":     "The workhorse of the Principality of Zeon — mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
+ "guncannon":"A mid-range support unit of the Earth Federation, built around its shoulder-mounted cannons. Heavier armor traded mobility for firepower fighting alongside the RX-78.",
+ "bigzam":   "A colossal Zeon mobile armor designed for base defense, shielded by an I-field that turned aside beam weapons. A single unit was meant to hold off an entire fleet.",
+ "dom":      "A ground-assault suit riding hover thrusters for deceptively fast movement across open terrain. Its scattering beam gun and giant heat saber made it a frontline terror.",
+ "zgok":     "An amphibious Zeon suit built for hit-and-run raids from the water. Rounded armor, clawed manipulators, and head-mounted mega particle guns.",
+ "gp02":     "A Gundam Development Project unit engineered to carry and fire a tactical warhead. Heavy shielding and a massive plasma-clad shield define its silhouette.",
+ "gm":       "The Federation's answer to mass production — a simplified, mass-deployable Gundam derivative that turned the tide through sheer numbers.",
+ "guntank":  "Half mobile suit, half tank. A tracked lower body and twin long-range cannons made it the artillery support of the Federation's early V-Project.",
+}
+
 # order of the dropdown in the live plotter, and of the cards in the shop grid
 PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02","gm","guntank"]
 SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02","gm","guntank"]
@@ -38,7 +50,7 @@ suits = {}
 for k, m in META.items():
     w, h, d = extract(m["file"])
     suits[k] = {"name":m["name"], "code":m["code"], "jp":m["jp"],
-                "edition":m["edition"], "price":m["price"],
+                "edition":m["edition"], "price":m["price"], "lore":LORE.get(k, ""),
                 "file":m["file"]+".svg", "w":w, "h":h, "d":d}
 
 data = {"suits":suits, "plotterOrder":PLOTTER_ORDER, "shopOrder":SHOP_ORDER}

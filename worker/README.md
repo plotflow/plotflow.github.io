@@ -6,7 +6,7 @@ key** (as an encrypted secret, never in this repo) and defines prices
 server-side, so the browser can never set its own amount.
 
 ```
-browser cart  ──POST {items:[{key,qty}]}──▶  Worker  ──▶  Stripe
+browser cart  ──POST {items:[{key,qty,color}]}──▶  Worker  ──▶  Stripe
    ◀──────────── { url } (Stripe-hosted checkout) ───────────
 ```
 
@@ -14,6 +14,10 @@ Prices and product names live in `src/index.js` → `CATALOG` as ad-hoc
 `price_data` line items, so **there is nothing to create in the Stripe
 dashboard** — no products, no Price IDs to paste. Editing a price is a
 one-line change to `cents`.
+
+Pen color (`black`/`red`/`blue`) is a free variant: it's validated against
+`PEN_COLORS`, appended to the line-item name (so it shows in Stripe and the
+order email), and never changes the price.
 
 ## One-time setup
 

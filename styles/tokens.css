@@ -4,6 +4,7 @@
    ============================================================ */
 :root{
   --white:#f5f4ef; --mute:#c3c5b8; --dim:#8f9184; --ink:#15160f; --paper:#efe7d3; --red:#e8351f;
+  --bristol:#f6f3ec; /* Strathmore 300 Bristol, smooth — the live-plot paper */
   --con1:#5b5e54; --con2:#43463e; --line:rgba(245,244,239,.22);
   --sans:'Archivo',sans-serif; --jp:'Noto Sans JP',sans-serif;
 }

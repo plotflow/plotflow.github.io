@@ -7,12 +7,19 @@
 
    Cart items carry their own display fields (name/code/price/edition)
    captured at add-time, so interior pages don't need data/editions.js.
+   Each item also carries a pen `color` (black/red/blue); the same suit
+   in two colors is two distinct line items, identified by key|color.
    ============================================================ */
 (function () {
   var KEY = "plotflow_cart_v1";
   var CFG = window.PLOTFLOW_CONFIG || {};
   var CUR = CFG.currency || "$";
   var DATA = (window.PLOTFLOW && window.PLOTFLOW.suits) || {};
+  var COLORS = { black: "Black", red: "Red", blue: "Blue" };
+
+  function normColor(c) { c = String(c || "black").toLowerCase(); return COLORS[c] ? c : "black"; }
+  function colorName(c) { return COLORS[normColor(c)]; }
+  function lineId(i) { return i.key + "|" + normColor(i.color); }
 
   function read() {
     try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; }
@@ -27,23 +34,24 @@
   function count() { return read().reduce(function (n, i) { return n + i.qty; }, 0); }
   function subtotal() { return read().reduce(function (s, i) { return s + priceNum(i.price) * i.qty; }, 0); }
 
-  function add(key) {
+  function add(key, color) {
+    color = normColor(color);
     var items = read();
-    var found = items.filter(function (i) { return i.key === key; })[0];
+    var found = items.filter(function (i) { return i.key === key && normColor(i.color) === color; })[0];
     if (found) { found.qty++; }
     else {
       var s = DATA[key] || {};
-      items.push({ key: key, qty: 1, name: s.name || key, code: s.code || "", price: s.price || "", edition: s.edition || "" });
+      items.push({ key: key, color: color, qty: 1, name: s.name || key, code: s.code || "", price: s.price || "", edition: s.edition || "" });
     }
     write(items);
     openDrawer();
   }
-  function setQty(key, qty) {
-    var items = read().map(function (i) { return i.key === key ? Object.assign({}, i, { qty: qty }) : i; })
+  function setQty(id, qty) {
+    var items = read().map(function (i) { return lineId(i) === id ? Object.assign({}, i, { qty: qty }) : i; })
       .filter(function (i) { return i.qty > 0; });
     write(items);
   }
-  function remove(key) { write(read().filter(function (i) { return i.key !== key; })); }
+  function remove(id) { write(read().filter(function (i) { return lineId(i) !== id; })); }
   function clear() { write([]); }
 
   /* ---- drawer markup (built once, appended to <body>) ---- */
@@ -78,12 +86,12 @@
     checkoutBtn.addEventListener("click", checkout);
 
     itemsEl.addEventListener("click", function (e) {
-      var row = e.target.closest("[data-key]"); if (!row) return;
-      var k = row.getAttribute("data-key");
-      var item = read().filter(function (i) { return i.key === k; })[0]; if (!item) return;
-      if (e.target.closest("[data-inc]")) setQty(k, item.qty + 1);
-      else if (e.target.closest("[data-dec]")) setQty(k, item.qty - 1);
-      else if (e.target.closest("[data-rm]")) remove(k);
+      var row = e.target.closest("[data-id]"); if (!row) return;
+      var id = row.getAttribute("data-id");
+      var item = read().filter(function (i) { return lineId(i) === id; })[0]; if (!item) return;
+      if (e.target.closest("[data-inc]")) setQty(id, item.qty + 1);
+      else if (e.target.closest("[data-dec]")) setQty(id, item.qty - 1);
+      else if (e.target.closest("[data-rm]")) remove(id);
     });
 
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDrawer(); });
@@ -101,9 +109,9 @@
       itemsEl.innerHTML = '<div class="cart-empty tiny">Your cart is empty.</div>';
     } else {
       itemsEl.innerHTML = items.map(function (i) {
-        return '<div class="ci" data-key="' + i.key + '">' +
+        return '<div class="ci" data-id="' + lineId(i) + '">' +
             '<div class="ci-main"><div class="ci-name">' + (i.code ? i.code + " " : "") + i.name + '</div>' +
-              '<div class="ci-ed tiny">' + (i.edition || "") + '</div></div>' +
+              '<div class="ci-ed tiny">' + (i.edition ? i.edition + " · " : "") + colorName(i.color) + ' ink</div></div>' +
             '<div class="ci-qty"><button data-dec aria-label="Decrease">−</button>' +
               '<span>' + i.qty + '</span>' +
               '<button data-inc aria-label="Increase">+</button></div>' +
@@ -128,7 +136,7 @@
     fetch(CFG.checkoutEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: items.map(function (i) { return { key: i.key, qty: i.qty }; }) })
+      body: JSON.stringify({ items: items.map(function (i) { return { key: i.key, qty: i.qty, color: normColor(i.color) }; }) })
     })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
@@ -144,7 +152,7 @@
   /* ---- global wiring ---- */
   document.addEventListener("click", function (e) {
     var acq = e.target.closest("[data-acq]");
-    if (acq) { e.preventDefault(); add(acq.getAttribute("data-acq")); return; }
+    if (acq) { e.preventDefault(); add(acq.getAttribute("data-acq"), acq.getAttribute("data-color")); return; }
     var cartBtn = e.target.closest(".cart");
     if (cartBtn) { e.preventDefault(); openDrawer(); }
   });
