@@ -12,6 +12,6 @@ window.PLOTFLOW_CONFIG = {
   //   • Kit (ConvertKit):  https://app.kit.com/forms/XXXXXX/subscriptions   field: email_address
   //   • Buttondown:        https://buttondown.com/api/emails/embed-subscribe/USERNAME   field: email
   //   • Mailchimp:         the form action URL from the embed code            field: EMAIL
-  newsletterEndpoint: "",
+  newsletterEndpoint: "https://app.kit.com/forms/9539174/subscriptions",
   newsletterField: "email_address"
 };
