@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Reel Generator · PLOTFLOW*</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1b16;color:#f5f4ef;font-family:'Archivo',sans-serif;min-height:100vh;overflow-x:hidden}
+.header{padding:20px 28px;border-bottom:1px solid rgba(245,244,239,.1);display:flex;align-items:baseline;gap:12px}
+.header h1{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.header span{font-size:11px;color:#8f9184}
+.layout{display:flex;gap:32px;padding:28px;max-width:1200px;margin:0 auto;align-items:flex-start}
+.preview-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:12px}
+.preview-wrap{position:relative;width:100%;max-width:360px;aspect-ratio:9/16;background:#0e0f0b;border:1px solid rgba(245,244,239,.1);border-radius:2px;overflow:hidden}
+.preview-wrap canvas{width:100%;height:100%;display:block}
+.preview-label{font-size:10px;color:#8f9184;letter-spacing:.06em;text-transform:uppercase}
+.controls{width:280px;flex-shrink:0;display:flex;flex-direction:column;gap:20px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8f9184}
+select{background:#2a2b24;color:#f5f4ef;border:1px solid rgba(245,244,239,.15);padding:8px 10px;font-family:inherit;font-size:13px;border-radius:2px;width:100%;cursor:pointer}
+select:focus{outline:1px solid #e8351f;border-color:#e8351f}
+.swatches{display:flex;gap:8px}
+.swatch{width:36px;height:36px;border-radius:50%;border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.swatch:hover{border-color:rgba(245,244,239,.3)}
+.swatch.on{border-color:#f5f4ef}
+.swatch .dot{width:22px;height:22px;border-radius:50%}
+.row{display:flex;gap:12px}
+.row .field{flex:1}
+.btn{display:block;width:100%;padding:12px;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:opacity .15s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-preview{background:transparent;color:#f5f4ef;border:1px solid rgba(245,244,239,.2)}
+.btn-preview:hover:not(:disabled){border-color:rgba(245,244,239,.5)}
+.btn-render{background:#e8351f;color:#fff}
+.btn-render:hover:not(:disabled){opacity:.85}
+.progress{display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:3px;background:rgba(245,244,239,.1);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#e8351f;width:0%;transition:width .1s}
+.progress-text{font-size:11px;color:#8f9184;white-space:nowrap;min-width:36px;text-align:right}
+.status{font-size:11px;color:#8f9184;text-align:center}
+.divider{border:none;border-top:1px solid rgba(245,244,239,.08);margin:4px 0}
+.tip{font-size:10px;color:#5b5e54;line-height:1.5}
+@media(max-width:720px){
+  .layout{flex-direction:column;align-items:center}
+  .controls{width:100%;max-width:360px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Plotflow<span style="color:#e8351f">*</span> Reel Generator</h1>
+  <span>WebCodecs + mp4-muxer · 1080×1920 vertical MP4</span>
+</div>
+
+<div class="layout">
+  <div class="preview-col">
+    <div class="preview-wrap">
+      <canvas id="preview"></canvas>
+    </div>
+    <div class="preview-label" id="previewLabel">Select an edition to preview</div>
+  </div>
+
+  <div class="controls">
+    <div class="field">
+      <div class="field-label">Edition</div>
+      <select id="suit"></select>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Ink color</div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <div class="field-label">Duration</div>
+        <select id="duration">
+          <option value="10">10 s</option>
+          <option value="15" selected>15 s</option>
+          <option value="20">20 s</option>
+          <option value="30">30 s</option>
+        </select>
+      </div>
+      <div class="field">
+        <div class="field-label">Frame rate</div>
+        <select id="fps">
+          <option value="30" selected>30 fps</option>
+          <option value="60">60 fps</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <button class="btn btn-preview" id="btnPreview">▶ Preview animation</button>
+    <button class="btn btn-render" id="btnRender">↓ Render MP4</button>
+
+    <div class="progress" id="progressWrap" hidden>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+    <div class="status" id="status"></div>
+
+    <hr class="divider">
+    <p class="tip">Private tool — renders a Reels-ready 1080×1920 H.264 MP4 using the live-plot engine. Add music in the Instagram composer. Requires Chrome 94+ (WebCodecs).</p>
+  </div>
+</div>
+
+<!-- Hidden SVG for path measurement (needs to be in DOM for getPointAtLength) -->
+<svg id="measureSvg" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:-9999px;width:0;height:0" aria-hidden="true">
+  <path id="mpath" d=""/>
+</svg>
+
+<script src="data/editions.js"></script>
+<script type="module">
+
+import { Muxer, ArrayBufferTarget } from 'https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/+esm';
+
+const DATA = (window.PLOTFLOW && window.PLOTFLOW.suits) || {};
+const ORDER = (window.PLOTFLOW && window.PLOTFLOW.plotterOrder) || Object.keys(DATA);
+
+const INKS = {
+  black: { name: 'Black', hex: '#17150f' },
+  red:   { name: 'Red',   hex: '#d8342a' },
+  blue:  { name: 'Blue',  hex: '#1f4aa0' }
+};
+
+const W = 1080, H = 1920;
+const PAPER = '#f6f3ec';
+const HUD_CLR = 'rgba(21,22,15,0.30)';
+const HUD_FONT = "'Archivo', sans-serif";
+const JP_FONT = "'Noto Sans JP', sans-serif";
+
+const ART = { x: 60, y: 280, w: 960, h: 1300 };
+
+const FEED = 1100;
+
+// ---- DOM ----
+const suitSel  = document.getElementById('suit');
+const durSel   = document.getElementById('duration');
+const fpsSel   = document.getElementById('fps');
+const swWrap   = document.getElementById('swatches');
+const btnPrev  = document.getElementById('btnPreview');
+const btnRend  = document.getElementById('btnRender');
+const progWrap = document.getElementById('progressWrap');
+const progFill = document.getElementById('progressFill');
+const progText = document.getElementById('progressText');
+const statusEl = document.getElementById('status');
+const prevLabel = document.getElementById('previewLabel');
+const prevCanvas = document.getElementById('preview');
+const prevCtx  = prevCanvas.getContext('2d');
+const pathEl   = document.getElementById('mpath');
+const svgEl    = document.getElementById('measureSvg');
+
+// ---- state ----
+let currentKey = ORDER[0];
+let currentInk = 'black';
+let vb = { x: 0, y: 0, w: 1, h: 1 };
+let pathLen = 1;
+let previewRaf = null;
+
+// ---- populate controls ----
+ORDER.forEach(function (k) {
+  var o = document.createElement('option');
+  o.value = k;
+  o.textContent = DATA[k].code + ' ' + DATA[k].name;
+  suitSel.appendChild(o);
+});
+
+Object.keys(INKS).forEach(function (c, i) {
+  var btn = document.createElement('button');
+  btn.className = 'swatch' + (i === 0 ? ' on' : '');
+  btn.dataset.color = c;
+  btn.title = INKS[c].name;
+  btn.innerHTML = '<span class="dot" style="background:' + INKS[c].hex + '"></span>';
+  btn.addEventListener('click', function () {
+    currentInk = c;
+    swWrap.querySelectorAll('.swatch').forEach(function (s) { s.classList.toggle('on', s === btn); });
+    drawStatic();
+  });
+  swWrap.appendChild(btn);
+});
+
+suitSel.addEventListener('change', function () { currentKey = suitSel.value; loadSuit(currentKey); drawStatic(); });
+
+// ---- suit loading ----
+function loadSuit(key) {
+  var s = DATA[key]; if (!s) return;
+  pathEl.setAttribute('d', s.d);
+  svgEl.setAttribute('viewBox', '0 0 ' + s.w + ' ' + s.h);
+  vb = { x: 0, y: 0, w: s.w || 1, h: s.h || 1 };
+  try {
+    var bb = pathEl.getBBox();
+    var pad = Math.max(bb.width, bb.height) * 0.06;
+    vb = { x: bb.x - pad, y: bb.y - pad, w: bb.width + pad * 2, h: bb.height + pad * 2 };
+  } catch (e) {}
+  svgEl.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
+  pathLen = pathEl.getTotalLength();
+  if (!pathLen || !isFinite(pathLen)) pathLen = 1;
+}
+
+function getTransform(region) {
+  var sc = Math.min(region.w / vb.w, region.h / vb.h);
+  return {
+    sc: sc,
+    ox: region.x + (region.w - vb.w * sc) / 2,
+    oy: region.y + (region.h - vb.h * sc) / 2
+  };
+}
+
+// ---- easing ----
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+// ---- time format ----
+function fmt(sec) {
+  var s = Math.max(0, Math.round(sec));
+  return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+}
+
+// ---- stroke painting (incremental, onto a given ctx) ----
+function createStroker(ctx, tf, inkHex, lineW) {
+  var painted = 0;
+  var prev = null;
+  var step = Math.max(0.5, 2 / tf.sc);
+  var liftSq = (step * 3) * (step * 3);
+  ctx.strokeStyle = inkHex;
+  ctx.lineWidth = lineW;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+
+  return {
+    paintTo: function (target) {
+      if (target <= painted) return prev;
+      ctx.beginPath();
+      if (prev) ctx.moveTo(tf.ox + (prev.x - vb.x) * tf.sc, tf.oy + (prev.y - vb.y) * tf.sc);
+      var L = painted;
+      while (L < target) {
+        L = Math.min(target, L + step);
+        var p = pathEl.getPointAtLength(L);
+        var mx = tf.ox + (p.x - vb.x) * tf.sc;
+        var my = tf.oy + (p.y - vb.y) * tf.sc;
+        if (!prev) {
+          ctx.moveTo(mx, my);
+        } else {
+          var dx = p.x - prev.x, dy = p.y - prev.y;
+          if (dx * dx + dy * dy > liftSq) ctx.moveTo(mx, my);
+          else ctx.lineTo(mx, my);
+        }
+        prev = p;
+      }
+      ctx.stroke();
+      painted = target;
+      return prev;
+    },
+    getPainted: function () { return painted; },
+    getLastPt: function () { return prev; }
+  };
+}
+
+// ---- HUD overlay ----
+function drawHUD(ctx, suit, progress, elapsedSec, totalSec, inkDrawnM, inkTotalM, penPt, tf, inkHex) {
+  var hc = HUD_CLR;
+
+  // bed label — top left
+  ctx.font = '600 22px ' + HUD_FONT;
+  ctx.fillStyle = hc;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText('BED 01 · ' + suit.code, 60, 60);
+
+  // brand — top right
+  ctx.font = '800 22px ' + HUD_FONT;
+  ctx.textAlign = 'right';
+  ctx.fillText('PLOTFLOW*', W - 60, 60);
+
+  // edition name — below bed label
+  ctx.font = '500 18px ' + HUD_FONT;
+  ctx.textAlign = 'left';
+  ctx.fillText(suit.name, 60, 90);
+
+  // jp name
+  ctx.font = '700 18px ' + JP_FONT;
+  ctx.fillText(suit.jp || '', 60, 116);
+
+  // feed rate
+  ctx.font = '500 16px ' + HUD_FONT;
+  ctx.textAlign = 'right';
+  ctx.fillText('F' + FEED + ' mm/min', W - 60, 90);
+
+  // progress bar — bottom area
+  var barY = H - 160, barH = 3;
+  ctx.fillStyle = 'rgba(21,22,15,0.10)';
+  ctx.fillRect(60, barY, W - 120, barH);
+  ctx.fillStyle = inkHex;
+  ctx.fillRect(60, barY, (W - 120) * progress, barH);
+
+  // stats row below bar
+  ctx.font = '600 18px ' + HUD_FONT;
+  ctx.fillStyle = hc;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText(fmt(elapsedSec) + ' / ' + fmt(totalSec), 60, barY + 16);
+
+  ctx.textAlign = 'center';
+  ctx.fillText(Math.round(progress * 100) + '%', W / 2, barY + 16);
+
+  ctx.textAlign = 'right';
+  ctx.fillText(inkDrawnM.toFixed(1) + 'm / ' + inkTotalM.toFixed(1) + 'm ink', W - 60, barY + 16);
+
+  // coordinates
+  if (penPt && progress < 1) {
+    var mmPerUnit = 420 / Math.max(vb.w, vb.h);
+    ctx.font = '500 14px ' + HUD_FONT;
+    ctx.textAlign = 'left';
+    ctx.fillText('X ' + Math.round(penPt.x * mmPerUnit) + '  Y ' + Math.round(penPt.y * mmPerUnit), 60, barY + 44);
+  }
+
+  // pen head crosshair (during drawing)
+  if (penPt && progress > 0 && progress < 1) {
+    var px = tf.ox + (penPt.x - vb.x) * tf.sc;
+    var py = tf.oy + (penPt.y - vb.y) * tf.sc;
+    var r = 14;
+    ctx.strokeStyle = 'rgba(232,53,31,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(px, py, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(px - r * 1.8, py); ctx.lineTo(px + r * 1.8, py);
+    ctx.moveTo(px, py - r * 1.8); ctx.lineTo(px, py + r * 1.8);
+    ctx.stroke();
+  }
+}
+
+// ---- end card ----
+function drawEndCard(ctx, alpha, suit) {
+  ctx.fillStyle = 'rgba(246,243,236,' + alpha.toFixed(3) + ')';
+  ctx.fillRect(0, 0, W, H);
+
+  if (alpha < 0.15) return;
+
+  var a = Math.min(1, (alpha - 0.15) / 0.6);
+  ctx.globalAlpha = a;
+
+  ctx.fillStyle = '#15160f';
+  ctx.font = '900 72px ' + HUD_FONT;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('PLOTFLOW*', W / 2, H / 2 - 40);
+
+  ctx.font = '600 26px ' + HUD_FONT;
+  ctx.fillText(suit.code + '  ' + suit.name, W / 2, H / 2 + 30);
+
+  ctx.font = '700 22px ' + JP_FONT;
+  ctx.fillStyle = '#5b5e54';
+  ctx.fillText(suit.jp || '', W / 2, H / 2 + 70);
+
+  ctx.font = '500 16px ' + HUD_FONT;
+  ctx.fillStyle = '#8f9184';
+  ctx.fillText('DRAWN BY MACHINE · マシンドロー', W / 2, H - 100);
+
+  ctx.globalAlpha = 1;
+}
+
+// ---- draw a single static "finished" frame for the preview ----
+function drawStatic() {
+  stopPreview();
+  loadSuit(currentKey);
+  var suit = DATA[currentKey];
+  var inkHex = INKS[currentInk].hex;
+  var tf = getTransform(ART);
+  var mmPerUnit = 420 / Math.max(vb.w, vb.h);
+  var inkTotalM = (pathLen * mmPerUnit) / 1000;
+  var totalSec = (pathLen * mmPerUnit) / FEED * 60;
+
+  prevCanvas.width = W;
+  prevCanvas.height = H;
+
+  prevCtx.fillStyle = PAPER;
+  prevCtx.fillRect(0, 0, W, H);
+
+  var stroker = createStroker(prevCtx, tf, inkHex, 2);
+  stroker.paintTo(pathLen);
+
+  drawHUD(prevCtx, suit, 1, totalSec, totalSec, inkTotalM, inkTotalM, null, tf, inkHex);
+
+  prevLabel.textContent = suit.code + ' ' + suit.name + ' · ' + INKS[currentInk].name + ' ink · finished frame';
+}
+
+// ---- preview animation (real-time playback on preview canvas) ----
+function stopPreview() {
+  if (previewRaf) { cancelAnimationFrame(previewRaf); previewRaf = null; }
+}
+
+function startPreview() {
+  stopPreview();
+  loadSuit(currentKey);
+  var suit = DATA[currentKey];
+  var inkHex = INKS[currentInk].hex;
+  var dur = parseInt(durSel.value) || 15;
+  var tf = getTransform(ART);
+  var mmPerUnit = 420 / Math.max(vb.w, vb.h);
+  var inkTotalM = (pathLen * mmPerUnit) / 1000;
+  var totalSec = (pathLen * mmPerUnit) / FEED * 60;
+
+  var plotFrac = 0.80, holdFrac = 0.12, endFrac = 0.08;
+  var plotDur = dur * plotFrac;
+  var holdDur = dur * holdFrac;
+
+  // art canvas (accumulates strokes)
+  var artCv = document.createElement('canvas');
+  artCv.width = W; artCv.height = H;
+  var artCtx = artCv.getContext('2d');
+  artCtx.fillStyle = PAPER;
+  artCtx.fillRect(0, 0, W, H);
+  var stroker = createStroker(artCtx, tf, inkHex, 2);
+
+  // composite on preview canvas
+  prevCanvas.width = W;
+  prevCanvas.height = H;
+
+  var startT = null;
+  btnPrev.disabled = true;
+  btnPrev.textContent = '■ Stop';
+  statusEl.textContent = '';
+
+  function tick(t) {
+    if (!startT) startT = t;
+    var elapsed = (t - startT) / 1000;
+    if (elapsed > dur) {
+      btnPrev.disabled = false;
+      btnPrev.textContent = '▶ Preview animation';
+      prevLabel.textContent = suit.code + ' ' + suit.name + ' · done';
+      previewRaf = null;
+      return;
+    }
+
+    var phase, drawProgress, alpha;
+    if (elapsed < plotDur) {
+      phase = 'draw';
+      drawProgress = easeOutCubic(elapsed / plotDur);
+    } else if (elapsed < plotDur + holdDur) {
+      phase = 'hold';
+      drawProgress = 1;
+    } else {
+      phase = 'endcard';
+      drawProgress = 1;
+      alpha = (elapsed - plotDur - holdDur) / (dur - plotDur - holdDur);
+    }
+
+    var targetLen = drawProgress * pathLen;
+    var lastPt = stroker.paintTo(targetLen);
+
+    var inkDrawnM = (targetLen * mmPerUnit) / 1000;
+    var fakeElapsed = totalSec * drawProgress;
+
+    prevCtx.clearRect(0, 0, W, H);
+    prevCtx.drawImage(artCv, 0, 0);
+    drawHUD(prevCtx, suit, drawProgress, fakeElapsed, totalSec, inkDrawnM, inkTotalM, lastPt, tf, inkHex);
+
+    if (phase === 'endcard') {
+      drawEndCard(prevCtx, alpha, suit);
+    }
+
+    prevLabel.textContent = suit.code + ' · ' + elapsed.toFixed(1) + 's / ' + dur + 's';
+    previewRaf = requestAnimationFrame(tick);
+  }
+
+  previewRaf = requestAnimationFrame(tick);
+}
+
+btnPrev.addEventListener('click', function () {
+  if (previewRaf) { stopPreview(); btnPrev.textContent = '▶ Preview animation'; btnPrev.disabled = false; }
+  else startPreview();
+});
+
+// ---- MP4 render pipeline ----
+async function renderMP4() {
+  stopPreview();
+  loadSuit(currentKey);
+  var suit = DATA[currentKey];
+  var inkHex = INKS[currentInk].hex;
+  var dur = parseInt(durSel.value) || 15;
+  var targetFps = parseInt(fpsSel.value) || 30;
+  var tf = getTransform(ART);
+  var mmPerUnit = 420 / Math.max(vb.w, vb.h);
+  var inkTotalM = (pathLen * mmPerUnit) / 1000;
+  var totalSec = (pathLen * mmPerUnit) / FEED * 60;
+  var totalFrames = dur * targetFps;
+  var frameDur = 1e6 / targetFps; // microseconds
+
+  var plotFrac = 0.80, holdFrac = 0.12, endFrac = 0.08;
+  var plotEnd = Math.floor(totalFrames * plotFrac);
+  var holdEnd = Math.floor(totalFrames * (plotFrac + holdFrac));
+
+  btnRend.disabled = true;
+  btnPrev.disabled = true;
+  progWrap.hidden = false;
+  statusEl.textContent = 'Initializing encoder…';
+
+  await document.fonts.ready;
+
+  // art canvas
+  var artCv = document.createElement('canvas');
+  artCv.width = W; artCv.height = H;
+  var artCtx = artCv.getContext('2d');
+  artCtx.fillStyle = PAPER;
+  artCtx.fillRect(0, 0, W, H);
+  var stroker = createStroker(artCtx, tf, inkHex, 2);
+
+  // composite canvas (also used for preview display)
+  var compCv = document.createElement('canvas');
+  compCv.width = W; compCv.height = H;
+  var compCtx = compCv.getContext('2d');
+
+  // mp4 muxer
+  var target = new ArrayBufferTarget();
+  var muxer = new Muxer({
+    target: target,
+    video: { codec: 'avc', width: W, height: H },
+    fastStart: 'in-memory'
+  });
+
+  var encoder = new VideoEncoder({
+    output: function (chunk, meta) { muxer.addVideoChunk(chunk, meta); },
+    error: function (e) { console.error('Encoder error:', e); statusEl.textContent = 'Encoder error: ' + e.message; }
+  });
+
+  encoder.configure({
+    codec: 'avc1.640029',
+    width: W,
+    height: H,
+    bitrate: 10000000,
+    framerate: targetFps
+  });
+
+  statusEl.textContent = 'Rendering frames…';
+
+  for (var f = 0; f < totalFrames; f++) {
+    var progress, phase, alpha;
+    if (f < plotEnd) {
+      phase = 'draw';
+      progress = easeOutCubic(f / plotEnd);
+    } else if (f < holdEnd) {
+      phase = 'hold';
+      progress = 1;
+    } else {
+      phase = 'endcard';
+      progress = 1;
+      alpha = (f - holdEnd) / (totalFrames - holdEnd);
+    }
+
+    var targetLen = progress * pathLen;
+    var lastPt = stroker.paintTo(targetLen);
+    var inkDrawnM = (targetLen * mmPerUnit) / 1000;
+    var fakeElapsed = totalSec * progress;
+
+    compCtx.clearRect(0, 0, W, H);
+    compCtx.drawImage(artCv, 0, 0);
+    drawHUD(compCtx, suit, progress, fakeElapsed, totalSec, inkDrawnM, inkTotalM, lastPt, tf, inkHex);
+
+    if (phase === 'endcard') {
+      drawEndCard(compCtx, alpha, suit);
+    }
+
+    var vf = new VideoFrame(compCv, { timestamp: f * frameDur });
+    encoder.encode(vf, { keyFrame: f % targetFps === 0 });
+    vf.close();
+
+    // backpressure
+    if (encoder.encodeQueueSize > 10) {
+      await new Promise(function (r) {
+        encoder.ondequeue = function () { if (encoder.encodeQueueSize <= 5) r(); };
+      });
+    }
+
+    // yield to UI every 15 frames
+    if (f % 15 === 0) {
+      var pct = Math.round((f / totalFrames) * 100);
+      progFill.style.width = pct + '%';
+      progText.textContent = pct + '%';
+      statusEl.textContent = 'Frame ' + f + ' / ' + totalFrames;
+
+      // show progress on preview
+      prevCtx.clearRect(0, 0, W, H);
+      prevCtx.drawImage(compCv, 0, 0);
+
+      await new Promise(function (r) { requestAnimationFrame(r); });
+    }
+  }
+
+  statusEl.textContent = 'Flushing encoder…';
+  await encoder.flush();
+  muxer.finalize();
+
+  progFill.style.width = '100%';
+  progText.textContent = '100%';
+
+  var blob = new Blob([target.buffer], { type: 'video/mp4' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = currentKey + '-' + currentInk + '-reel.mp4';
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+
+  var mb = (blob.size / (1024 * 1024)).toFixed(1);
+  statusEl.textContent = 'Done — ' + mb + ' MB · ' + a.download;
+  prevLabel.textContent = suit.code + ' ' + suit.name + ' · rendered · ' + mb + ' MB';
+
+  btnRend.disabled = false;
+  btnPrev.disabled = false;
+  encoder.close();
+}
+
+btnRend.addEventListener('click', function () {
+  if (typeof VideoEncoder === 'undefined') {
+    statusEl.textContent = 'WebCodecs not supported — use Chrome 94+';
+    return;
+  }
+  renderMP4().catch(function (e) {
+    console.error(e);
+    statusEl.textContent = 'Error: ' + e.message;
+    btnRend.disabled = false;
+    btnPrev.disabled = false;
+  });
+});
+
+// ---- init ----
+loadSuit(currentKey);
+drawStatic();
+
+</script>
+</body>
+</html>
