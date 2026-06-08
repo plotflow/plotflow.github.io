@@ -222,8 +222,5 @@ footer .grain{opacity:.3}
 .cart-checkout{width:100%;background:var(--red);color:var(--white);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:14px;border:1px solid var(--red)}
 .cart-checkout:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
 .cart-checkout:disabled{opacity:.45;cursor:not-allowed}
-<<<<<<< HEAD
-=======
 .cart-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:95;background:var(--ink);color:var(--white);border:1px solid var(--line);padding:12px 18px;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
 .cart-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
->>>>>>> a4f47b5b80479b6bdd236703ae93d873d3c42872
