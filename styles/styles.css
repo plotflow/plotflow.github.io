@@ -191,6 +191,29 @@ footer .grain{opacity:.3}
 .contact-link{font-weight:800;font-size:1.2rem;color:var(--white)}
 .contact-link:hover{color:var(--red)}
 
+/* NEWSLETTER / DROP LIST */
+.news{position:relative;background:var(--ink);padding:56px 0;overflow:hidden;border-top:1px solid #2a2b24}
+.news .grain{opacity:.35}
+.news-in{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.news-copy{flex:1 1 360px}
+.news-copy h2{font-weight:900;font-size:clamp(1.8rem,4.5vw,3rem);text-transform:uppercase;letter-spacing:-.01em;line-height:.9}
+.news-copy h2 .star{color:var(--red)}
+.news-copy .jp{font-family:var(--jp);font-weight:700;font-size:1rem;color:var(--mute);margin-top:6px}
+.news-copy p{color:var(--mute);font-weight:500;font-size:14px;line-height:1.6;margin-top:12px;max-width:46ch}
+.news-form{flex:1 1 320px;max-width:420px}
+.news-row{display:flex;gap:8px}
+.news-row input{flex:1;min-width:0;background:rgba(245,244,239,.06);border:1px solid var(--line);color:var(--white);
+  font-family:var(--sans);font-size:14px;font-weight:500;padding:14px 14px}
+.news-row input::placeholder{color:var(--dim)}
+.news-row input:focus{outline:none;border-color:var(--white)}
+.news-row button{white-space:nowrap;background:var(--red);color:var(--white);font-weight:800;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--red)}
+.news-row button:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
+.news-msg{color:var(--dim);margin-top:10px;min-height:14px;opacity:0;transition:opacity .25s}
+.news-msg.show{opacity:1}
+.news-msg.ok{color:var(--mute)}
+@media(max-width:540px){.news-row{flex-direction:column}}
+
 /* PRODUCT PAGE */
 .pd-back{display:inline-block;color:var(--dim);font-weight:800;letter-spacing:.12em;margin-bottom:24px}
 .pd-back:hover{color:var(--red)}
