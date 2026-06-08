@@ -11,7 +11,7 @@
   gtag('config', 'G-1HJ4VQ4K1B');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PLOTFLOW — マシンドロー</title>
+<title>PLOTFLOW · マシンドロー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
@@ -175,12 +175,12 @@ footer .grain{opacity:.3}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PLOTFLOW">
-<meta property="og:title" content="PLOTFLOW — マシンドロー">
+<meta property="og:title" content="PLOTFLOW · マシンドロー">
 <meta property="og:description" content="PLOTFLOW design preview.">
 <meta property="og:url" content="https://plotflow.io/preview.html">
 <meta property="og:image" content="https://plotflow.io/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PLOTFLOW — マシンドロー">
+<meta name="twitter:title" content="PLOTFLOW · マシンドロー">
 <meta name="twitter:description" content="PLOTFLOW design preview.">
 <meta name="twitter:image" content="https://plotflow.io/assets/og.png">
 </head>
@@ -248,7 +248,7 @@ footer .grain{opacity:.3}
   <div class="grain"></div>
   <div class="wrap mani-in">
     <div><h2>Drawn,<br>not printed<span class="star">.</span></h2><div class="jp">マシンドロー</div></div>
-    <p>Each Universal-Century mobile suit is rebuilt as a vector drawing and traced in ink by an AxiDraw plotter on Strathmore Bristol. No printing — every impression is unique to its edition, signed and numbered.</p>
+    <p>Each Universal-Century mobile suit is rebuilt as a vector drawing and traced in ink by an AxiDraw plotter on Strathmore Bristol. No printing. Every impression is unique to its edition, signed and numbered.</p>
   </div>
 </section>
 
@@ -268,7 +268,7 @@ footer .grain{opacity:.3}
 <section class="proc" id="process">
   <div class="wrap">
     <div class="proc-grid">
-      <div class="ps"><div class="n">01</div><div class="jp">ベクター化</div><h4>Vectorize</h4><p>The suit is rebuilt as a precise vector drawing — every line mapped as a coordinate path for the plotter.</p></div>
+      <div class="ps"><div class="n">01</div><div class="jp">ベクター化</div><h4>Vectorize</h4><p>The suit is rebuilt as a precise vector drawing. Every line mapped as a coordinate path for the plotter.</p></div>
       <div class="ps"><div class="n">02</div><div class="jp">作画</div><h4>Plot</h4><p>An AxiDraw traces the paths in Staedtler Triplus 0.3mm fineliner on Strathmore 300 Bristol, 11×14″.</p></div>
       <div class="ps"><div class="n">03</div><div class="jp">仕上げ</div><h4>Finish</h4><p>Inspected, signed, and numbered. No two prints in an edition are ever identical.</p></div>
     </div>
@@ -285,7 +285,7 @@ footer .grain{opacity:.3}
       <div class="fc"><h5>Info*</h5><a href="#">Shipping</a><a href="#">Returns</a><a href="#">FAQ</a></div>
       <div class="fc"><h5>マシンドロー</h5><a href="https://instagram.com/plotflow" target="_blank" rel="noopener">@plotflow</a><a href="mailto:hello@plotflow.io?subject=Newsletter">Newsletter</a><span class="est">est. 2026</span></div>
     </div>
-    <div class="foot-bot tiny"><span>© 2026 PLOTFLOW* — PLOTTED IN THE U.S.A.</span><span>マシンドロー · DRAWN BY MACHINE</span></div>
+    <div class="foot-bot tiny"><span>© 2026 PLOTFLOW* · PLOTTED IN THE U.S.A.</span><span>マシンドロー · DRAWN BY MACHINE</span></div>
   </div>
 </footer>
 
@@ -336,7 +336,7 @@ const selSuit=document.getElementById('suit'), playBtn=document.getElementById('
 const FEED=1100, BASE=22;
 let cur, len=1, drawn=0, playing=true, speed=1, mmPerUnit=1, totalMin=1;
 
-ORDER.forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=SUITS[k].name+" — "+SUITS[k].code;selSuit.appendChild(o);});
+ORDER.forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=SUITS[k].name+" · "+SUITS[k].code;selSuit.appendChild(o);});
 function fmt(m){const s=Math.max(0,Math.round(m*60));return String(Math.floor(s/60)).padStart(2,'0')+":"+String(s%60).padStart(2,'0');}
 
 function load(key){

@@ -170,7 +170,7 @@
   function checkCancelled() {
     var params = new URLSearchParams(location.search);
     if (params.get("checkout") === "cancelled") {
-      toast("Checkout cancelled — your cart is saved.");
+      toast("Checkout cancelled. Your cart is saved.");
       params.delete("checkout");
       var qs = params.toString();
       history.replaceState({}, "", location.pathname + (qs ? "?" + qs : "") + location.hash);

@@ -7,7 +7,7 @@ window.PLOTFLOW = {
 "jp": "ザク",
 "edition": "ED. 09/25 · 11×14″",
 "price": "$45",
-"lore": "The workhorse of the Principality of Zeon — mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
+"lore": "The workhorse of the Principality of Zeon. Mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
 "file": "zaku-ii.svg",
 "w": 1493,
 "h": 801,

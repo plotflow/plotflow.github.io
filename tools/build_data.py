@@ -24,7 +24,7 @@ META = {
 
 # Short editorial blurb shown on each edition's product page.
 LORE = {
- "zaku":     "The workhorse of the Principality of Zeon — mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
+ "zaku":     "The workhorse of the Principality of Zeon. Mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
  "guncannon":"A mid-range support unit of the Earth Federation, built around its shoulder-mounted cannons. Heavier armor traded mobility for firepower fighting alongside the RX-78.",
  "bigzam":   "A colossal Zeon mobile armor designed for base defense, shielded by an I-field that turned aside beam weapons. A single unit was meant to hold off an entire fleet.",
  "dom":      "A ground-assault suit riding hover thrusters for deceptively fast movement across open terrain. Its scattering beam gun and giant heat saber made it a frontline terror.",

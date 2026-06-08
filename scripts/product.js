@@ -29,7 +29,7 @@
   }
 
   // ---- populate text ----
-  document.title = suit.code + " " + suit.name + " — PLOTFLOW*";
+  document.title = suit.code + " " + suit.name + " · PLOTFLOW*";
   $("pd").hidden = false;
   $("pdCode").textContent = suit.code;
   $("pdName").textContent = suit.name;
