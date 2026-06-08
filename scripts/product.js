@@ -170,7 +170,66 @@
 
     return {
       restart: restart,
-      setInk: function (hex) { ink = hex; }
+      setInk: function (hex) { ink = hex; },
+      wallpaper: function (inkHex) {
+        var W = 1170, H = 2532;
+        var off = document.createElement("canvas");
+        off.width = W; off.height = H;
+        var oc = off.getContext("2d");
+
+        oc.fillStyle = "#f6f3ec";
+        oc.fillRect(0, 0, W, H);
+
+        var sc = Math.min(W / vb.w, H / vb.h) * 0.8;
+        var offX = (W - vb.w * sc) / 2;
+        var offY = (H - vb.h * sc) / 2;
+
+        oc.strokeStyle = inkHex;
+        oc.lineWidth = Math.max(1.5, 2);
+        oc.lineJoin = "round";
+        oc.lineCap = "round";
+
+        var step = Math.max(0.5, 2 / sc);
+        var liftSq = (step * 3) * (step * 3);
+        var prev = null;
+        oc.beginPath();
+        for (var L = 0; L < len; L += step) {
+          var p = path.getPointAtLength(L);
+          var mx = offX + (p.x - vb.x) * sc;
+          var my = offY + (p.y - vb.y) * sc;
+          if (!prev) { oc.moveTo(mx, my); }
+          else {
+            var dx = p.x - prev.x, dy = p.y - prev.y;
+            if (dx * dx + dy * dy > liftSq) oc.moveTo(mx, my);
+            else oc.lineTo(mx, my);
+          }
+          prev = p;
+        }
+        oc.stroke();
+
+        oc.font = "bold 28px 'Archivo', sans-serif";
+        oc.fillStyle = "rgba(21,22,15,0.25)";
+        oc.textAlign = "center";
+        oc.fillText("PLOTFLOW*", W / 2, H - 60);
+
+        return off.toDataURL("image/png");
+      }
     };
+  }
+
+  // ---- wallpaper download ----
+  var dlBtn = $("pdWallpaper");
+  if (dlBtn) {
+    dlBtn.addEventListener("click", function () {
+      dlBtn.textContent = "Rendering…";
+      setTimeout(function () {
+        var dataUrl = plot.wallpaper(INKS[color].hex);
+        var a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = key + "-" + color + "-wallpaper.png";
+        a.click();
+        dlBtn.textContent = "↓ Download phone wallpaper";
+      }, 50);
+    });
   }
 })();

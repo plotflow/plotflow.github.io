@@ -232,6 +232,9 @@ footer .grain{opacity:.3}
   color:var(--ink);background:var(--bristol);border:1px solid var(--ink);padding:9px 16px}
 .pd-replay:hover{background:var(--ink);color:var(--bristol)}
 .pd-stage-meta{display:flex;justify-content:space-between;margin-top:10px;color:var(--dim)}
+.pd-wallpaper{display:block;width:100%;margin-top:8px;padding:10px;color:var(--dim);border:1px solid var(--line);
+  background:transparent;font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;transition:border-color .2s,color .2s}
+.pd-wallpaper:hover{border-color:var(--mute);color:var(--white)}
 
 .pd-head{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}
 .pd-code{color:var(--red);letter-spacing:.18em;margin-bottom:8px}
