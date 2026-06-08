@@ -4,3 +4,10 @@ compatibility_date = "2024-11-01"
 
 # STRIPE_SECRET_KEY is NOT stored here. Set it as an encrypted secret:
 #   wrangler secret put STRIPE_SECRET_KEY
+
+# Stock counter store. Create the namespace once, then paste its id below:
+#   wrangler kv namespace create STOCK
+# (older wrangler: `wrangler kv:namespace create STOCK`)
+[[kv_namespaces]]
+binding = "STOCK"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"

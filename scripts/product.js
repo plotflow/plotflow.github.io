@@ -72,9 +72,28 @@
   $("pdInk").textContent = INKS[color].name + " ink";
 
   // ---- acquire ----
-  $("pdAcquire").addEventListener("click", function () {
+  var acqBtn = $("pdAcquire");
+  acqBtn.addEventListener("click", function () {
+    if (acqBtn.disabled) return;
     if (window.PlotflowCart) window.PlotflowCart.add(key, color);
   });
+
+  // ---- live stock (remaining count / sold-out) ----
+  if (window.PlotflowStock) {
+    window.PlotflowStock.ready(function (counts) {
+      if (!counts || typeof counts[key] !== "number") return;
+      var left = counts[key], size = window.PlotflowStock.size, badge = $("pdStock");
+      if (left <= 0) {
+        if (badge) { badge.textContent = "Sold out — this edition has closed"; badge.classList.add("low"); badge.hidden = false; }
+        acqBtn.textContent = "Sold out";
+        acqBtn.disabled = true;
+      } else if (badge) {
+        badge.textContent = left + " of " + size + " remaining";
+        if (left <= 5) badge.classList.add("low");
+        badge.hidden = false;
+      }
+    });
+  }
 
   // ---- live-plot preview (self-contained progressive stroker) ----
   var plot = makePreview(suit, INKS[color].hex);

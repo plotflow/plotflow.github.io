@@ -48,6 +48,30 @@ Wrangler prints a URL like `https://plotflow-checkout.<subdomain>.workers.dev`.
 Put that URL in `scripts/config.js` → `checkoutEndpoint`, commit, and push.
 (Send me the URL and I'll wire it up.)
 
+### 6. Live stock counter (KV)
+
+Each edition is a limited run of 25. The Worker tracks how many have sold in a
+**KV namespace** and exposes the remaining count at `GET /stock`
+(`{ "zaku": 22, ... }`). The webhook decrements it on each completed order; the
+shop grid and product pages show "X / 25 left" and flip to "Sold out" at zero.
+
+Create the namespace once and paste its id into `wrangler.toml`:
+```bash
+cd worker
+wrangler kv namespace create STOCK      # older wrangler: wrangler kv:namespace create STOCK
+# copy the printed id into the [[kv_namespaces]] block (replace REPLACE_WITH_KV_NAMESPACE_ID)
+wrangler deploy
+```
+
+Notes:
+- Until the namespace exists and is bound, `/stock` returns full counts (25) and
+  the frontend simply shows no badges — nothing breaks.
+- The sold tally is keyed `sold_<edition>`. To correct a count manually:
+  `wrangler kv key put --binding=STOCK sold_zaku 3`
+- This also requires the Stripe **webhook** to be configured (Stripe Dashboard →
+  Developers → Webhooks → add `…workers.dev/webhook`, event
+  `checkout.session.completed`, then `wrangler secret put STRIPE_WEBHOOK_SECRET`).
+
 ## Testing
 With test-mode keys, use Stripe's test card `4242 4242 4242 4242`, any future
 expiry, any CVC/ZIP. A successful payment redirects to `/success.html`; the
@@ -59,7 +83,6 @@ and redeploy. No price changes needed — `CATALOG` is the same in both modes.
 
 ## Config (top of `src/index.js`)
 - `CATALOG` — edition name + price in cents. Keys must match `data/editions.js`.
-- `SHIPPING` — flat fee added on top (currently $9). Set `cents: 0` for free.
+- `SHIPPING_OPTIONS` — selectable rates at checkout (free U.S., flat $20 intl).
+- `EDITION_SIZE` — pieces per numbered edition (25); drives the `/stock` count.
 - `ALLOWED_ORIGINS`, `SHIP_COUNTRIES`, `SUCCESS_URL`, `CANCEL_URL`.
-- For numbered-edition inventory limits or order fulfillment hooks, add a
-  Stripe webhook later.

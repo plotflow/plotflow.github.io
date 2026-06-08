@@ -16,6 +16,7 @@
     var s = SUITS[key]; if (!s) return;
     var card = document.createElement('article');
     card.className = 'card';
+    card.dataset.key = key;
     var no = '№ PF-0' + (10 + i);
     var href = 'product.html?id=' + encodeURIComponent(key);
     card.innerHTML =
@@ -30,7 +31,7 @@
         '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">マシンドロー</span></div>' +
         '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
       '</a>' +
-      '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div></div>' +
+      '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div><div class="stock tiny" data-stock hidden></div></div>' +
         '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div></div>';
     grid.appendChild(card);
 
@@ -47,6 +48,30 @@
         (bb.width + pad * 2) + ' ' + (bb.height + pad * 2));
     } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
   });
+
+  // Fill in live remaining-count badges once stock loads (fails silent).
+  if (window.PlotflowStock) {
+    window.PlotflowStock.ready(function (counts) {
+      if (!counts) return;
+      var SIZE = window.PlotflowStock.size;
+      ORDER.forEach(function (key) {
+        var card = grid.querySelector('.card[data-key="' + key + '"]');
+        if (!card || typeof counts[key] !== 'number') return;
+        var left = counts[key];
+        var badge = card.querySelector('[data-stock]');
+        var acq = card.querySelector('.acq');
+        if (left <= 0) {
+          card.classList.add('sold-out');
+          if (badge) { badge.textContent = 'Sold out'; badge.hidden = false; }
+          if (acq) { acq.textContent = 'Sold out'; acq.disabled = true; }
+        } else if (badge) {
+          badge.textContent = left + ' / ' + SIZE + ' left';
+          if (left <= 5) badge.classList.add('low');
+          badge.hidden = false;
+        }
+      });
+    });
+  }
 
   grid.addEventListener('click', function (e) {
     var b = e.target.closest('[data-plot]');

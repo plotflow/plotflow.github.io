@@ -142,6 +142,11 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .card .buy .pr{font-weight:800}
 .card .buy .acq{font-weight:800;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:8px 11px;margin-left:10px}
 .card .buy .acq:hover{background:var(--red);border-color:var(--red);color:var(--white)}
+.card .buy .stock{margin-top:5px;color:var(--dim);letter-spacing:.1em}
+.card .buy .stock.low{color:var(--red)}
+.card .buy .acq:disabled{color:var(--dim);border-color:var(--line);background:transparent;cursor:not-allowed}
+.card.sold-out .art,.card.sold-out .jp,.card.sold-out .name{opacity:.4}
+.card.sold-out .plotbtn{display:none}
 
 /* PROCESS */
 .proc{background:var(--con2);padding:8px 0 60px;position:relative}
@@ -243,7 +248,11 @@ footer .grain{opacity:.3}
 .pd-edrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}
 .pd-ed{color:var(--dim);letter-spacing:.1em}
 .pd-price{font-weight:900;font-size:1.6rem}
+.pd-stock{margin:-8px 0 18px;color:var(--dim);letter-spacing:.12em}
+.pd-stock.low{color:var(--red)}
 .pd-lore{color:var(--mute);font-weight:500;font-size:14px;line-height:1.7;margin-bottom:24px}
+.pd-acquire:disabled{background:transparent;color:var(--dim);border-color:var(--line);cursor:not-allowed}
+.pd-acquire:disabled:hover{background:transparent;color:var(--dim);border-color:var(--line)}
 
 .pd-field{margin-bottom:20px}
 .pd-field-label{display:block;color:var(--dim);letter-spacing:.14em;margin-bottom:10px}

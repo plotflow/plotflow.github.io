@@ -49,6 +49,10 @@ const SHIP_COUNTRIES = ["US", "CA", "GB", "AU", "DE", "FR", "JP"];
 const NOTIFY_EMAIL = "devin@plotflow.io";
 const FROM_EMAIL   = "orders@plotflow.io";
 
+// Every edition is limited to 25 numbered pieces. Remaining = SIZE - sold,
+// where `sold` lives in the STOCK KV namespace (incremented by the webhook).
+const EDITION_SIZE = 25;
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -56,6 +60,15 @@ export default {
     // ---- webhook endpoint ----
     if (url.pathname === "/webhook" && request.method === "POST") {
       return handleWebhook(request, env);
+    }
+
+    // ---- stock endpoint (remaining count per edition) ----
+    if (url.pathname === "/stock") {
+      const sOrigin = request.headers.get("Origin") || "";
+      const sCors = corsHeaders(sOrigin, "GET, OPTIONS");
+      if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: sCors });
+      if (request.method === "GET") return handleStock(env, sCors);
+      return json({ error: "Method not allowed" }, 405, sCors);
     }
 
     // ---- checkout endpoint ----
@@ -74,6 +87,7 @@ export default {
     form.set("mode", "payment");
 
     const orderSummary = [];
+    const skus = [];
     let n = 0;
     for (const it of items) {
       const key = String((it && it.key) || "");
@@ -88,6 +102,7 @@ export default {
       form.set(`line_items[${n}][price_data][product_data][name]`, lineName);
       form.set(`line_items[${n}][quantity]`, String(qty));
       orderSummary.push(`${qty}× ${lineName}`);
+      skus.push(`${key}:${qty}`);
       n++;
     }
     if (!n) return json({ error: "Cart is empty" }, 400, cors);
@@ -106,6 +121,8 @@ export default {
     });
 
     form.set("metadata[editions]", orderSummary.join(", "));
+    // Machine-readable list so the webhook can decrement stock by edition key.
+    form.set("metadata[skus]", skus.join(","));
 
     const resp = await fetch("https://api.stripe.com/v1/checkout/sessions", {
       method: "POST",
@@ -222,9 +239,40 @@ async function handleWebhook(request, env) {
         })
       });
     }
+
+    // Decrement remaining stock per purchased edition. metadata.skus looks
+    // like "zaku:1,dom:2". Pen color does not affect stock (same edition run).
+    if (env.STOCK && meta.skus) {
+      for (const part of String(meta.skus).split(",")) {
+        const [key, qtyStr] = part.split(":");
+        const qty = parseInt(qtyStr, 10) || 0;
+        if (CATALOG[key] && qty > 0) await bumpStock(env, key, qty);
+      }
+    }
   }
 
   return new Response("ok", { status: 200 });
+}
+
+// ---- Stock (KV-backed) ----
+
+// Returns remaining count per edition: SIZE minus the recorded sold tally.
+async function handleStock(env, cors) {
+  const out = {};
+  for (const key of Object.keys(CATALOG)) {
+    let sold = 0;
+    if (env.STOCK) sold = parseInt(await env.STOCK.get("sold_" + key), 10) || 0;
+    out[key] = Math.max(0, EDITION_SIZE - sold);
+  }
+  return json(out, 200, cors);
+}
+
+// Increment the sold tally for an edition. KV is eventually consistent and this
+// read-modify-write is not atomic, but at edition-of-25 volumes the race window
+// is negligible; the worst case is a slightly stale public count.
+async function bumpStock(env, key, qty) {
+  const cur = parseInt(await env.STOCK.get("sold_" + key), 10) || 0;
+  await env.STOCK.put("sold_" + key, String(cur + qty));
 }
 
 // ---- Stripe signature verification (HMAC-SHA256) ----
@@ -254,11 +302,11 @@ async function verifyStripeSignature(payload, header, secret) {
 
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function corsHeaders(origin) {
+function corsHeaders(origin, methods) {
   const allow = ALLOWED_ORIGINS.indexOf(origin) !== -1 ? origin : ALLOWED_ORIGINS[0];
   return {
     "Access-Control-Allow-Origin": allow,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": methods || "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Vary": "Origin"
   };
