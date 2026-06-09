@@ -1,0 +1,12 @@
+{
+  "_comment": "Instagram captions for the auto-poster. One entry per edition key. Edit freely. The poster appends the standard footer (link + hashtags) unless you set 'raw': true.",
+  "_footer": "\n\n— Plotted to order, signed & numbered.\nShop the edition → plotflow.io\n\n#penplotter #axidraw #generativeart #plotterart #gundam #mobilesuit #lineart #マシンドロー #onelinedrawing #pendrawing #machinedrawn #gunpla #universalcentury #plottertwitter #penart",
+  "captions": {
+    "zaku": "MS-06 Zaku II — drawn by machine, one line at a time.\n\nThe workhorse of Zeon, rebuilt as a single continuous path and traced in ink by an AxiDraw plotter. No printing. Every impression is drawn.\n\nED. 09/25 · 11×14″ · $45",
+    "dom": "MS-09 Dom — hovering in, one stroke at a time.\n\nA ground-assault suit riding hover thrusters, redrawn as a single plotted line on Strathmore Bristol. Pen to paper, no ink-jet in sight.\n\nED. 12/25 · 11×14″ · $45",
+    "guncannon": "RX-77 Guncannon — firepower in fineliner.\n\nThe Federation's shoulder-cannon support unit, traced line by line in pigment ink by a pen plotter. Heavier armor, heavier linework.\n\nED. 18/25 · 11×14″ · $45",
+    "bigzam": "MA-08 Big Zam — a colossus, drawn by hand of machine.\n\nThe mobile armor meant to hold off a fleet, rebuilt as one continuous path and plotted in ink. Watch the I-field take shape, stroke by stroke.\n\nED. 05/25 · 11×14″ · $45",
+    "zgok": "MSM-07 Z'Gok — surfacing, one line at a time.\n\nZeon's amphibious raider, redrawn as a single plotted path. Clawed, rounded, and traced in ink on archival paper by an AxiDraw.\n\nED. 22/25 · 11×14″ · $45",
+    "gp02": "RX-78GP02 GP-02A — the heavy hitter, plotted in pen.\n\nThe Gundam Development Project's warhead carrier, rebuilt as one continuous line and drawn by machine. Massive shield, single stroke.\n\nED. 15/25 · 11×14″ · $45"
+  }
+}

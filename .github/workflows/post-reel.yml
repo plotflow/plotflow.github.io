@@ -1,0 +1,102 @@
+name: Post weekly reel to Instagram
+
+# Generates the week's reel, commits it so GitHub Pages serves it at a public
+# URL, then publishes it to Instagram via the Meta Graph API.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   IG_USER_ID       Instagram Business account id
+#   IG_ACCESS_TOKEN  long-lived access token
+# See tools/REELS_AUTOMATION.md for the one-time setup.
+
+on:
+  schedule:
+    - cron: "0 16 * * 3"   # every Wednesday 16:00 UTC
+  workflow_dispatch:
+    inputs:
+      key:
+        description: "Edition key to post (blank = auto rotation)"
+        required: false
+        default: ""
+      color:
+        description: "Ink color"
+        required: false
+        default: "red"
+      dry_run:
+        description: "Build + print only, do not publish"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write   # to commit the generated mp4
+
+concurrency:
+  group: post-reel
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install fonts and Python deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-ipafont-gothic fonts-liberation
+          python -m pip install --upgrade pip
+          pip install pillow numpy imageio-ffmpeg
+
+      - name: Resolve edition key
+        id: pick
+        run: |
+          KEY="${{ github.event.inputs.key }}"
+          if [ -z "$KEY" ]; then
+            KEY=$(python - <<'PY'
+          import json, time
+          src=open("data/editions.js").read(); src=src[src.index("{"):src.rindex("}")+1]
+          order=json.loads(src).get("plotterOrder")
+          print(order[int(time.time()//(7*86400))%len(order)])
+          PY
+          )
+          fi
+          COLOR="${{ github.event.inputs.color }}"; COLOR="${COLOR:-red}"
+          echo "key=$KEY"     >> "$GITHUB_OUTPUT"
+          echo "color=$COLOR" >> "$GITHUB_OUTPUT"
+          echo "Posting: $KEY ($COLOR)"
+
+      - name: Generate reel
+        run: |
+          mkdir -p reels
+          python - <<PY
+          import sys; sys.path.insert(0, "tools")
+          import gen_reel
+          gen_reel.render("${{ steps.pick.outputs.key }}", "${{ steps.pick.outputs.color }}",
+                          dur=15, fps=30,
+                          out="reels/${{ steps.pick.outputs.key }}-${{ steps.pick.outputs.color }}-reel.mp4")
+          PY
+
+      - name: Commit reel so Pages can serve it
+        run: |
+          git config user.name  "plotflow-bot"
+          git config user.email "bot@plotflow.io"
+          git add reels/*.mp4
+          if git diff --staged --quiet; then
+            echo "No change to reel file."
+          else
+            git commit -m "Add reel for ${{ steps.pick.outputs.key }} [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
+      - name: Publish to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          ARGS="--key ${{ steps.pick.outputs.key }} --color ${{ steps.pick.outputs.color }}"
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          python tools/post_reel.py $ARGS

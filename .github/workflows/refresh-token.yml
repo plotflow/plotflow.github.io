@@ -1,0 +1,45 @@
+name: Refresh Instagram token
+
+# Long-lived Meta tokens expire after 60 days. This refreshes monthly and
+# stores the new token back as the IG_ACCESS_TOKEN secret using the gh CLI
+# (which handles the libsodium encryption for you).
+#
+# Required secrets:
+#   FB_APP_ID, FB_APP_SECRET   from your Meta app
+#   IG_ACCESS_TOKEN            current long-lived token (this workflow updates it)
+#   GH_PAT                     fine-grained PAT with "Secrets: write" on this repo
+# See tools/REELS_AUTOMATION.md.
+
+on:
+  schedule:
+    - cron: "0 5 1 * *"   # 1st of each month, 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Exchange for a fresh token
+        id: refresh
+        env:
+          FB_APP_ID: ${{ secrets.FB_APP_ID }}
+          FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python tools/refresh_token.py
+
+      - name: Store the new token as a secret
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh secret set IG_ACCESS_TOKEN \
+            --repo "${{ github.repository }}" \
+            --body "${{ steps.refresh.outputs.token }}"
+          echo "IG_ACCESS_TOKEN updated."
