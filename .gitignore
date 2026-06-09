@@ -5,6 +5,10 @@
 .env
 Thumbs.db
 
+# Python
+__pycache__/
+*.pyc
+
 # Cloudflare Worker
 worker/node_modules/
 worker/.wrangler/
