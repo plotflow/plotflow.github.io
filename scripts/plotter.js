@@ -34,7 +34,7 @@
   if (selSuit) {
     ORDER.forEach(function (k) {
       var o = document.createElement('option');
-      o.value = k; o.textContent = DATA[k].name + ' — ' + DATA[k].code;
+      o.value = k; o.textContent = DATA[k].name + ' · ' + DATA[k].code;
       selSuit.appendChild(o);
     });
   }

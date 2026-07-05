@@ -16,9 +16,11 @@
     var s = SUITS[key]; if (!s) return;
     var card = document.createElement('article');
     card.className = 'card';
+    card.dataset.key = key;
     var no = '№ PF-0' + (10 + i);
+    var href = 'product.html?id=' + encodeURIComponent(key);
     card.innerHTML =
-      '<div class="cover">' +
+      '<a class="cover" href="' + href + '">' +
         '<div class="art"><svg viewBox="0 0 ' + s.w + ' ' + s.h + '" preserveAspectRatio="xMidYMid meet">' +
           '<path d="' + s.d + '" fill="none" stroke="currentColor" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></div>' +
         '<div class="grain"></div><div class="ht"></div>' +
@@ -26,11 +28,11 @@
         '<div class="name">' + s.name + '</div>' +
         '<div class="jp">' + s.jp + '</div>' +
         '<span class="ast star">' + STAR + '</span>' +
-        '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">一筆書き</span></div>' +
+        '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">マシンドロー</span></div>' +
         '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
-      '</div>' +
-      '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div></div>' +
-        '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '">Acquire</button></div></div>';
+      '</a>' +
+      '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div><div class="stock tiny" data-stock hidden></div></div>' +
+        '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div></div>';
     grid.appendChild(card);
 
     // Crop the viewBox to the suit's actual bounding box (+ padding) so every
@@ -47,9 +49,34 @@
     } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
   });
 
+  // Fill in live remaining-count badges once stock loads (fails silent).
+  if (window.PlotflowStock) {
+    window.PlotflowStock.ready(function (counts) {
+      if (!counts) return;
+      var SIZE = window.PlotflowStock.size;
+      ORDER.forEach(function (key) {
+        var card = grid.querySelector('.card[data-key="' + key + '"]');
+        if (!card || typeof counts[key] !== 'number') return;
+        var left = counts[key];
+        var badge = card.querySelector('[data-stock]');
+        var acq = card.querySelector('.acq');
+        if (left <= 0) {
+          card.classList.add('sold-out');
+          if (badge) { badge.textContent = 'Sold out'; badge.hidden = false; }
+          if (acq) { acq.textContent = 'Sold out'; acq.disabled = true; }
+        } else if (badge) {
+          badge.textContent = left + ' / ' + SIZE + ' left';
+          if (left <= 5) badge.classList.add('low');
+          badge.hidden = false;
+        }
+      });
+    });
+  }
+
   grid.addEventListener('click', function (e) {
     var b = e.target.closest('[data-plot]');
     if (!b) return;
+    e.preventDefault();           // the button sits inside the card's product link
     if (window.PlotflowPlotter) window.PlotflowPlotter.load(b.dataset.plot);
     var feature = document.getElementById('feature');
     if (feature) feature.scrollIntoView({ behavior: 'smooth' });

@@ -14,19 +14,27 @@ OUT = os.path.join(ROOT, "data", "editions.js")
 
 # key -> metadata. `file` is the svg basename in assets/plots (without .svg).
 META = {
- "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. 09/25 · A2", "price":"$45"},
- "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. 18/25 · A3", "price":"$45"},
- "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. 05/25 · A1", "price":"$45"},
- "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · A2", "price":"$45"},
- "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · A3", "price":"$45"},
- "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · A2", "price":"$45"},
- "gm":       {"file":"gm",       "name":"GM",       "code":"RGM-79",    "jp":"ジム",                 "edition":"ED. 07/25 · A3", "price":"$45"},
- "guntank":  {"file":"guntank",  "name":"Guntank",  "code":"RX-75",     "jp":"ガンタンク",            "edition":"ED. 11/25 · A2", "price":"$45"},
+ "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. 09/25 · 11×14″", "price":"$45"},
+ "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. 18/25 · 11×14″", "price":"$45"},
+ "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. 05/25 · 11×14″", "price":"$45"},
+ "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · 11×14″", "price":"$45"},
+ "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · 11×14″", "price":"$45"},
+ "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · 11×14″", "price":"$45"},
+}
+
+# Short editorial blurb shown on each edition's product page.
+LORE = {
+ "zaku":     "The workhorse of the Principality of Zeon. Mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
+ "guncannon":"A mid-range support unit of the Earth Federation, built around its shoulder-mounted cannons. Heavier armor traded mobility for firepower fighting alongside the RX-78.",
+ "bigzam":   "A colossal Zeon mobile armor designed for base defense, shielded by an I-field that turned aside beam weapons. A single unit was meant to hold off an entire fleet.",
+ "dom":      "A ground-assault suit riding hover thrusters for deceptively fast movement across open terrain. Its scattering beam gun and giant heat saber made it a frontline terror.",
+ "zgok":     "An amphibious Zeon suit built for hit-and-run raids from the water. Rounded armor, clawed manipulators, and head-mounted mega particle guns.",
+ "gp02":     "A Gundam Development Project unit engineered to carry and fire a tactical warhead. Heavy shielding and a massive plasma-clad shield define its silhouette.",
 }
 
 # order of the dropdown in the live plotter, and of the cards in the shop grid
-PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02","gm","guntank"]
-SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02","gm","guntank"]
+PLOTTER_ORDER = ["zaku","dom","guncannon","bigzam","zgok","gp02"]
+SHOP_ORDER    = ["zaku","guncannon","bigzam","dom","zgok","gp02"]
 
 def extract(file):
     s = open(os.path.join(PLOTS, file + ".svg")).read()
@@ -38,7 +46,7 @@ suits = {}
 for k, m in META.items():
     w, h, d = extract(m["file"])
     suits[k] = {"name":m["name"], "code":m["code"], "jp":m["jp"],
-                "edition":m["edition"], "price":m["price"],
+                "edition":m["edition"], "price":m["price"], "lore":LORE.get(k, ""),
                 "file":m["file"]+".svg", "w":w, "h":h, "d":d}
 
 data = {"suits":suits, "plotterOrder":PLOTTER_ORDER, "shopOrder":SHOP_ORDER}

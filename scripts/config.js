@@ -4,12 +4,14 @@
    key here — secrets live in the Cloudflare Worker (see worker/).
    ============================================================ */
 window.PLOTFLOW_CONFIG = {
-  // URL of the deployed Cloudflare Worker that creates Stripe Checkout
-  // Sessions. Fill this in after `wrangler deploy` (see worker/README.md).
-  // e.g. "https://plotflow-checkout.<your-subdomain>.workers.dev"
-  checkoutEndpoint: "",
+  checkoutEndpoint: "https://plotflow-checkout.plotflow-io.workers.dev",
+  currency: "$",
 
-  // Display currency symbol for cart subtotals (Stripe is the source of
-  // truth for actual charges).
-  currency: "$"
+  // Newsletter / drop-list signup. Paste your email provider's form-POST URL
+  // here to switch the signup form on (until then it shows a friendly notice).
+  //   • Kit (ConvertKit):  https://app.kit.com/forms/XXXXXX/subscriptions   field: email_address
+  //   • Buttondown:        https://buttondown.com/api/emails/embed-subscribe/USERNAME   field: email
+  //   • Mailchimp:         the form action URL from the embed code            field: EMAIL
+  newsletterEndpoint: "https://app.kit.com/forms/9539174/subscriptions",
+  newsletterField: "email_address"
 };
