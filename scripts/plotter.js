@@ -24,7 +24,7 @@
   var bed = $('bed'), bedlabel = $('bedlabel'), selSuit = $('suit'), playBtn = $('play'), replay = $('replay');
 
   var FEED = 1100;   // mm/min, shown in HUD + used for plot-time
-  var BASE = 22;     // seconds for a full plot at 1x speed
+  var BASE = 36;     // seconds for a full plot at 1x speed
   var INK = '#e8351f';
   var cur, len = 1, drawn = 0, painted = 0, playing = true, speed = 1, mmPerUnit = 1, totalMin = 1;
   var vb = { x: 0, y: 0, w: 1, h: 1 };

@@ -333,7 +333,7 @@ const elapsed=document.getElementById('elapsed'), total=document.getElementById(
 const bed=document.getElementById('bed'), bedlabel=document.getElementById('bedlabel');
 const selSuit=document.getElementById('suit'), playBtn=document.getElementById('play'), replay=document.getElementById('replay');
 
-const FEED=1100, BASE=22;
+const FEED=1100, BASE=36;
 let cur, len=1, drawn=0, playing=true, speed=1, mmPerUnit=1, totalMin=1;
 
 ORDER.forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=SUITS[k].name+" · "+SUITS[k].code;selSuit.appendChild(o);});
