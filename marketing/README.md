@@ -79,6 +79,39 @@ python instagram_api.py  # Test Instagram API
 python content_generator.py  # Generate sample content
 ```
 
+## 🎬 Media Generation
+
+Instagram needs publicly-hosted media. The media generator renders each
+edition's continuous-line path into two Instagram-ready assets — no browser,
+no system ffmpeg (a static binary ships with `imageio-ffmpeg`):
+
+- **`{key}_process.mp4`** — 1080×1080 H.264 video of the suit drawn line-by-line
+  in red ink on Bristol paper, with the moving pen head and bed label. Used for
+  *process* posts.
+- **`{key}_showcase.png`** — 1080×1350 still of the finished plot, composed as a
+  feed image with code / edition / name / 日本語 / price. Used for everything else.
+
+### Build the media + manifest
+
+```bash
+python media_generator.py build --publish-dir ../assets/social
+```
+
+This renders all six editions, writes `media/generated/manifest.json` (the
+map the poster reads), and copies the files into `assets/social/`. Commit that
+folder so GitHub Pages serves them at `https://plotflow.io/assets/social/…`,
+which is what the Instagram API fetches. The public URL base is set in
+`config/settings.json` under `site`.
+
+You only need to rebuild when editions change. Other handy forms:
+
+```bash
+python media_generator.py list                    # list editions
+python media_generator.py still --key zaku         # one still
+python media_generator.py video --key zaku --duration 20
+python automate.py media                           # build all + publish (via automate)
+```
+
 ## 📖 Usage
 
 ### Generate Content (30 days worth)

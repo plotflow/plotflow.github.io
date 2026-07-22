@@ -14,6 +14,7 @@ import argparse
 from content_generator import ContentGenerator
 from instagram_api import InstagramAPI
 from scheduler import PostScheduler
+from media_generator import MediaLibrary
 
 SCRIPT_DIR = Path(__file__).parent
 
@@ -26,6 +27,7 @@ class MarketingAutomation:
         self.generator = ContentGenerator()
         self.api = InstagramAPI()
         self.scheduler = PostScheduler()
+        self.media = MediaLibrary()
 
         print("🤖 PlotFlow Marketing Automation")
         print("=" * 60)
@@ -82,7 +84,11 @@ class MarketingAutomation:
         if self.dry_run:
             print("\n🔍 DRY RUN - Would post:")
             for post in pending:
-                print(f"   - {post['edition']} ({post['post_type']})")
+                key = post.get('edition_key', '')
+                media_url = self.media.url_for(key, post['media_needed'])
+                status = media_url if media_url else "⚠️  NO MEDIA (run media_generator build)"
+                print(f"   - {post['edition']} ({post['post_type']}, {post['media_needed']})")
+                print(f"       media: {status}")
             return
 
         # Post each pending item
@@ -91,26 +97,22 @@ class MarketingAutomation:
 
         for post in pending:
             try:
-                print(f"\n📢 Posting {post['edition']}...")
+                print(f"\n📢 Posting {post['edition']} ({post['media_needed']})...")
 
                 # Select best caption variation (first one for now)
                 caption = post['captions'][0]
 
-                # NOTE: For full automation, you would need:
-                # 1. Media files uploaded to a public URL
-                # 2. Proper media selection based on post_type
-                # 3. Error handling and retry logic
+                # Resolve the hosted media URL from the media manifest.
+                key = post.get('edition_key', '')
+                media_url = self.media.url_for(key, post['media_needed'])
+                if not media_url:
+                    raise RuntimeError(
+                        f"No media for '{key}'. Run: python media_generator.py "
+                        f"build --publish-dir ../assets/social (and commit it)."
+                    )
 
-                # Example media URL (replace with actual generated media)
-                media_url = f"https://plotflow.io/assets/editions/{post['edition']}.jpg"
-
-                # Post based on media type
                 if post['media_needed'] == 'video':
                     post_id = self.api.post_video(media_url, caption)
-                elif post['media_needed'] == 'carousel':
-                    # Would need multiple media URLs
-                    media_urls = [media_url]  # Simplified
-                    post_id = self.api.post_carousel(media_urls, caption)
                 else:
                     post_id = self.api.post_image(media_url, caption)
 
@@ -169,10 +171,12 @@ class MarketingAutomation:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(description='PlotFlow Instagram Marketing Automation')
-    parser.add_argument('command', choices=['generate', 'schedule', 'post', 'status', 'full'],
+    parser.add_argument('command', choices=['media', 'generate', 'schedule', 'post', 'status', 'full'],
                        help='Command to run')
     parser.add_argument('--days', type=int, default=30,
                        help='Number of days of content to generate (default: 30)')
+    parser.add_argument('--publish-dir', default='../assets/social',
+                       help='where media build copies files for public hosting (default: ../assets/social)')
     parser.add_argument('--dry-run', action='store_true',
                        help='Run without actually posting to Instagram')
 
@@ -180,7 +184,14 @@ def main():
 
     automation = MarketingAutomation(dry_run=args.dry_run)
 
-    if args.command == 'generate':
+    if args.command == 'media':
+        # Render all edition media + manifest (build once, refresh when editions change)
+        from media_generator import PlotRenderer
+        renderer = PlotRenderer()
+        publish = (SCRIPT_DIR / args.publish_dir).resolve()
+        renderer.build_all(publish_dir=publish)
+
+    elif args.command == 'generate':
         # Generate content only
         automation.generate_content(days=args.days)
 

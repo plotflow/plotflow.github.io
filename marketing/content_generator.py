@@ -170,6 +170,7 @@ Do not include hashtags in the caption (those are added separately).
 
         return {
             "edition": edition['code'],
+            "edition_key": edition.get('key', ''),
             "post_type": post_type,
             "captions": captions,
             "media_needed": self._get_media_type(post_type),
@@ -183,13 +184,12 @@ Do not include hashtags in the caption (those are added separately).
         }
 
     def _get_media_type(self, post_type: str) -> str:
-        """Determine media type needed for post."""
-        if post_type == "process":
-            return "video"
-        elif post_type == "behind_scenes":
-            return random.choice(["image", "carousel"])
-        else:  # showcase
-            return random.choice(["image", "carousel"])
+        """Determine media type needed for post.
+
+        Process posts use the plotting video; everything else uses the
+        showcase still. These map 1:1 to what media_generator produces.
+        """
+        return "video" if post_type == "process" else "image"
 
     def generate_content_batch(self, count: int = 30) -> List[Dict[str, Any]]:
         """Generate a batch of post content."""

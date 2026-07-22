@@ -47,5 +47,10 @@
     "model": "claude-sonnet-4",
     "tone": "artistic, technical, minimalist",
     "style": "Blend Japanese aesthetics with technical precision. Emphasize craftsmanship, process, and the unique nature of machine-drawn art."
+  },
+  "site": {
+    "url": "https://plotflow.io",
+    "social_path": "assets/social",
+    "_comment": "Media is served from {url}/{social_path}. Run: python media_generator.py build --publish-dir ../assets/social, then commit assets/social so GitHub Pages hosts the files publicly for the Instagram API."
   }
 }
