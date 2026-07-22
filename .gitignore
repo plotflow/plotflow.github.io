@@ -13,3 +13,10 @@ __pycache__/
 worker/node_modules/
 worker/.wrangler/
 .dev.vars
+
+# Marketing automation
+marketing/content/*.json
+marketing/media/generated/*
+marketing/logs/*.log
+marketing/config/settings.json
+marketing/.env
