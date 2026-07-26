@@ -304,8 +304,8 @@ class PlotRenderer:
         jp = suit.get('jp', '')
         bbox_jp = d.textbbox((0, 0), jp, font=f_jp)
         d.text((W - pad - (bbox_jp[2] - bbox_jp[0]), by + int(W * 0.030)), jp, font=f_jp, fill=DIM)
-        price = suit.get('price', '')
-        d.text((W - pad - int(W * 0.16), by), price, font=f_code, fill=RED)
+        # one-continuous-line signature (no price — gallery, not storefront)
+        d.text((W - pad - int(W * 0.22), by), '一筆書き', font=self._font(FONT_JP, int(W * 0.024)), fill=RED)
 
         out_path = out_path or (self.export_dir / f"{key}_showcase.png")
         final = img.resize((width, height), Image.LANCZOS) if ss > 1 else img
