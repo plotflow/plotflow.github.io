@@ -21,10 +21,20 @@ class InstagramAPI:
     """Instagram Graph API wrapper for posting content."""
 
     def __init__(self, access_token: str = None, account_id: str = None):
-        self.access_token = access_token or SETTINGS['instagram']['access_token']
-        self.account_id = account_id or SETTINGS['instagram']['account_id']
-        self.api_version = SETTINGS['instagram']['api_version']
-        self.base_url = f"https://graph.facebook.com/{self.api_version}"
+        ig = SETTINGS['instagram']
+        self.access_token = access_token or ig['access_token']
+        self.account_id = account_id or ig['account_id']
+        self.api_version = ig['api_version']
+        # Two valid hosts depending on how you set up the app in Meta:
+        #   graph.instagram.com  → "Instagram API with Instagram login"
+        #                          (no Facebook Page needed — simplest for
+        #                           publishing to your own @plotflow account)
+        #   graph.facebook.com   → "Instagram API with Facebook login"
+        #                          (requires an IG account linked to a FB Page)
+        # Set instagram.graph_host in settings.json to pick. Defaults to the
+        # Instagram-login host since @plotflow is a professional account.
+        host = ig.get('graph_host', 'graph.instagram.com')
+        self.base_url = f"https://{host}/{self.api_version}"
 
     def _make_request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
         """Make API request with error handling."""

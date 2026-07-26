@@ -2,7 +2,9 @@
   "instagram": {
     "access_token": "YOUR_INSTAGRAM_ACCESS_TOKEN",
     "account_id": "YOUR_INSTAGRAM_BUSINESS_ACCOUNT_ID",
-    "api_version": "v21.0"
+    "api_version": "v21.0",
+    "graph_host": "graph.instagram.com",
+    "_graph_host_note": "graph.instagram.com = 'Instagram API with Instagram login' (no Facebook Page needed; simplest for posting to your own account). Use graph.facebook.com only if you set the app up with Facebook login + a linked Page."
   },
   "posting": {
     "schedule": {
