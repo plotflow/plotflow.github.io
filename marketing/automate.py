@@ -171,7 +171,7 @@ class MarketingAutomation:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(description='PlotFlow Instagram Marketing Automation')
-    parser.add_argument('command', choices=['media', 'generate', 'schedule', 'post', 'status', 'full'],
+    parser.add_argument('command', choices=['media', 'generate', 'schedule', 'export', 'post', 'status', 'full'],
                        help='Command to run')
     parser.add_argument('--days', type=int, default=30,
                        help='Number of days of content to generate (default: 30)')
@@ -199,6 +199,11 @@ def main():
         # Generate and schedule content
         batch = automation.generate_content(days=args.days)
         automation.schedule_content(batch)
+
+    elif args.command == 'export':
+        # Export the scheduled queue as ready-to-post packs (no Meta API needed)
+        from exporter import export_queue
+        export_queue()
 
     elif args.command == 'post':
         # Post pending content

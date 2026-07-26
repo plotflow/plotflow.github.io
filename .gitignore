@@ -20,3 +20,6 @@ marketing/media/generated/*
 marketing/logs/*.log
 marketing/config/settings.json
 marketing/.env
+
+# Post exports (generated packs incl. media copies)
+marketing/exports/

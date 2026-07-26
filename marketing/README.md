@@ -112,7 +112,31 @@ python media_generator.py video --key zaku --duration 20
 python automate.py media                           # build all + publish (via automate)
 ```
 
-## 📖 Usage
+## 📤 Manual posting (no Meta API)
+
+If the Meta API is unavailable — a disabled/appealed Facebook account, no
+approved app, or you just want to post by hand — use the exporter. It turns the
+scheduled queue into ready-to-post packs plus a browser review board, so you
+publish through the Instagram app in seconds. No API, no approval, no account
+dependency.
+
+```bash
+python automate.py schedule --days 7   # build the queue
+python automate.py export              # write packs + review board
+```
+
+This creates `exports/<timestamp>/` containing:
+
+- one folder per post with the **media file** + **caption.txt**
+- **index.html** — a review board: each post shows its media preview, scheduled
+  time, and a **Copy caption** button
+- **posts.json** — the same data, machine-readable
+
+Open `index.html`, and for each slot: click *Copy caption*, save the media, and
+post it in the Instagram app. Fastest on your phone — AirDrop/sync the folder,
+or open the board on mobile.
+
+## 📖 Usage (Meta API path)
 
 ### Generate Content (30 days worth)
 
