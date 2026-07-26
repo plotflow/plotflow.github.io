@@ -116,23 +116,27 @@ python automate.py media                           # build all + publish (via au
 
 If the Meta API is unavailable — a disabled/appealed Facebook account, no
 approved app, or you just want to post by hand — use the exporter. It turns the
-scheduled queue into ready-to-post packs plus a browser review board, so you
-publish through the Instagram app in seconds. No API, no approval, no account
-dependency.
+editorial card library into ready-to-post packs plus a browser review board, so
+you publish through the Instagram app in seconds. No API, no approval, no
+account dependency.
 
 ```bash
-python automate.py schedule --days 7   # build the queue
-python automate.py export              # write packs + review board
+python tools/gen_posts.py    # (run from repo root) build the 26 cards
+python automate.py export    # write packs + grouped review board
 ```
 
-This creates `exports/<timestamp>/` containing:
+`export` bundles the card library (`assets/posts/`): the 5 styles per suit
+(process, lore, spec, drop) plus the two brand cards, each paired with its
+canon caption from `tools/captions.json`. It creates `exports/<timestamp>/`:
 
-- one folder per post with the **media file** + **caption.txt**
-- **index.html** — a review board: each post shows its media preview, scheduled
-  time, and a **Copy caption** button
-- **posts.json** — the same data, machine-readable
+- one folder per card with the **card image** + **caption.txt**
+- **index.html** — a review board grouped by suit, each card with a **Copy
+  caption** button
 
-Open `index.html`, and for each slot: click *Copy caption*, save the media, and
+(Use `python automate.py export` → falls back to `--queue` for the older
+still+video scheduler set if you ever need it: `python exporter.py --queue`.)
+
+Open `index.html`, and for each card: click *Copy caption*, save the image, and
 post it in the Instagram app. Fastest on your phone — AirDrop/sync the folder,
 or open the board on mobile.
 

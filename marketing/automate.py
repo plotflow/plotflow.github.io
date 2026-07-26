@@ -201,9 +201,9 @@ def main():
         automation.schedule_content(batch)
 
     elif args.command == 'export':
-        # Export the scheduled queue as ready-to-post packs (no Meta API needed)
-        from exporter import export_queue
-        export_queue()
+        # Export the editorial card library as ready-to-post packs (no Meta API)
+        from exporter import export_cards
+        export_cards()
 
     elif args.command == 'post':
         # Post pending content

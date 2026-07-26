@@ -22,14 +22,15 @@ META = {
  "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · 11×14″", "price":"$45"},
 }
 
-# Short editorial blurb shown on each edition's product page.
+# Short editorial blurb shown on each edition's product page + lore card.
+# Accurate to Universal Century canon. Keep to ~6 lines so it fits the card.
 LORE = {
- "zaku":     "The workhorse of the Principality of Zeon. Mass-produced and instantly known by its single mono-eye and shoulder spike. More Zaku IIs saw combat in the One Year War than any other mobile suit.",
- "guncannon":"A mid-range support unit of the Earth Federation, built around its shoulder-mounted cannons. Heavier armor traded mobility for firepower fighting alongside the RX-78.",
- "bigzam":   "A colossal Zeon mobile armor designed for base defense, shielded by an I-field that turned aside beam weapons. A single unit was meant to hold off an entire fleet.",
- "dom":      "A ground-assault suit riding hover thrusters for deceptively fast movement across open terrain. Its scattering beam gun and giant heat saber made it a frontline terror.",
- "zgok":     "An amphibious Zeon suit built for hit-and-run raids from the water. Rounded armor, clawed manipulators, and head-mounted mega particle guns.",
- "gp02":     "A Gundam Development Project unit engineered to carry and fire a tactical warhead. Heavy shielding and a massive plasma-clad shield define its silhouette.",
+ "zaku":     "The workhorse of the Principality of Zeon — the suit that proved the mobile-suit weapon class in combat. Instantly known by its single mono-eye and shoulder spike, more Zaku IIs fought in the One Year War (U.C. 0079) than any other machine. Char Aznable's crimson command type moved at three times the normal speed, earning him the name Red Comet.",
+ "guncannon":"One of the Earth Federation's first mass-production mobile suits, developed under Project V alongside the RX-78 Gundam. Built around twin shoulder cannons for mid- and long-range fire support, it traded mobility for heavier armor and served aboard White Base through the One Year War.",
+ "bigzam":   "A colossal Zeon mobile armor built for base defense, its I-field barrier turning aside beam weapons while banks of mega particle guns swept the field. A single unit was meant to hold off an entire fleet. Dozle Zabi took it into the defense of Solomon in the war's final days.",
+ "dom":      "A Zeon ground-assault suit that skated across open terrain on thermonuclear hover jets — deceptively fast for its bulk. Armed with a scattering beam gun and a giant heat saber, its Rick Dom variants armed the Black Tri-Stars and their feared Jet Stream Attack.",
+ "zgok":     "An amphibious Zeon suit built for hit-and-run raids from the water. Rounded armor, iron-nail claws, and head-mounted mega particle guns made it deadly at close range. Char Aznable fielded a custom command type in his signature red.",
+ "gp02":     "A Gundam Development Project prototype engineered around a single purpose: to carry and fire a tactical nuclear warhead. Heavy shielding and a massive plasma-clad shield define its silhouette. In U.C. 0083 it was stolen by Anavel Gato — the Nightmare of Solomon.",
 }
 
 # order of the dropdown in the live plotter, and of the cards in the shop grid
