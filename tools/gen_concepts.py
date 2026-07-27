@@ -209,6 +209,85 @@ def concept_statement(key='zaku'):
     print('  statement')
 
 
+# ============================================================
+# F · SPECTRUM EDITION — plotter-HONEST banded gradient
+#     The path split into N arc-length bands, each a solid pen color.
+#     This is what a real multi-pen swap plot would produce (stepped, not
+#     smooth) — and export_spectrum_layers() writes the actual per-pen SVGs.
+# ============================================================
+RAMP = [(0.0, INDIGO), (0.5, RED), (1.0, GOLD)]
+def band_color(b, bands): return grad(RAMP, (b + 0.5) / max(1, bands))
+
+def _ordered_segments(sp):
+    """Every segment in draw order, with cumulative arc length."""
+    segs = []; cum = 0.0
+    for pi, poly in enumerate(sp):
+        for i in range(len(poly) - 1):
+            (x0, y0), (x1, y1) = poly[i], poly[i + 1]
+            L = math.hypot(x1 - x0, y1 - y0)
+            if L <= 0: continue
+            segs.append((pi, x0, y0, x1, y1, cum, L)); cum += L
+    return segs, cum
+
+def concept_spectrum(key, bands=8):
+    s = SUITS[key]; sp = parse_path(s['d']); bb = bbox(sp)
+    segs, tot = _ordered_segments(sp)
+    img = Image.new('RGB', (C, C), PAPER); d = ImageDraw.Draw(img, 'RGBA')
+    tf, _ = fit(bb, (90*SS, 165*SS, 900*SS, 640*SS))
+    w = max(2, 2*SS)
+    for (pi, x0, y0, x1, y1, cs, L) in segs:
+        b = min(bands - 1, int(cs / tot * bands)) if tot else 0
+        d.line([tf(x0, y0), tf(x1, y1)], fill=band_color(b, bands) + (255,), width=w, joint='curve')
+    d.text((90*SS, 60*SS), s['code'], font=F(BOLD, 40*SS), fill=INK)
+    d.text((90*SS, 110*SS), f'SPECTRUM EDITION · {bands}-PEN', font=F(BOLD, 16*SS), fill=RED)
+    d.text((90*SS, 138*SS), f"{s['name']}  {s.get('jp','')}", font=F(JP, 18*SS), fill=DIM)
+    # swatch legend = the pen set, in plot order
+    lx, ly = 90*SS, C - 150*SS
+    sw = (760*SS) / bands
+    for b in range(bands):
+        d.rectangle([lx + b*sw, ly, lx + b*sw + sw - 6*SS, ly + 40*SS], fill=band_color(b, bands))
+    d.text((lx, ly - 28*SS), f'PLOT ORDER · PEN 01 → {bands:02d}', font=F(BOLD, 13*SS), fill=INK)
+    d.text((lx, ly + 52*SS), 'Each band a solid pen · swapped mid-plot · exact registration', font=F(REG, 11*SS), fill=DIM)
+    brand(d, (C-90*SS - d.textlength('PLOTFLOW*', font=F(BOLD, 14*SS)), 66*SS), INK+(120,))
+    img.resize((S, S), Image.LANCZOS).save(f'{OUT}/concept-{key}-spectrum.png')
+    print(f'  spectrum {key} ({bands}-pen)')
+
+def export_spectrum_layers(key, bands=8):
+    """Write plot-ready per-pen SVG layers (one color band each)."""
+    s = SUITS[key]; sp = parse_path(s['d'])
+    segs, tot = _ordered_segments(sp)
+    runs = {b: [] for b in range(bands)}
+    cur = {'band': None, 'poly': None, 'pts': None}
+    for (pi, x0, y0, x1, y1, cs, L) in segs:
+        b = min(bands - 1, int(cs / tot * bands)) if tot else 0
+        start, end = (x0, y0), (x1, y1)
+        if cur['band'] != b or cur['poly'] != pi or cur['pts'] is None or cur['pts'][-1] != start:
+            cur = {'band': b, 'poly': pi, 'pts': [start, end]}
+            runs[b].append(cur['pts'])
+        else:
+            cur['pts'].append(end)
+    outdir = os.path.join(OUT, f'spectrum-{key}')
+    os.makedirs(outdir, exist_ok=True)
+    plan = []
+    for b in range(bands):
+        col = band_color(b, bands); hh = '%02x%02x%02x' % col
+        dparts = ['M ' + ' L '.join(f'{x:.1f},{y:.1f}' for (x, y) in pts) for pts in runs[b]]
+        svg = (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {s['w']} {s['h']}'>"
+               f"<path d=\"{' '.join(dparts)}\" fill='none' stroke='#{hh}' "
+               f"stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+        open(os.path.join(outdir, f'pen-{b+1:02d}_{hh}.svg'), 'w').write(svg)
+        plan.append(f'PEN {b+1:02d}  #{hh}  ({len(runs[b])} strokes)')
+    open(os.path.join(outdir, 'PLOT_PLAN.txt'), 'w').write(
+        f"SPECTRUM EDITION — {s['code']} {s['name']}\n"
+        f"{bands}-pen layered plot · all layers share the suit's coordinate space.\n\n"
+        f"Plot each layer in order, swapping to the matching pen between layers:\n\n"
+        + '\n'.join(plan) +
+        "\n\nLoad pen-NN.svg files into the AxiDraw app (or vpype/saxi) and plot in\n"
+        "sequence. Registration is exact, so the bands align into one flowing path.\n"
+        "Note: this is a stepped (banded) gradient — the honest limit of a pen.\n")
+    print(f'  spectrum layers → {outdir}/ ({bands} pens + PLOT_PLAN.txt)')
+
+
 if __name__ == '__main__':
     print('Mocking up new concepts → mockups/')
     concept_gradient('zaku')
@@ -217,4 +296,6 @@ if __name__ == '__main__':
     concept_macro('zaku')
     concept_roster()
     concept_statement('zaku')
+    concept_spectrum('zaku', bands=8)
+    export_spectrum_layers('zaku', bands=8)
     print('Done. Review in mockups/ and tell me which to keep.')
