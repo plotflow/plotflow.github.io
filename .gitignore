@@ -23,3 +23,6 @@ marketing/.env
 
 # Post exports (generated packs incl. media copies)
 marketing/exports/
+
+# Concept mockups (drafts pending validation)
+mockups/
