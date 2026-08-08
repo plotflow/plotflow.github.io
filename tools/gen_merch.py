@@ -7,6 +7,10 @@ DATA = json.loads(src)
 SUITS = DATA['suits']
 ORDER = DATA.get('plotterOrder', list(SUITS.keys()))
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, 'mockups', 'merch')
+os.makedirs(OUT, exist_ok=True)
+
 INK   = (21, 22, 15)
 RED   = (232, 53, 31)
 PAPER = (246, 243, 236)
@@ -116,7 +120,7 @@ def tee_back(key, variant='black'):
     bw = d.textlength(brand, font=f_brand)
     d.text((W/2 - bw/2, text_y), brand, font=f_brand, fill=RED + (160,))
 
-    path = f'/tmp/merch-{key}-tee-back-{variant}.png'
+    path = f'{OUT}/merch-{key}-tee-back-{variant}.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -150,7 +154,7 @@ def tee_front(variant='black'):
     jw = d.textlength(jt, font=f_jp)
     d.text((cx - jw/2, cy + 168), jt, font=f_jp, fill=text_color + (80,))
 
-    path = f'/tmp/merch-tee-front-{variant}.png'
+    path = f'{OUT}/merch-tee-front-{variant}.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -196,13 +200,17 @@ def tee_lineup(variant='black'):
         ctw = d.textlength(ct, font=f_code)
         d.text((cx + cell_w/2 - ctw/2, cy + cell_h - 50), ct, font=f_code, fill=text_color + (140,))
 
-    # footer
+    # footer — JP in the JP font (Latin fonts render it as tofu), Latin below
     f_foot = ImageFont.truetype(REG, 24)
-    foot = 'マシンドロー · DRAWN BY MACHINE · EST. 2026'
+    f_foot_jp = ImageFont.truetype(JP, 24)
+    jt = 'マシンドロー'
+    jw = d.textlength(jt, font=f_foot_jp)
+    d.text((W/2 - jw/2, H - 180), jt, font=f_foot_jp, fill=text_color + (80,))
+    foot = 'DRAWN BY MACHINE · EST. 2026'
     fw = d.textlength(foot, font=f_foot)
-    d.text((W/2 - fw/2, H - 140), foot, font=f_foot, fill=text_color + (80,))
+    d.text((W/2 - fw/2, H - 130), foot, font=f_foot, fill=text_color + (80,))
 
-    path = f'/tmp/merch-tee-lineup-{variant}.png'
+    path = f'{OUT}/merch-tee-lineup-{variant}.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -213,6 +221,7 @@ def poster(key):
     s = SUITS[key]
     sp = parse_path(s['d']); bb = bbox(sp)
     segs, total = seg_lengths(sp)
+    npts = sum(len(x) for x in sp)   # vertices along the continuous path
     mm = 420 / max(bb[2]-bb[0], bb[3]-bb[1])
     ink_m = (total*mm)/1000
     plot_min = int((total*mm)/1100)
@@ -275,7 +284,7 @@ def poster(key):
         ('EDITION', s.get('edition','').split('·')[0].strip()),
         ('INK', f'{ink_m:.1f}m total'),
         ('PLOT TIME', f'{plot_min} min'),
-        ('PRICE', s.get('price', '$45')),
+        ('VERTICES', f'{npts:,}'),
     ]
     for i, (label, val) in enumerate(data_items):
         x = 160 + i * col_w
@@ -307,11 +316,11 @@ def poster(key):
     # bottom red strip
     d.rectangle([0, H-60, W, H], fill=RED)
     f_strip = ImageFont.truetype(BOLD, 24)
-    strip = 'PLOTFLOW*  ·  マシンドロー  ·  DRAWN BY MACHINE  ·  EST. 2026  ·  PLOTTED IN THE U.S.A.'
+    strip = 'PLOTFLOW*  ·  DRAWN BY MACHINE  ·  EST. 2026  ·  PLOTTED IN THE U.S.A.'
     sw = d.textlength(strip, font=f_strip)
     d.text((W/2 - sw/2, H - 48), strip, font=f_strip, fill=WHITE)
 
-    path = f'/tmp/merch-{key}-poster.png'
+    path = f'{OUT}/merch-{key}-poster.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -345,7 +354,7 @@ def sticker(key):
     cw = d.textlength(ct, font=f_code)
     d.text((SZ/2 - cw/2, SZ - pad - 80), ct, font=f_code, fill=MUTE + (180,))
 
-    path = f'/tmp/merch-{key}-sticker.png'
+    path = f'{OUT}/merch-{key}-sticker.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -386,7 +395,7 @@ def tote(key, variant='natural'):
     bw = d.textlength(brand, font=f_brand)
     d.text((W/2 - bw/2, bottom_y + 160), brand, font=f_brand, fill=RED + (180,))
 
-    path = f'/tmp/merch-{key}-tote-{variant}.png'
+    path = f'{OUT}/merch-{key}-tote-{variant}.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -411,13 +420,17 @@ def mug_wrap():
         cw = d.textlength(ct, font=f_code)
         d.text((x + suit_w/2 - cw/2, H - 100), ct, font=f_code, fill=DIM)
 
-    # brand centered at very bottom
+    # brand centered at very bottom — JP part in the JP font (avoids tofu)
     f_brand = ImageFont.truetype(BOLD, 22)
-    brand = 'PLOTFLOW*  ·  マシンドロー'
-    bw = d.textlength(brand, font=f_brand)
-    d.text((W/2 - bw/2, H - 50), brand, font=f_brand, fill=RED + (140,))
+    f_brand_jp = ImageFont.truetype(JP, 22)
+    latin, jt = 'PLOTFLOW*  ·  ', 'マシンドロー'
+    lw = d.textlength(latin, font=f_brand)
+    jw = d.textlength(jt, font=f_brand_jp)
+    x0 = W/2 - (lw + jw)/2
+    d.text((x0, H - 50), latin, font=f_brand, fill=RED + (140,))
+    d.text((x0 + lw, H - 50), jt, font=f_brand_jp, fill=RED + (140,))
 
-    path = '/tmp/merch-mug-wrap.png'
+    path = f'{OUT}/merch-mug-wrap.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
 
 
@@ -447,14 +460,150 @@ def pin_design(key):
     # asterisk mark
     draw_asterisk(d, SZ - 80, 80, 20, RED, 4)
 
-    path = f'/tmp/merch-{key}-pin.png'
+    path = f'{OUT}/merch-{key}-pin.png'
     img.save(path, 'PNG'); print(f'  {path}'); return path
+
+
+# ============================================================
+# PRESENTATION MOCKUPS — the print composited onto a flat garment
+# silhouette (brand-consistent flat style, honest: a mockup, not a photo)
+# ============================================================
+
+def _tee_polygon(cx, ty, w):
+    """Classic tee outline (back view), width w = body width unit."""
+    return [
+        (cx-0.18*w, ty),              # left neck
+        (cx-0.55*w, ty+0.05*w),       # left shoulder tip
+        (cx-0.75*w, ty+0.40*w),       # left sleeve end (outer)
+        (cx-0.53*w, ty+0.52*w),       # left sleeve cuff (inner)
+        (cx-0.47*w, ty+0.40*w),       # left underarm
+        (cx-0.47*w, ty+1.32*w),       # left hem
+        (cx+0.47*w, ty+1.32*w),       # right hem
+        (cx+0.47*w, ty+0.40*w),
+        (cx+0.53*w, ty+0.52*w),
+        (cx+0.75*w, ty+0.40*w),
+        (cx+0.55*w, ty+0.05*w),
+        (cx+0.18*w, ty),              # right neck
+    ]
+
+def present_tee(print_path, out_name, variant, label):
+    """Composite a flat print file onto a tee silhouette, masked to the garment."""
+    CV = 2160
+    canvas = Image.new('RGB', (CV, CV), PAPER)
+    d = ImageDraw.Draw(canvas, 'RGBA')
+
+    cx, ty, w = CV/2, CV*0.16, CV*0.42
+    poly = _tee_polygon(cx, ty, w)
+
+    # exact match to the print file's bg so the panel is seamless on the garment
+    tee_col = BLACK if variant == 'black' else WHITE
+    edge_col = (0, 0, 0, 60) if variant != 'black' else (255, 255, 255, 36)
+
+    # garment layer: tee color + the print placed on the body, then masked
+    mask = Image.new('L', (CV, CV), 0)
+    ImageDraw.Draw(mask).polygon(poly, fill=255)
+    layer = Image.new('RGB', (CV, CV), tee_col)
+    pr = Image.open(print_path)
+    pw = int(w * 0.66); ph = int(pr.height * pw / pr.width)
+    pr = pr.resize((pw, ph), Image.LANCZOS)
+    layer.paste(pr, (int(cx - pw/2), int(ty + 0.30*w)))
+    canvas.paste(layer, (0, 0), mask)
+
+    # outline + back-collar hint
+    d.line(poly + [poly[0]], fill=edge_col, width=3)
+    d.arc([cx-0.18*w, ty-0.05*w, cx+0.18*w, ty+0.09*w], 0, 180, fill=edge_col, width=4)
+
+    # caption strip
+    f = ImageFont.truetype(BOLD, 34); f2 = ImageFont.truetype(REG, 24)
+    d.text((90, CV-150), label, font=f, fill=INK)
+    d.text((90, CV-100), f'{variant.upper()} TEE · SCREEN PRINT · MOCKUP', font=f2, fill=DIM)
+    bw2 = d.textlength('PLOTFLOW*', font=f)
+    d.text((CV-90-bw2, CV-150), 'PLOTFLOW*', font=f, fill=RED)
+
+    path = f'{OUT}/mock-tee-{out_name}-{variant}.png'
+    canvas.save(path, 'PNG'); print(f'  {path}'); return path
+
+def present_tote(print_path, out_name, label):
+    """Composite a tote print onto a flat tote-bag silhouette."""
+    CV = 2160
+    canvas = Image.new('RGB', (CV, CV), PAPER)
+    d = ImageDraw.Draw(canvas, 'RGBA')
+
+    bw_, bh = CV*0.46, CV*0.56
+    bx, by = CV/2 - bw_/2, CV*0.26
+    bag_col = (240, 235, 220)          # natural canvas — matches the tote print bg
+    edge = (0, 0, 0, 70)
+
+    # handles
+    for hx in (bx + bw_*0.22, bx + bw_*0.78):
+        d.line([(hx, by), (hx - (bw_*0.06 if hx < CV/2 else -bw_*0.06), by - bh*0.22)],
+               fill=(60, 55, 45), width=26)
+    # bag face + print masked to it
+    mask = Image.new('L', (CV, CV), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([bx, by, bx+bw_, by+bh], radius=18, fill=255)
+    layer = Image.new('RGB', (CV, CV), bag_col)
+    pr = Image.open(print_path)
+    pw = int(bw_ * 0.80); ph = int(pr.height * pw / pr.width)
+    pr = pr.resize((pw, ph), Image.LANCZOS)
+    layer.paste(pr, (int(CV/2 - pw/2), int(by + bh*0.10)))
+    canvas.paste(layer, (0, 0), mask)
+    d.rounded_rectangle([bx, by, bx+bw_, by+bh], radius=18, outline=edge, width=3)
+
+    f = ImageFont.truetype(BOLD, 34); f2 = ImageFont.truetype(REG, 24)
+    d.text((90, CV-150), label, font=f, fill=INK)
+    d.text((90, CV-100), 'NATURAL CANVAS TOTE · MOCKUP', font=f2, fill=DIM)
+    bw2 = d.textlength('PLOTFLOW*', font=f)
+    d.text((CV-90-bw2, CV-150), 'PLOTFLOW*', font=f, fill=RED)
+
+    path = f'{OUT}/mock-tote-{out_name}.png'
+    canvas.save(path, 'PNG'); print(f'  {path}'); return path
+
+def present_mug(wrap_path):
+    """Composite the panoramic wrap onto a flat mug silhouette."""
+    CV = 2160
+    canvas = Image.new('RGB', (CV, CV), PAPER)
+    d = ImageDraw.Draw(canvas, 'RGBA')
+
+    mw, mh = CV*0.44, CV*0.46
+    mx, my = CV/2 - mw/2 - CV*0.03, CV*0.24
+    edge = (0, 0, 0, 70)
+
+    # handle behind body
+    hr = mh*0.30
+    d.ellipse([mx+mw-hr*0.35, my+mh*0.22, mx+mw+hr*1.15, my+mh*0.22+hr*1.6],
+              outline=(230, 228, 222), width=int(hr*0.30))
+    d.ellipse([mx+mw-hr*0.35, my+mh*0.22, mx+mw+hr*1.15, my+mh*0.22+hr*1.6],
+              outline=edge, width=3)
+
+    # body + wrap band masked in (wrap shows ~40% of the full 360° art)
+    mask = Image.new('L', (CV, CV), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([mx, my, mx+mw, my+mh], radius=40, fill=255)
+    layer = Image.new('RGB', (CV, CV), (235, 233, 228))
+    wr = Image.open(wrap_path)
+    crop_w = int(wr.width * 0.42)
+    # crop stops short of the centered brand line, and trims the brand row at
+    # the bottom, so no half-cut text shows on the visible face
+    wr = wr.crop((int(wr.width*0.03), 0, int(wr.width*0.03)+crop_w, wr.height - 70))
+    ph = int(mh * 0.66); pw = int(wr.width * ph / wr.height)
+    wr = wr.resize((pw, ph), Image.LANCZOS)
+    layer.paste(wr, (int(mx + mw/2 - pw/2), int(my + mh*0.17)))
+    canvas.paste(layer, (0, 0), mask)
+    d.rounded_rectangle([mx, my, mx+mw, my+mh], radius=40, outline=edge, width=3)
+
+    f = ImageFont.truetype(BOLD, 34); f2 = ImageFont.truetype(REG, 24)
+    d.text((90, CV-150), 'FULL LINEUP · 11oz MUG', font=f, fill=INK)
+    d.text((90, CV-100), 'PANORAMIC WRAP · MOCKUP', font=f2, fill=DIM)
+    bw2 = d.textlength('PLOTFLOW*', font=f)
+    d.text((CV-90-bw2, CV-150), 'PLOTFLOW*', font=f, fill=RED)
+
+    path = f'{OUT}/mock-mug.png'
+    canvas.save(path, 'PNG'); print(f'  {path}'); return path
 
 
 # ============================================================
 # GENERATE ALL
 # ============================================================
-os.chdir('/home/user/plotflow.github.io')
+os.chdir(ROOT)
 
 print('=== T-SHIRT BACK PRINTS (black tee) ===')
 for k in ORDER: tee_back(k, 'black')
@@ -486,4 +635,18 @@ mug_wrap()
 print('\n=== PIN DESIGNS ===')
 for k in ORDER: pin_design(k)
 
-print('\nDone! All merch designs generated.')
+print('\n=== PRESENTATION MOCKUPS (design on garment) ===')
+zk = SUITS['zaku']
+present_tee(f'{OUT}/merch-zaku-tee-back-black.png', 'zaku-back', 'black',
+            f"{zk['code']} · {zk['name'].upper()} · BACK PRINT")
+present_tee(f'{OUT}/merch-zaku-tee-back-white.png', 'zaku-back', 'white',
+            f"{zk['code']} · {zk['name'].upper()} · BACK PRINT")
+present_tee(f'{OUT}/merch-tee-lineup-black.png', 'lineup', 'black',
+            'SEASON 01 LINEUP · BACK PRINT')
+present_tee(f'{OUT}/merch-tee-front-black.png', 'front-logo', 'black',
+            'CHEST LOGO · FRONT')
+present_tote(f'{OUT}/merch-zaku-tote-natural.png', 'zaku',
+             f"{zk['code']} · {zk['name'].upper()}")
+present_mug(f'{OUT}/merch-mug-wrap.png')
+
+print('\nDone! All merch designs generated → mockups/merch/')
