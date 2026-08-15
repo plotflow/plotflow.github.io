@@ -44,6 +44,16 @@ def seg_lengths(subpaths):
             total += L
     return segs, total
 
+
+def plot_minutes(sp, total_draw, mm):
+    """Plot time = draw + pen-up travel + lift cycles (tuned to PlotGrid actuals),
+    not just ink-length / feed."""
+    travel = 0.0
+    for a, b in zip(sp, sp[1:]):
+        travel += math.hypot(b[0][0]-a[-1][0], b[0][1]-a[-1][1])
+    lifts = max(0, len(sp)-1)
+    return (total_draw*mm)/1100 + (travel*mm)/6600 + lifts*0.10/60
+
 def bbox(sp):
     xs = [p[0] for s in sp for p in s]
     ys = [p[1] for s in sp for p in s]
@@ -280,7 +290,7 @@ def post_spec(key):
     npts = sum(len(x) for x in sp)   # vertices along the plotted path
     mm = 420 / max(bb[2]-bb[0], bb[3]-bb[1])
     ink_m = (total*mm)/1000
-    plot_min = (total*mm)/1100
+    plot_min = plot_minutes(sp, total, mm)
 
     img = Image.new('RGB', (C,C), INK)
     d = ImageDraw.Draw(img, 'RGBA')
