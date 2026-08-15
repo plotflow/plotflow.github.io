@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · Gallery direction</title>
+<style>
+  :root{
+    --paper:#f6f3ec; --ink:#15160f; --red:#e8351f; --dim:#8f9184; --line:#e2ddd0;
+    --serif:'Liberation Serif',Georgia,serif;
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif;
+    --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans)}
+  /* nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 56px;position:sticky;top:0;background:rgba(246,243,236,.92);backdrop-filter:blur(8px);z-index:5;border-bottom:1px solid var(--line)}
+  .brand{font-weight:900;font-size:17px;letter-spacing:.05em}
+  .brand i{color:var(--red);font-style:normal}
+  nav .links{display:flex;gap:34px;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  nav .links a{color:var(--ink);text-decoration:none;font-weight:600}
+  nav .cart{font-family:var(--mono);font-size:12px;border:1px solid var(--ink);padding:8px 16px;background:none;cursor:pointer}
+  /* hero */
+  .hero{padding:110px 56px 80px;max-width:1500px;margin:0 auto}
+  .hero .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--red);margin-bottom:26px}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:104px;line-height:1.02;letter-spacing:-.015em;max-width:1100px}
+  .hero h1 em{font-style:italic;color:var(--red)}
+  .hero .sub{display:flex;gap:60px;margin-top:44px;align-items:baseline}
+  .hero .jp{font-size:30px;color:var(--dim)}
+  .hero p{max-width:460px;color:#4c4e45;font-size:15px;line-height:1.75}
+  .rule{height:1px;background:var(--ink);margin:70px 56px 0;max-width:none}
+  /* catalog rows */
+  .cat{max-width:1500px;margin:0 auto;padding:20px 56px 40px}
+  .row{display:grid;grid-template-columns:130px 1fr 420px;gap:40px;align-items:center;padding:54px 0;border-bottom:1px solid var(--line)}
+  .row .no{font-family:var(--serif);font-size:60px;color:#d8d2c2}
+  .row figure svg{width:100%;height:340px;display:block}
+  .row .info h3{font-family:var(--serif);font-size:42px;font-weight:400;margin-bottom:2px}
+  .row .info .jp2{color:var(--dim);font-size:18px;margin-bottom:18px}
+  .row .info p{font-size:13.5px;line-height:1.7;color:#4c4e45;margin-bottom:20px}
+  .row .specs{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--dim);line-height:2}
+  .row .acq{display:inline-block;margin-top:18px;font-size:11px;font-weight:800;letter-spacing:.22em;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--red);padding-bottom:4px}
+  /* statement band */
+  .band{background:var(--ink);color:var(--paper);padding:110px 56px;text-align:center;margin-top:80px}
+  .band h2{font-family:var(--serif);font-weight:400;font-size:54px;max-width:900px;margin:0 auto;line-height:1.25}
+  .band h2 em{color:var(--red);font-style:italic}
+  .band .jp3{margin-top:26px;color:#8f9184;font-size:16px}
+  footer{padding:40px 56px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim)}
+</style></head>
+<body>
+  <nav>
+    <span class="brand">PLOTFLOW<i>*</i></span>
+    <div class="links"><a href="#">Catalogue</a><a href="#">Process</a><a href="#">Studio</a><a href="#">Commissions</a></div>
+    <button class="cart">CART — 0</button>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">INDEPENDENT PEN-PLOTTER STUDIO · EST. 2026</div>
+    <h1>Six machines.<br>Six editions.<br><em>One unbroken line.</em></h1>
+    <div class="sub">
+      <span class="jp">一筆書き</span>
+      <p>Universal-Century mobile suits, rebuilt as continuous vector paths and traced in pigment ink on archival Bristol by an AxiDraw plotter. Nothing is printed. Every impression is drawn.</p>
+    </div>
+  </header>
+  <div class="rule"></div>
+
+  <main class="cat" id="cat"></main>
+
+  <section class="band">
+    <h2>Ink flows by gravity, temperature, and the speed of the carriage. <em>No two plots are identical.</em></h2>
+    <div class="jp3">マシンドロー — drawn by machine, finished by hand</div>
+  </section>
+
+  <footer>
+    <span>© 2026 PLOTFLOW* · PLOTTED IN THE U.S.A.</span>
+    <span>SIGNED &amp; NUMBERED · EDITIONS OF 25</span>
+  </footer>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, ORDER = window.PLOTFLOW.shopOrder;
+  document.getElementById('cat').innerHTML = ORDER.map((k,i)=>{
+    const s=S[k];
+    return `<div class="row">
+      <div class="no">${String(i+1).padStart(2,'0')}</div>
+      <figure><svg viewBox="0 0 ${s.w} ${s.h}" preserveAspectRatio="xMidYMid meet">
+        <path d="${s.d}" fill="none" stroke="#15160f" stroke-width="1.6"/></svg></figure>
+      <div class="info">
+        <h3>${s.name}</h3>
+        <div class="jp2">${s.jp} · ${s.code}</div>
+        <p>${s.lore.split('. ').slice(0,2).join('. ')}.</p>
+        <div class="specs">${s.edition}<br>PIGMENT INK ON STRATHMORE BRISTOL<br>AXIDRAW PEN PLOTTER · ONE CONTINUOUS PATH</div>
+        <a class="acq" href="#">ACQUIRE ›</a>
+      </div>
+    </div>`;
+  }).join('');
+</script>
+</body></html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · Console direction</title>
+<style>
+  :root{
+    --bg:#0b0c0a; --panel:#131511; --panel2:#191b16; --line:#2a2d26;
+    --paper:#f6f3ec; --red:#e8351f; --dim:#8f9184; --mute:#c3c5b8; --ok:#8fd67a;
+    --mono:'Liberation Mono','Courier New',monospace;
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--paper);font-family:var(--sans)}
+  .mono{font-family:var(--mono)}
+  /* ── top status bar ── */
+  .bar{display:flex;align-items:center;gap:24px;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--panel);font-size:11px;letter-spacing:.08em}
+  .bar .brand{font-weight:900;font-size:14px;letter-spacing:.04em}
+  .bar .brand i{color:var(--red);font-style:normal}
+  .bar .tag{color:var(--dim);font-family:var(--mono)}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px}
+  .bar nav{margin-left:auto;display:flex;gap:22px;font-weight:700;font-size:11px;text-transform:uppercase}
+  .bar nav a{color:var(--mute);text-decoration:none}
+  .bar nav a.on{color:var(--paper);border-bottom:2px solid var(--red);padding-bottom:2px}
+  .cart{background:var(--red);color:#fff;font-weight:800;padding:6px 14px;border:none;font-size:11px;letter-spacing:.08em}
+  /* ── console workspace ── */
+  .ws{display:grid;grid-template-columns:52px 1fr 320px;min-height:760px;border-bottom:1px solid var(--line)}
+  .rail{border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:18px}
+  .rail span{width:26px;height:26px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px;font-family:var(--mono)}
+  .rail span.on{border-color:var(--red);color:var(--red)}
+  .stage{position:relative;display:flex;align-items:center;justify-content:center;background:
+    radial-gradient(1200px 600px at 60% 40%, #14160f 0%, var(--bg) 70%)}
+  .grid-overlay{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.25}
+  .bed{position:relative;width:640px;background:var(--paper);box-shadow:0 40px 120px rgba(0,0,0,.6);padding:24px}
+  .bed svg{width:100%;display:block}
+  .bed .lbl{position:absolute;top:8px;left:12px;color:#8f9184;font-size:9px;letter-spacing:.2em;font-family:var(--mono)}
+  .tick{position:absolute;width:14px;height:14px;border:2px solid rgba(0,0,0,.25)}
+  .tick.tl{top:6px;left:6px;border-right:0;border-bottom:0}.tick.tr{top:6px;right:6px;border-left:0;border-bottom:0}
+  .tick.bl{bottom:6px;left:6px;border-right:0;border-top:0}.tick.br{bottom:6px;right:6px;border-left:0;border-top:0}
+  .stage .caption{position:absolute;left:28px;bottom:22px}
+  .stage .caption h1{font-size:44px;font-weight:900;letter-spacing:-.01em;line-height:.95}
+  .stage .caption h1 b{color:var(--red)}
+  .stage .caption p{color:var(--dim);font-size:12px;margin-top:8px;letter-spacing:.12em;font-family:var(--mono)}
+  /* ── telemetry ── */
+  .tele{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column}
+  .tele h3{font-size:10px;letter-spacing:.22em;color:var(--dim);padding:14px 16px;border-bottom:1px solid var(--line);font-family:var(--mono)}
+  .kv{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);font-size:12px}
+  .kv b{font-family:var(--mono);font-size:15px}
+  .kv .u{color:var(--dim);font-size:10px}
+  .meter{height:6px;background:var(--panel2);margin:0 16px 14px}
+  .meter i{display:block;height:100%;width:34%;background:var(--red)}
+  .queue{flex:1;overflow:hidden}
+  .qrow{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:11px}
+  .qrow .code{font-family:var(--mono);color:var(--mute);width:78px}
+  .qrow .nm{flex:1;font-weight:700}
+  .qrow .st{font-family:var(--mono);font-size:9px;letter-spacing:.14em;padding:3px 8px;border:1px solid var(--line);color:var(--dim)}
+  .qrow.active .st{border-color:var(--red);color:var(--red)}
+  .qrow.done .st{border-color:#3c4a37;color:var(--ok)}
+  /* ── job queue / shop ── */
+  .shop{padding:64px 40px;max-width:1500px;margin:0 auto}
+  .shop .hd{display:flex;align-items:baseline;gap:16px;margin-bottom:28px}
+  .shop .hd h2{font-size:34px;font-weight:900}
+  .shop .hd h2 i{color:var(--red);font-style:normal}
+  .shop .hd span{color:var(--dim);font-size:12px;font-family:var(--mono);letter-spacing:.12em}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);position:relative;transition:border-color .2s}
+  .card:hover{border-color:var(--red)}
+  .card .top{display:flex;justify-content:space-between;padding:12px 14px;font-size:9px;letter-spacing:.16em;color:var(--dim);font-family:var(--mono);border-bottom:1px solid var(--line)}
+  .card svg{width:100%;height:250px;display:block;padding:16px}
+  .card .meta{display:flex;align-items:center;justify-content:space-between;padding:14px;border-top:1px solid var(--line)}
+  .card .meta .nm b{display:block;font-size:15px}
+  .card .meta .nm span{color:var(--dim);font-size:10px;font-family:var(--mono)}
+  .card .meta button{background:transparent;border:1px solid var(--red);color:var(--red);font-weight:800;font-size:10px;letter-spacing:.14em;padding:8px 14px;cursor:pointer}
+  .card .meta button:hover{background:var(--red);color:#fff}
+  footer{border-top:1px solid var(--line);padding:26px 40px;display:flex;justify-content:space-between;color:var(--dim);font-size:10px;letter-spacing:.14em;font-family:var(--mono)}
+</style></head>
+<body>
+  <div class="bar mono">
+    <span class="brand">PLOTFLOW<i>*</i></span>
+    <span class="tag">CONSOLE v2.0</span>
+    <span><span class="dot" style="background:var(--ok)"></span>AXIDRAW ONLINE</span>
+    <span><span class="dot" style="background:var(--red)"></span>PLOTTING · MS-06</span>
+    <nav>
+      <a class="on" href="#">Live Plot</a><a href="#">The Work</a><a href="#">Process</a><a href="#">Studio</a>
+    </nav>
+    <button class="cart">CART [0]</button>
+  </div>
+
+  <div class="ws">
+    <div class="rail"><span class="on">▶</span><span>⌗</span><span>≡</span><span>✳</span></div>
+    <div class="stage">
+      <div class="grid-overlay"></div>
+      <div class="bed">
+        <span class="lbl">BED 01 · MS-06 · 300gsm BRISTOL</span>
+        <div class="tick tl"></div><div class="tick tr"></div><div class="tick bl"></div><div class="tick br"></div>
+        <svg id="stageSvg" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="caption">
+        <h1>DRAWN,<br>NOT PRINTED<b>.</b></h1>
+        <p>一筆書き · ONE CONTINUOUS LINE · マシンドロー</p>
+      </div>
+    </div>
+    <aside class="tele">
+      <h3>TELEMETRY</h3>
+      <div class="kv"><span class="u">PROGRESS</span><b>34<span class="u"> %</span></b></div>
+      <div class="meter"><i></i></div>
+      <div class="kv"><span class="u">INK DRAWN</span><b>7.81<span class="u"> / 22.9 m</span></b></div>
+      <div class="kv"><span class="u">FEED RATE</span><b>1100<span class="u"> mm/min</span></b></div>
+      <div class="kv"><span class="u">POSITION</span><b>312 · 209<span class="u"> mm</span></b></div>
+      <div class="kv"><span class="u">PEN</span><b>0.3<span class="u"> mm · RED</span></b></div>
+      <h3>QUEUE · 作品</h3>
+      <div class="queue">
+        <div class="qrow active"><span class="code">MS-06</span><span class="nm">Zaku II</span><span class="st">PLOTTING</span></div>
+        <div class="qrow"><span class="code">MS-09</span><span class="nm">Dom</span><span class="st">QUEUED</span></div>
+        <div class="qrow"><span class="code">RX-77</span><span class="nm">Guncannon</span><span class="st">QUEUED</span></div>
+        <div class="qrow done"><span class="code">MA-08</span><span class="nm">Big Zam</span><span class="st">SIGNED</span></div>
+        <div class="qrow done"><span class="code">MSM-07</span><span class="nm">Z'Gok</span><span class="st">SHIPPED</span></div>
+        <div class="qrow done"><span class="code">RX-78GP02</span><span class="nm">GP-02A</span><span class="st">SHIPPED</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="shop">
+    <div class="hd"><h2>THE WORK<i>*</i></h2><span>6 EDITIONS · LIMITED TO 25 · SIGNED &amp; NUMBERED</span></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer>
+    <span>© 2026 PLOTFLOW* · PLOTTED IN THE U.S.A.</span>
+    <span>マシンドロー · DRAWN BY MACHINE</span>
+  </footer>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, ORDER = window.PLOTFLOW.shopOrder;
+  function suitSvg(key, stroke, w){
+    const s = S[key];
+    return `<svg viewBox="0 0 ${s.w} ${s.h}" preserveAspectRatio="xMidYMid meet">
+      <path d="${s.d}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round"/></svg>`;
+  }
+  // hero bed
+  const z = S['zaku'];
+  document.getElementById('stageSvg').outerHTML =
+    `<svg viewBox="0 0 ${z.w} ${z.h}"><path d="${z.d}" fill="none" stroke="#e8351f" stroke-width="2"/></svg>`;
+  // cards
+  document.getElementById('cards').innerHTML = ORDER.map((k,i)=>{
+    const s=S[k];
+    return `<div class="card">
+      <div class="top"><span>№ PF-${String(10+i)}</span><span>${s.edition.split('·')[0].trim()}</span></div>
+      ${suitSvg(k, '#c3c5b8', 2)}
+      <div class="meta">
+        <div class="nm"><b>${s.name}</b><span>${s.code} · ${s.jp}</span></div>
+        <button>ACQUIRE</button>
+      </div>
+    </div>`;
+  }).join('');
+</script>
+</body></html>
