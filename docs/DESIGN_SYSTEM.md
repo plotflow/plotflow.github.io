@@ -11,7 +11,7 @@ Aesthetic: **washed/muted ground · bold white grotesque · Japanese · halftone
 | | |
 |---|---|
 | **Name / wordmark** | `PLOTFLOW*` — always all-caps, **one color** (the `*` is the only red). Katakana: プロットフロー |
-| **Tagline** | *Drawn, not printed.* |
+| **Tagline** | *Drawn by machine.* |
 | **Motto (JP)** | マシンドロー (*machine-draw*) · "Drawn by machine" |
 | **Marks** | est. 2026 · plotted in the U.S.A. · signed + numbered |
 | **Voice** | Confident, technical, a little cryptic. Machine-precise meets hand-made-scarce. Never corporate, never cute. |
@@ -72,7 +72,7 @@ The centerpiece. Muted ground (`linear-gradient` + `radial-gradient`) + `.grain`
 - `.pbar` + `.dock` — progress bar + controls (suit `select`, play/pause, restart, skip, speed segmented control).
 
 ### Manifesto  `.mani`
-Ink ground, "Drawn, not printed." + a JP line + a short paragraph.
+Ink ground, "Drawn by machine." + a JP line + a short paragraph.
 
 ### Shop  `.shop#shop`
 `.shop-head` ("THE WORK* / 作品") + `#grid` (filled by `shop.js`).

@@ -21,6 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/styles.css">
+<link rel="stylesheet" href="styles/console.css">
 <meta name="description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
 <link rel="canonical" href="https://plotflow.io/">
 <meta name="theme-color" content="#43463e">
@@ -38,35 +39,47 @@
 </head>
 <body>
 
-<nav><div class="nav-in">
-  <a href="/" class="brand">Plotflow<i>*</i></a>
-  <div style="display:flex;align-items:center;gap:16px">
-    <div class="nav-links"><a href="#shop">The Work</a><a href="#process">Process</a><a href="#feature">Live Plot</a></div>
+<!-- CONSOLE BAR -->
+<header class="pf-bar">
+  <a href="/" class="brand">PLOTFLOW<i>*</i></a>
+  <span class="pf-job">CONSOLE · PLOTTING <b id="pfJobCode">—</b> · LIVE SIMULATION</span>
+  <div class="pf-nav">
+    <a href="#shop">Current Editions</a><a href="#process">Process</a><a href="about.html">Studio</a>
     <button class="cart">Cart [0]</button>
   </div>
-</div></nav>
+</header>
 
-<!-- HERO / LIVE PLOT FEATURE -->
-<header class="hero" id="feature">
-  <div class="grain"></div><div class="scan"></div>
-  <div class="halftone ht1"></div>
+<!-- WORKSPACE / LIVE PLOT -->
+<section class="pf-ws" id="feature">
+  <aside class="pf-side">
+    <div class="pf-tabs"><span>SCENE</span><span class="on">PLOT</span><span>QUEUE</span><span>LOG</span></div>
 
-  <div class="hero-head">
-    <h1>PLOTFLOW<span class="s">*</span></h1>
-    <div class="sub">independent pen-plotter studio <b>//</b> mobile suit editions, drawn by machine <b>//</b> プロットフロー</div>
-  </div>
+    <div class="pf-sec">
+      <h5>EDITION QUEUE · <span class="jp">作品</span></h5>
+      <div id="pfQueue"></div>
+    </div>
 
-  <div class="hud num">
-    <div class="k">Progress</div><div class="row"><span id="pct">0</span><small>%</small></div>
-    <div class="k" style="margin-top:10px">Ink drawn</div><div class="row"><span id="ink">0.00</span><small>/ <span id="inktot">0.00</span> m</small></div>
-    <div class="k" style="margin-top:10px">Plot time</div><div class="row"><span id="elapsed">00:00</span><small>/ <span id="total">00:00</span></small></div>
-    <div class="k" style="margin-top:10px">Position</div><div class="row"><span id="cx">000</span> · <span id="cy">000</span><small>mm</small></div>
-  </div>
+    <div class="pf-sec">
+      <h5>SPEED · SIMULATION</h5>
+      <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+      <p class="pf-note" id="simx"></p>
+      <p class="pf-note">SIMULATION PACE ONLY — THE REAL PLOT TIME SHOWS IN THE LIVE PLOT CARD.</p>
+    </div>
 
-  <div class="stage-area">
+    <div class="pf-sec pf-machine">
+      <h5>MACHINE STATE · <b>PLOTTING</b></h5>
+      <button class="pf-big" id="play">Pause</button>
+      <div class="pf-row2"><button class="pf-btn" id="restart">Restart</button><button class="pf-btn" id="skip">Skip ▸︎▸︎</button></div>
+    </div>
+
+    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
+  </aside>
+
+  <div class="pf-stage">
     <div class="bed" id="bed">
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
+      <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
       <canvas id="pcanvas"></canvas>
       <svg id="stage" viewBox="0 0 1493 801" preserveAspectRatio="xMidYMid meet">
         <path id="ppath" d=""></path>
@@ -75,34 +88,39 @@
           <path id="pen-x" d="" stroke="#15140f" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
         </g>
       </svg>
+      <div class="pf-cap">
+        <h2 class="jpcap">マシンドロー</h2>
+        <p>DRAWN BY MACHINE · EST. 2026</p>
+      </div>
       <div class="replay" id="replay"><span>▶&#xFE0E; Plot again</span></div>
     </div>
-  </div>
 
-  <div class="hero-jp">
-    <div class="k jp">マシンドロー</div>
-    <div class="e">Drawn by machine</div>
+    <aside class="pf-card">
+      <div class="hd"><b>LIVE PLOT*</b><span>MACHINE</span></div>
+      <div class="big"><label>PROGRESS</label><b><span id="pct">0</span><i>%</i></b></div>
+      <div class="pbar"><b id="pbar"></b></div>
+      <div class="grid">
+        <div><label>INK LAID</label><b><span id="ink">0.00</span><i>/ <span id="inktot">0.00</span> m</i></b></div>
+        <div><label>POSITION</label><b><span id="cx">000</span> · <span id="cy">000</span><i>mm</i></b></div>
+        <div><label>ELAPSED</label><b><span id="elapsed">00:00</span></b></div>
+        <div><label>PLOT TIME</label><b><span id="total">00:00</span></b></div>
+      </div>
+      <div class="ft"><span>PEN-UP TRAVEL</span><span>SIMULATED ON SHEET</span></div>
+    </aside>
   </div>
-  <div class="hero-collab">[ LIVE PLOT<span class="star">*</span> ]</div>
-  <span class="ast-bug ast"><svg viewBox="0 0 100 100"><line x1="50" y1="6" x2="50" y2="94"/><line x1="6" y1="50" x2="94" y2="50"/><line x1="19" y1="19" x2="81" y2="81"/><line x1="81" y1="19" x2="19" y2="81"/></svg></span>
-
-  <div class="pbar"><b id="pbar"></b></div>
-  <div class="dock">
-    <div class="selwrap"><select id="suit"></select></div>
-    <button class="btn pri" id="play">Pause</button>
-    <button class="btn" id="restart">Restart</button>
-    <button class="btn" id="skip">Skip ▸︎▸︎</button>
-    <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
-    <span class="tiny" id="simx" style="color:var(--dim);letter-spacing:.08em;align-self:center"></span>
-  </div>
-</header>
+</section>
+<div class="pf-status">
+  <span>PEN 0.3 MM · RED</span><span>FEED 1100 MM/MIN</span><span>SHEET 11×14″ BRISTOL</span>
+  <span class="sp"></span>
+  <span>AXIDRAW · SIMULATED</span><span class="jp">マシンドロー</span>
+</div>
 
 <!-- MANIFESTO -->
 <section class="mani">
   <div class="grain"></div>
   <div class="wrap mani-in">
-    <div><h2>Drawn,<br>not printed<span class="star">.</span></h2><div class="jp">マシンドロー</div></div>
-    <p>Each Universal-Century mobile suit is rebuilt as a vector drawing and traced in ink by an AxiDraw plotter on Strathmore Bristol. No printing. Every impression is unique to its edition, signed and numbered.</p>
+    <div><h2>Drawn by<br>machine<span class="star">.</span></h2><div class="jp">マシンドロー</div></div>
+    <p>Each Universal-Century mobile suit is rebuilt as a vector drawing and traced in ink by an AxiDraw plotter on Strathmore Bristol. Every impression is unique to its edition, signed and numbered.</p>
   </div>
 </section>
 
@@ -111,7 +129,7 @@
   <div class="grain"></div>
   <div class="wrap">
     <div class="shop-head">
-      <h2>The Work<span class="star">*</span></h2><span class="jp">作品</span>
+      <h2>Current Editions<span class="star">*</span></h2><span class="jp">作品</span>
       <div class="meta tiny">Limited editions, made to order. Minor variation in line + ink is a feature of the medium.</div>
     </div>
     <div class="grid" id="grid"></div>
@@ -168,6 +186,32 @@
 <script src="scripts/stock.js"></script>
 <script src="scripts/shop.js"></script>
 <script src="scripts/plotter.js"></script>
+<script>
+  // Sidebar edition queue — drives the same #suit select plotter.js listens to.
+  (function () {
+    var sel = document.getElementById('suit'), box = document.getElementById('pfQueue');
+    var job = document.getElementById('pfJobCode');
+    if (!sel || !box || !window.PLOTFLOW) return;
+    var S = PLOTFLOW.suits, ORDER = PLOTFLOW.plotterOrder || Object.keys(S);
+    function draw() {
+      box.innerHTML = ORDER.map(function (k) {
+        var s = S[k], on = sel.value === k;
+        return '<button class="pf-q' + (on ? ' on' : '') + '" data-k="' + k + '">' +
+          '<span class="code">' + s.code + '</span><span class="nm">' + s.name + '</span>' +
+          '<span class="st">' + (on ? 'PLOTTING' : 'AVAILABLE') + '</span></button>';
+      }).join('');
+      if (job && S[sel.value]) job.textContent = S[sel.value].code;
+    }
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.pf-q'); if (!b) return;
+      sel.value = b.dataset.k;
+      sel.dispatchEvent(new Event('change'));
+      draw();
+    });
+    sel.addEventListener('change', draw);
+    draw();
+  })();
+</script>
 <script src="scripts/newsletter.js"></script>
 <script src="scripts/cart.js"></script>
 </body>

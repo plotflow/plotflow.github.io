@@ -409,7 +409,7 @@ def post_brand(variant='dark'):
     d.text((80*SS, 430*SS), 'マシンドロー', font=f_jp_big, fill=fg+(80,) if variant=='dark' else fg+(60,))
 
     # body text
-    body = "Universal-Century mobile suits, redrawn as vector line work and traced in pigment ink on archival paper by an AxiDraw plotter. Nothing is printed. Every impression is drawn."
+    body = "Universal-Century mobile suits, redrawn as vector line work and traced in pigment ink on archival paper by an AxiDraw plotter. Every impression is drawn to order."
     lines = wrap(d, body, f_body, 700*SS)
     y = 560*SS
     for ln in lines:
