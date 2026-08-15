@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · Datasheet direction</title>
+<style>
+  :root{
+    --paper:#f7f5ee; --ink:#191a14; --dim:#83857a; --line:#d8d4c6; --red:#c93b22;
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif; --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.7}
+  .doc{max-width:960px;margin:0 auto;padding:0 40px}
+  /* datasheet masthead */
+  .mast{display:flex;justify-content:space-between;align-items:flex-end;
+    border-bottom:2px solid var(--ink);padding:34px 0 14px}
+  .mast .brand{font-weight:700;font-size:22px;letter-spacing:.01em}
+  .mast .brand i{color:var(--red);font-style:normal}
+  .mast .meta{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:right;line-height:1.9}
+  .titleblock{display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--line);padding:14px 0}
+  .titleblock h1{font-weight:400;font-size:15px}
+  .titleblock nav{display:flex;gap:22px;font-size:12px;color:var(--dim)}
+  .titleblock nav a{text-decoration:none;color:inherit}
+  section{padding:30px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:13.5px;font-weight:700;margin-bottom:10px}
+  h2 .n{font-family:var(--mono);font-weight:400;color:var(--red);margin-right:12px}
+  section p{max-width:620px;color:#3c3e34;margin-bottom:8px}
+  /* editions table */
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px}
+  th{font-family:var(--mono);font-size:10px;font-weight:400;text-align:left;color:var(--dim);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--line);padding:8px 12px 8px 0}
+  td{border-bottom:1px solid var(--line);padding:10px 12px 10px 0;vertical-align:middle}
+  .num{font-family:var(--mono);font-size:11px;text-align:right;padding-right:26px}
+  td svg{width:40px;height:46px}
+  td svg path{fill:none;stroke:var(--ink);stroke-width:2.6}
+  td b{font-weight:700}
+  td .jp{color:var(--dim);font-size:11.5px;margin-left:7px}
+  .avail{font-family:var(--mono);font-size:10px;color:var(--red)}
+  /* two-col spec lists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:820px}
+  dl{font-size:12.5px}
+  dt{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px}
+  dd{margin:1px 0 0}
+  /* ordering steps as plain numbered rows */
+  ol{max-width:620px;margin:10px 0 0 16px;color:#3c3e34}
+  ol li{margin-bottom:6px}
+  .docfoot{display:flex;justify-content:space-between;font-family:var(--mono);
+    font-size:10px;color:var(--dim);padding:20px 0 46px}
+</style></head>
+<body>
+<div class="doc">
+  <div class="mast">
+    <span class="brand">PLOTFLOW<i>*</i></span>
+    <div class="meta">DOCUMENT PF-100 · REV C<br>2026-08 · プロットフロー</div>
+  </div>
+  <div class="titleblock">
+    <h1>Machine-drawn editions — Universal-Century mobile suits</h1>
+    <nav><a href="#s3">Editions</a><a href="#s2">Method</a><a href="#s5">Ordering</a><a href="#">Cart — 0</a></nav>
+  </div>
+
+  <section id="s1">
+    <h2><span class="n">1.0</span>Scope</h2>
+    <p>PLOTFLOW produces pen-plotted drawings of Universal-Century mobile suits. Each copy
+    is drawn individually by machine, in ink, on archival paper. This document describes the
+    current editions, the drawing method, and how to order.</p>
+  </section>
+
+  <section id="s2">
+    <h2><span class="n">2.0</span>Method</h2>
+    <p>2.1 — The subject is rebuilt as vector line work and compiled to a stroke program.</p>
+    <p>2.2 — An AxiDraw plotter executes the program with a Staedtler Triplus 0.3 mm
+    pigment fineliner on Strathmore Bristol 300, 11×14 in. Pen-down feed is 1100 mm/min.</p>
+    <p>2.3 — Ink laydown varies with temperature, humidity, and feed. Copies within an
+    edition therefore differ in line weight and saturation. No correction is applied.</p>
+    <p>2.4 — Finished sheets are inspected, signed, and numbered by hand.</p>
+  </section>
+
+  <section id="s3">
+    <h2><span class="n">3.0</span>Current editions</h2>
+    <table>
+      <thead><tr>
+        <th style="width:52px"></th><th>Designation</th><th>Code</th>
+        <th class="num">Ink, m</th><th class="num">Strokes</th><th class="num">Vertices</th>
+        <th class="num">Plot time</th><th>Availability</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px">
+      Plot time includes pen-up travel (6600 mm/min) and 0.10 s per pen lift. Values are
+      computed from the stroke program, not estimated.</p>
+  </section>
+
+  <section id="s4">
+    <h2><span class="n">4.0</span>Materials</h2>
+    <div class="cols">
+      <dl>
+        <dt>PAPER</dt><dd>Strathmore 300 Series Bristol, smooth, 270 gsm, 11×14 in</dd>
+        <dt>INK</dt><dd>Staedtler Triplus 0.3 mm fineliner, pigment-based, lightfast</dd>
+      </dl>
+      <dl>
+        <dt>MACHINE</dt><dd>AxiDraw pen plotter; travel 430×297 mm</dd>
+        <dt>FINISHING</dt><dd>Inspected, signed, numbered; unframed</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="n">5.0</span>Ordering</h2>
+    <ol>
+      <li>Each copy is plotted after the order is placed. Allow 2–3 weeks before dispatch.</li>
+      <li>Shipping: free within the U.S.; flat $20 international. Taxes at checkout.</li>
+      <li>Copies damaged in transit are replaced at no cost.</li>
+      <li>To be notified when an edition is released or restocked, leave an email address.
+      It is used for that purpose only.</li>
+    </ol>
+  </section>
+
+  <div class="docfoot">
+    <span>PLOTFLOW · plotted in the U.S.A. · est. 2026</span>
+    <span>PF-100 REV C · page 1 of 1</span>
+  </div>
+</div>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, ORDER = window.PLOTFLOW.shopOrder;
+  function stats(s){
+    const re=/([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+    let m,px=null,py=null,draw=0,travel=0,lifts=0,verts=0;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    while((m=re.exec(s.d))!==null){
+      const x=+m[2],y=+m[3]; verts++;
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+      if(m[1]==='M'){ if(px!==null){travel+=Math.hypot(x-px,y-py);lifts++;} }
+      else if(px!==null){ draw+=Math.hypot(x-px,y-py); }
+      px=x;py=y;
+    }
+    const mm=420/Math.max(maxx-minx,maxy-miny);
+    return {ink:(draw*mm/1000), min:(draw*mm)/1100+(travel*mm)/6600+lifts*0.10/60,
+            strokes:lifts+1, verts, bb:[minx,miny,maxx-minx,maxy-miny]};
+  }
+  const fmt=n=>{const s2=Math.round(n*60);return Math.floor(s2/60)+':'+String(s2%60).padStart(2,'0')};
+  document.getElementById('tbody').innerHTML = ORDER.map(k=>{
+    const s=S[k], t=stats(s), p=t.bb[2]*0.05;
+    const ed=s.edition.split('·')[0].trim().replace('ED. ','');
+    return `<tr>
+      <td><svg viewBox="${t.bb[0]-p} ${t.bb[1]-p} ${t.bb[2]+2*p} ${t.bb[3]+2*p}"
+        preserveAspectRatio="xMidYMid meet"><path d="${s.d}"/></svg></td>
+      <td><b>${s.name}</b><span class="jp">${s.jp}</span></td>
+      <td style="font-family:var(--mono);font-size:11px">${s.code}</td>
+      <td class="num">${t.ink.toFixed(1)}</td>
+      <td class="num">${t.strokes.toLocaleString()}</td>
+      <td class="num">${t.verts.toLocaleString()}</td>
+      <td class="num">${fmt(t.min)}</td>
+      <td><span class="avail">${ed} available</span></td>
+    </tr>`;
+  }).join('');
+</script>
+</body></html>
