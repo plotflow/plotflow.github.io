@@ -130,3 +130,6 @@
   .pf-stage #pcanvas,.pf-stage #stage{inset:34px 16px 40px}
   .pf-job{display:none}
 }
+
+/* JP caption lockup on the sheet (replaces the retired tagline) */
+.pf-cap h2.jpcap{font-family:var(--jp);font-weight:900;letter-spacing:.02em}

@@ -218,7 +218,7 @@ BRAND_CAPTION = (
     "PLOTFLOW* — マシンドロー, drawn by machine.\n\n"
     "Universal-Century mobile suits, redrawn as vector line work and "
     "traced in pigment ink on archival paper by an AxiDraw plotter. "
-    "Nothing is printed. Every impression is drawn.\n\n"
+    "Every impression is drawn to order.\n\n"
     "Made to order · signed & numbered · plotflow.io"
 )
 

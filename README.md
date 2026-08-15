@@ -16,7 +16,7 @@ This repository is the PlotFlow homepage — a no-build static site (plain HTML/
 
 ## The work
 
-- **Drawn, not printed** — technical pen on 300gsm archival stock, never a print
+- **Technical pen on archival stock** — Staedtler fineliner on 300gsm Bristol
 - **Drawn by machine** — an AxiDraw traces every stroke, pen up and pen down
 - **Limited editions** — made to order, signed and numbered
 - Variation in line and ink is a feature of the medium, not a flaw
