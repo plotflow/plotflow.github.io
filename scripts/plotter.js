@@ -28,7 +28,9 @@
   var LIFT_S = 0.10;       // seconds per pen lift+lower cycle (servo up + down)
   // Plot time = draw + pen-up travel + lift cycles — tuned against PlotGrid
   // actuals (~0.45 s/stroke incl. overhead), not just ink-length ÷ feed.
-  var BASE = 36;     // seconds for a full plot at 1x speed
+  var BASE = 30;     // seconds the simulation runs at 1x watch speed —
+                     // the machine-speed multiplier shown in the dock is
+                     // derived from the real plot time (≈ x45–x60)
   var INK = '#e8351f';
   var cur, len = 1, drawn = 0, painted = 0, playing = true, speed = 1, mmPerUnit = 1, totalMin = 1;
   var vb = { x: 0, y: 0, w: 1, h: 1 };
@@ -141,6 +143,7 @@
     totalMin = (st.draw * mmPerUnit) / FEED
              + (st.travel * mmPerUnit) / TRAVEL_FEED
              + (st.lifts * LIFT_S) / 60;
+    updateSimX();
     penC.setAttribute('r', md * 0.014);
     penX.setAttribute('d', 'M ' + (-md * 0.032) + ' 0 H ' + (md * 0.032) + ' M 0 ' + (-md * 0.032) + ' V ' + (md * 0.032));
     pen.setAttribute('opacity', '0');
@@ -184,6 +187,14 @@
     if (playBtn) playBtn.textContent = 'Pause';
   }
 
+  // honest speed disclosure: the sim runs the real plot in BASE/speed seconds
+  function updateSimX() {
+    var el = $('simx');
+    if (!el || !totalMin) return;
+    var x = Math.round((totalMin * 60) / (BASE / speed));
+    el.textContent = 'SIM \u2248 \u00d7' + x + ' machine speed';
+  }
+
   var last = null;
   function frame(t) {
     if (last == null) last = t;
@@ -213,6 +224,7 @@
     var b = e.target.closest('button'); if (!b) return;
     [].forEach.call(e.currentTarget.children, function (x) { x.classList.remove('on'); });
     b.classList.add('on'); speed = parseFloat(b.dataset.s);
+    updateSimX();
   });
   if (selSuit) selSuit.addEventListener('change', function (e) { load(e.target.value); });
   if (replay) replay.addEventListener('click', restart);

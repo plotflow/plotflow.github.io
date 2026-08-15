@@ -101,7 +101,7 @@
   function makePreview(s, inkHex) {
     var svg = $("pdSvg"), path = $("pdPath"), canvas = $("pdCanvas"), replay = $("pdReplay");
     var ctx = canvas.getContext("2d");
-    var BASE = 18;                 // seconds for a full preview plot
+    var BASE = 18;                 // seconds for a full preview plot (product page keeps a quicker cut)
     var ink = inkHex;
     var len = 1, drawn = 0, painted = 0, playing = true, last = null;
     var vb = { x: 0, y: 0, w: s.w || 1, h: s.h || 1 };
