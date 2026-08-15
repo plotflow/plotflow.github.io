@@ -98,7 +98,7 @@ Style guidelines:
 - Tone: {SETTINGS['ai']['tone']}
 - Keep it concise (2-4 sentences)
 - Include both English and Japanese elements
-- Emphasize the unique "one continuous line" (一筆書き) technique
+- Emphasize マシンドロー — drawn by machine, stroke by stroke, never printed
 - Mention it's machine-drawn by an AxiDraw plotter
 - Make it compelling for art collectors and Gundam fans
 
@@ -120,17 +120,17 @@ Do not include hashtags in the caption (those are added separately).
         """Template-based caption generation as fallback."""
         templates = {
             "showcase": [
-                f"{edition['code']} — {edition['name']}\n{edition['name_jp']}\n\n{edition['description']}\n\nDrawn by machine. One continuous line. Limited edition.",
-                f"一筆書き — One unbroken line.\n\n{edition['name']} ({edition['code']}), rebuilt as a single continuous path and traced in ink by an AxiDraw plotter.\n\nEvery line, every detail — machine precision meets artistic vision.",
+                f"{edition['code']} — {edition['name']}\n{edition['name_jp']}\n\n{edition['description']}\n\nDrawn by machine. Never printed. Limited edition.",
+                f"マシンドロー — drawn by machine.\n\n{edition['name']} ({edition['code']}), traced stroke by stroke in ink by an AxiDraw plotter.\n\nEvery line, every detail — machine precision meets artistic vision.",
                 f"{edition['name_jp']}\n{edition['name']} · {edition['code']}\n\n{edition['description']}\n\n{edition['price']} · {edition['edition']} · Plotted to order"
             ],
             "process": [
-                f"Watch {edition['name']} come to life.\n\nEach piece starts as one continuous vector path — no pen lifts, no breaks. The AxiDraw traces it line by line in technical pen on archival paper.\n\n{edition['code']} · {edition['name_jp']} · Machine drawn",
-                f"The process: hours of precision.\n\n{edition['name']} plotted in real-time. A single unbroken line becomes form. Ink meets paper. Machine meets art.\n\n一筆書き · {edition['code']}"
+                f"Watch {edition['name']} come to life.\n\nEach piece starts as precise vector line work. The AxiDraw traces it line by line in technical pen on archival paper.\n\n{edition['code']} · {edition['name_jp']} · Machine drawn",
+                f"The process: hours of precision.\n\n{edition['name']} plotted in real-time. Stroke by stroke, ink becomes form. Ink meets paper. Machine meets art.\n\nマシンドロー · {edition['code']}"
             ],
             "behind_scenes": [
                 f"In the studio with {edition['code']}.\n\nStrathmore Bristol smooth, Staedtler Triplus 0.3mm fineliner, AxiDraw V3. Every piece drawn to order, inspected, signed, numbered.\n\n{edition['name']} · {edition['name_jp']}",
-                f"Material matters.\n\nTechnical pen on archival paper. The AxiDraw follows the path with mechanical precision, but ink flow, temperature, and humidity mean no two plots are identical.\n\n{edition['code']} · One continuous line"
+                f"Material matters.\n\nTechnical pen on archival paper. The AxiDraw follows the path with mechanical precision, but ink flow, temperature, and humidity mean no two plots are identical.\n\n{edition['code']} · Drawn by machine"
             ]
         }
 

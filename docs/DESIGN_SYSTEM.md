@@ -1,6 +1,6 @@
 # PLOTFLOW — Design System
 
-A small studio selling **pen-plotter (AxiDraw) line drawings of Universal-Century mobile suits** — each rebuilt as a single continuous line and drawn in red ink on archival paper, signed + numbered. *Plotted, not printed.* est. 2026.
+A small studio selling **pen-plotter (AxiDraw) line drawings of Universal-Century mobile suits** — each redrawn as vector line work and drawn in red ink on archival paper, signed + numbered. *Plotted, not printed.* est. 2026.
 
 Aesthetic: **washed/muted ground · bold white grotesque · Japanese · halftone + asterisk**, with an interactive **Live Plot** hero that draws the suit in front of you. This document is the source of truth for tokens, components, and rules. (`tokens.json` is the machine-readable mirror; `tokens.css` is what the site consumes.)
 
@@ -12,7 +12,7 @@ Aesthetic: **washed/muted ground · bold white grotesque · Japanese · halftone
 |---|---|
 | **Name / wordmark** | `PLOTFLOW*` — always all-caps, **one color** (the `*` is the only red). Katakana: プロットフロー |
 | **Tagline** | *Drawn, not printed.* |
-| **Motto (JP)** | 一筆書き (*ichi-fude-gaki*, "single-stroke drawing") · "One continuous line" |
+| **Motto (JP)** | マシンドロー (*machine-draw*) · "Drawn by machine" |
 | **Marks** | est. 2026 · plotted in the U.S.A. · signed + numbered |
 | **Voice** | Confident, technical, a little cryptic. Machine-precise meets hand-made-scarce. Never corporate, never cute. |
 
@@ -68,7 +68,7 @@ The centerpiece. Muted ground (`linear-gradient` + `radial-gradient`) + `.grain`
 - `.hero-head` — `h1` display wordmark + `//`-style `.sub`.
 - `.stage-area > .bed` — the **paper sheet**; holds `#stage` (the SVG: `#ppath` + `#pen`) and the `.replay` overlay. **The bed must have a definite width** (`width:min(62%,640px)`) or it collapses.
 - `.hud` — live readouts (progress, ink-m, plot-time, position), top-right.
-- `.hero-jp` / `.hero-collab` / `.ast-bug` — the lower-left 一筆書き lockup, `[ LIVE PLOT* ]`, floating asterisk.
+- `.hero-jp` / `.hero-collab` / `.ast-bug` — the lower-left マシンドロー lockup, `[ LIVE PLOT* ]`, floating asterisk.
 - `.pbar` + `.dock` — progress bar + controls (suit `select`, play/pause, restart, skip, speed segmented control).
 
 ### Manifesto  `.mani`

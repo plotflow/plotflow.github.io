@@ -215,8 +215,8 @@ EDITIONS_FILE = SCRIPT_DIR.parent / 'data' / 'editions.js'
 CARD_TYPES = ['process', 'lore', 'spec', 'drop']
 
 BRAND_CAPTION = (
-    "PLOTFLOW* — 一筆書き, one continuous line.\n\n"
-    "Universal-Century mobile suits, rebuilt as continuous vector paths and "
+    "PLOTFLOW* — マシンドロー, drawn by machine.\n\n"
+    "Universal-Century mobile suits, redrawn as vector line work and "
     "traced in pigment ink on archival paper by an AxiDraw plotter. "
     "Nothing is printed. Every impression is drawn.\n\n"
     "Made to order · signed & numbered · plotflow.io"

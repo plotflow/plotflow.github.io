@@ -6,7 +6,7 @@ Renders to  mockups/  so you can thumbs-up/down before any of these graduate
 into tools/gen_posts.py. Run from the repo root:  python tools/gen_concepts.py
 
 Concepts:
-  A  gradient   — the path colored start→end to *prove* it's one continuous line
+  A  gradient   — the path colored start→end to show the draw order
   B  blueprint  — dark technical schematic, cyan on navy, grid + reg marks
   C  macro      — extreme abstract crop of the linework, gallery-object energy
   D  roster     — all six suits as a contact-sheet collection poster
@@ -109,7 +109,7 @@ def concept_gradient(key, dark=False):
     lx, ly, lw = 90*SS, C-120*SS, 380*SS
     for i in range(int(lw)):
         d.line([(lx+i, ly), (lx+i, ly+10*SS)], fill=grad(stops, i/lw), width=1)
-    d.text((lx, ly-26*SS), 'ONE CONTINUOUS LINE', font=F(BOLD, 13*SS), fill=fg)
+    d.text((lx, ly-26*SS), 'COLORED IN DRAW ORDER', font=F(BOLD, 13*SS), fill=fg)
     d.text((lx, ly+18*SS), 'START', font=F(REG, 10*SS), fill=DIM)
     ew = d.textlength('END', font=F(REG, 10*SS))
     d.text((lx+lw-ew, ly+18*SS), 'END', font=F(REG, 10*SS), fill=DIM)
@@ -140,7 +140,7 @@ def concept_blueprint(key):
     jw = d.textlength('マシンドロー', font=F(JP, 13*SS))
     d.text((C-60*SS-jw, 50*SS), 'マシンドロー', font=F(JP, 13*SS), fill=CYAN+(150,))
     # bottom data line
-    d.text((60*SS, C-70*SS), f"CONTINUOUS PATH · {sum(len(x) for x in sp):,} VERTICES · 11×14″", font=F(REG, 12*SS), fill=CYAN+(160,))
+    d.text((60*SS, C-70*SS), f"DRAWN BY MACHINE · {sum(len(x) for x in sp):,} VERTICES · 11×14″", font=F(REG, 12*SS), fill=CYAN+(160,))
     brand(d, (C-60*SS-d.textlength('PLOTFLOW*', font=F(BOLD, 14*SS)), C-72*SS), CYAN)
     img.resize((S, S), Image.LANCZOS).save(f'{OUT}/concept-{key}-blueprint.png')
     print(f'  blueprint {key}')
@@ -163,7 +163,7 @@ def concept_macro(key):
     d.text((60*SS, C-74*SS), label, font=F(BOLD, 18*SS), fill=INK)
     lw = d.textlength(label, font=F(BOLD, 18*SS))
     d.text((60*SS+lw, C-73*SS), s.get('jp', ''), font=F(JP, 16*SS), fill=INK)  # JP font ⇒ no tofu
-    d.text((60*SS, C-44*SS), 'DETAIL · ONE CONTINUOUS LINE', font=F(REG, 11*SS), fill=DIM)
+    d.text((60*SS, C-44*SS), 'DETAIL · DRAWN BY MACHINE', font=F(REG, 11*SS), fill=DIM)
     brand(d, (C-60*SS-d.textlength('PLOTFLOW*', font=F(BOLD, 14*SS)), C-70*SS), INK+(120,))
     img.resize((S, S), Image.LANCZOS).save(f'{OUT}/concept-{key}-macro.png')
     print(f'  macro {key}')

@@ -9,7 +9,7 @@ Automated Instagram content generation and posting system for PlotFlow artwork.
 - **Smart Scheduling**: Distributes posts across optimal times
 - **Full Instagram API Integration**: Automated posting of images, videos, and carousels
 - **Post Type Variety**: Showcases, process videos, and behind-the-scenes content
-- **Bilingual**: English and Japanese (一筆書き) content
+- **Bilingual**: English and Japanese (マシンドロー) content
 - **Queue Management**: Track posted, pending, and failed posts
 
 ## 📋 Prerequisites
@@ -232,7 +232,7 @@ marketing/
 
 **Process (30%)**: Timelapse videos
 - Shows the plotter in action
-- One continuous line being drawn
+- Stroke by stroke, drawn in real time
 - Mesmerizing machine art
 
 **Behind-the-Scenes (20%)**: Studio content
@@ -246,7 +246,7 @@ marketing/
 - **Minimum 3 hours** between posts
 - **7 days a week** coverage
 - **Smart hashtags**: 20 relevant tags per post
-- **Bilingual content**: English + Japanese (一筆書き)
+- **Bilingual content**: English + Japanese (マシンドロー)
 
 ## 🔧 Customization
 
@@ -276,7 +276,7 @@ Edit `config/settings.json`:
 {
   "content": {
     "hashtags": {
-      "core": ["#plotflow", "一筆書き", "#penplotter"],
+      "core": ["#plotflow", "マシンドロー", "#penplotter"],
       "art": ["#gundam", "#mobilesuit", ...],
       "process": ["#plotter", "#axidraw", ...],
       "product": ["#limitedEdition", ...]
@@ -336,4 +336,4 @@ Check `content/post_history.json` for analytics:
 
 ---
 
-**Built for PlotFlow** · 一筆書き · Machine-drawn art automation
+**Built for PlotFlow** · マシンドロー · Machine-drawn art automation

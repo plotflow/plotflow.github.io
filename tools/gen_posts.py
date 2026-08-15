@@ -255,11 +255,11 @@ def post_lore(key):
         d.text((200*SS, y), val, font=f_spec, fill=INK+(160,))
         y += 22*SS
 
-    # signature: one continuous line (no price — gallery, not storefront)
+    # signature: drawn by machine (no price — gallery, not storefront)
     f_sig_jp = ImageFont.truetype(JP, 26*SS)
-    d.text((90*SS, C-116*SS), '一筆書き', font=f_sig_jp, fill=RED)
+    d.text((90*SS, C-116*SS), 'マシンドロー', font=f_sig_jp, fill=RED)
     f_sig_en = ImageFont.truetype(REG, 12*SS)
-    d.text((90*SS, C-74*SS), 'ONE CONTINUOUS LINE', font=f_sig_en, fill=DIM)
+    d.text((90*SS, C-74*SS), 'DRAWN BY MACHINE', font=f_sig_en, fill=DIM)
 
     # brand bottom-right
     f_brand = ImageFont.truetype(BOLD, 16*SS)
@@ -277,7 +277,7 @@ def post_spec(key):
     s = SUITS[key]
     sp = parse_path(s['d']); bb = bbox(sp)
     segs, total = seg_lengths(sp)
-    npts = sum(len(x) for x in sp)   # vertices along the continuous path
+    npts = sum(len(x) for x in sp)   # vertices along the plotted path
     mm = 420 / max(bb[2]-bb[0], bb[3]-bb[1])
     ink_m = (total*mm)/1000
     plot_min = (total*mm)/1100
@@ -349,7 +349,7 @@ def post_spec(key):
     specs = [
         ('PAPER', 'Strathmore 300 Series Bristol, smooth'),
         ('PEN', 'Staedtler Triplus 0.3mm, pigment-based'),
-        ('PLOTTER', 'AxiDraw V3, continuous line path'),
+        ('PLOTTER', 'AxiDraw V3, drawn stroke by stroke'),
         ('FINISH', 'Inspected, signed, numbered by hand'),
     ]
     for label, val in specs:
@@ -399,7 +399,7 @@ def post_brand(variant='dark'):
     d.text((80*SS, 430*SS), 'マシンドロー', font=f_jp_big, fill=fg+(80,) if variant=='dark' else fg+(60,))
 
     # body text
-    body = "Universal-Century mobile suits, rebuilt as continuous vector paths and traced in pigment ink on archival paper by an AxiDraw plotter. Nothing is printed. Every impression is drawn."
+    body = "Universal-Century mobile suits, redrawn as vector line work and traced in pigment ink on archival paper by an AxiDraw plotter. Nothing is printed. Every impression is drawn."
     lines = wrap(d, body, f_body, 700*SS)
     y = 560*SS
     for ln in lines:
