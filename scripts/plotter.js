@@ -33,6 +33,8 @@
                      // derived from the real plot time (≈ x45–x60)
   var INK = '#e8351f';
   var cur, len = 1, drawn = 0, painted = 0, playing = true, speed = 1, mmPerUnit = 1, totalMin = 1;
+  var termBody = $('pfTermBody');           // command journal (homepage only)
+  var polys = [], strokes = [], termIdx = -1;   // parsed geometry + journal cursor
   var vb = { x: 0, y: 0, w: 1, h: 1 };
   var tf = { s: 1, ox: 0, oy: 0, dpr: 1, ready: false };
   var prevPt = null;
@@ -139,6 +141,26 @@
     len = ppath.getTotalLength(); if (!len || !isFinite(len)) len = 1;
     var md = Math.max(vb.w, vb.h);
     mmPerUnit = 420 / md;                 // longest side ≈ 420mm
+    // parse the raw path once: polylines for fast full-draw, stroke table
+    // (start/end/len/cumulative draw length) for the command journal
+    polys = []; strokes = []; termIdx = -1;
+    if (termBody) termBody.textContent = '';
+    (function () {
+      var re = /([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, m, curP = null;
+      while ((m = re.exec(cur.d)) !== null) {
+        var x = +m[2], y = +m[3];
+        if (m[1] === 'M') { curP = [[x, y]]; polys.push(curP); }
+        else if (curP) curP.push([x, y]);
+      }
+      var cum = 0;
+      for (var i = 0; i < polys.length; i++) {
+        var pl = polys[i], L = 0;
+        for (var j = 0; j < pl.length - 1; j++)
+          L += Math.hypot(pl[j+1][0]-pl[j][0], pl[j+1][1]-pl[j][1]);
+        cum += L;
+        strokes.push({ sx: pl[0][0], sy: pl[0][1], len: L, cum: cum });
+      }
+    })();
     var st = pathStats(cur.d);
     totalMin = (st.draw * mmPerUnit) / FEED
              + (st.travel * mmPerUnit) / TRAVEL_FEED
@@ -161,6 +183,7 @@
     if (!tf.ready) resetCanvas();   // self-heal if the bed wasn't laid out yet
     var p = drawn / len;
     paintTo(drawn);
+    updateJournal();
     if (pbar) pbar.style.width = (p * 100) + '%';
     if (pct) pct.textContent = Math.round(p * 100);
     if (ink) ink.textContent = (drawn * mmPerUnit / 1000).toFixed(2);
@@ -176,8 +199,48 @@
     }
   }
 
+  // Draw every stroke directly from the parsed polylines in one canvas pass —
+  // used by Skip and end-state refits, where sampling the whole path with
+  // getPointAtLength would stall the frame for ~a second.
+  function fastPaintAll() {
+    if (!tf.ready) resetCanvas();
+    if (!tf.ready) return;
+    ctx.beginPath();
+    for (var i = 0; i < polys.length; i++) {
+      var pl = polys[i];
+      ctx.moveTo(mapX(pl[0][0]), mapY(pl[0][1]));
+      for (var j = 1; j < pl.length; j++) ctx.lineTo(mapX(pl[j][0]), mapY(pl[j][1]));
+    }
+    ctx.stroke();
+    painted = len;
+    var lastP = polys.length ? polys[polys.length-1][polys[polys.length-1].length-1] : null;
+    prevPt = lastP ? { x: lastP[0], y: lastP[1] } : null;
+  }
+
+  // Command journal — emit pyaxidraw-style lines for the strokes just drawn.
+  function pad4(n) { return String(n).padStart(4, '0'); }
+  function updateJournal() {
+    if (!termBody || !strokes.length) return;
+    var lo = 0, hi = strokes.length - 1, idx = 0;   // first stroke with cum >= drawn
+    while (lo <= hi) { var mid = (lo + hi) >> 1;
+      if (strokes[mid].cum < drawn) { lo = mid + 1; } else { idx = mid; hi = mid - 1; } }
+    if (drawn >= len) idx = strokes.length - 1;
+    if (idx === termIdx) return;
+    termIdx = idx;
+    var out = [], from = Math.max(0, idx - 2);
+    for (var k = from; k <= idx; k++) {
+      var st2 = strokes[k];
+      out.push('ad.penup()                       z=+1');
+      out.push('ad.moveto(' + (st2.sx * mmPerUnit).toFixed(2) + ', ' + (st2.sy * mmPerUnit).toFixed(2) + ')     travel');
+      out.push('ad.pendown()                     z=-1 · nib 0.30 mm');
+      out.push('ad.lineto(…)                     stroke ' + pad4(k + 1) + '/' + strokes.length + ' · ' + (st2.len * mmPerUnit).toFixed(1) + ' mm');
+    }
+    out.push(drawn >= len ? 'ad.penup()                       z=+1 · job complete' : '_');
+    termBody.textContent = out.join('\n');
+  }
+
   // Re-fit + repaint the current progress when the bed changes size.
-  function refit() { resetCanvas(); paintTo(drawn); }
+  function refit() { resetCanvas(); if (drawn >= len) fastPaintAll(); else paintTo(drawn); }
   window.addEventListener('resize', refit);
 
   function restart() {
@@ -219,7 +282,7 @@
   }
   if (playBtn) playBtn.onclick = toggle;
   if ($('restart')) $('restart').onclick = restart;
-  if ($('skip')) $('skip').onclick = function () { drawn = len; playing = false; render(); if (replay) replay.classList.add('show'); if (playBtn) playBtn.textContent = 'Replay'; };
+  if ($('skip')) $('skip').onclick = function () { drawn = len; playing = false; fastPaintAll(); render(); if (replay) replay.classList.add('show'); if (playBtn) playBtn.textContent = 'Replay'; };
   if ($('speed')) $('speed').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
     [].forEach.call(e.currentTarget.children, function (x) { x.classList.remove('on'); });
