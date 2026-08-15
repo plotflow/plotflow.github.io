@@ -1,0 +1,132 @@
+/* ============================================================
+   PLOTFLOW · CONSOLE — homepage workspace styled like PlotGrid.
+   The site presents itself as the studio's plotting software:
+   sidebar (queue / speed / machine state), full-bleed sheet,
+   translucent LIVE PLOT card floating over the canvas.
+   Only .pf-* classes + scoped overrides; the sections below the
+   workspace (manifesto/shop/process/news) keep styles.css.
+   ============================================================ */
+
+/* ── top status bar ── */
+.pf-bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:18px;
+  padding:11px 18px;background:#16170f;border-bottom:1px solid var(--line)}
+.pf-bar .brand{font-weight:900;font-size:15px;letter-spacing:.06em;color:var(--white);text-decoration:none}
+.pf-bar .brand i{color:var(--red);font-style:normal}
+.pf-job{font-weight:700;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.pf-job b{color:var(--white)}
+.pf-nav{margin-left:auto;display:flex;gap:20px;align-items:center}
+.pf-nav a{font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);text-decoration:none}
+.pf-nav a:hover{color:var(--white)}
+.pf-bar .cart{background:none;border:1px solid var(--red);color:var(--red);font-weight:800;
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer}
+.pf-bar .cart:hover{background:var(--red);color:#fff}
+
+/* ── workspace ── */
+.pf-ws{display:grid;grid-template-columns:288px 1fr;height:calc(100vh - 44px);min-height:640px;
+  border-bottom:1px solid var(--line);background:var(--con2)}
+
+/* sidebar */
+.pf-side{background:#181a13;border-right:1px solid var(--line);display:flex;flex-direction:column;
+  overflow-y:auto}
+.pf-tabs{display:flex;border-bottom:1px solid var(--line)}
+.pf-tabs span{padding:10px 13px;font-weight:800;font-size:9.5px;letter-spacing:.16em;color:var(--dim)}
+.pf-tabs span.on{background:var(--white);color:var(--ink)}
+.pf-sec{padding:16px;border-bottom:1px solid var(--line)}
+.pf-sec h5{font-weight:800;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 12px}
+.pf-sec h5 .jp{font-family:var(--jp)}
+.pf-sec h5 b{color:var(--red)}
+.pf-note{font-weight:700;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);line-height:1.8;margin:10px 0 0}
+
+/* edition queue */
+.pf-q{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;
+  border:1px solid transparent;border-bottom:1px solid var(--line);padding:9px 8px;cursor:pointer;
+  color:var(--mute)}
+.pf-q:last-child{border-bottom-color:transparent}
+.pf-q .code{font-weight:700;font-size:9px;letter-spacing:.1em;color:var(--dim);width:74px;flex:none}
+.pf-q .nm{font-weight:800;font-size:11.5px;color:var(--white);flex:1}
+.pf-q .st{font-weight:800;font-size:8px;letter-spacing:.16em;padding:3px 7px;
+  border:1px solid var(--line);color:var(--dim)}
+.pf-q:hover{border-color:var(--line)}
+.pf-q.on{border-color:var(--red)}
+.pf-q.on .st{border-color:var(--red);color:var(--red)}
+
+/* speed segment (reuses #speed .seg buttons) */
+.pf-side .seg{display:flex;width:100%}
+.pf-side .seg button{flex:1;background:none;border:1px solid var(--line);border-right-width:0;
+  color:var(--mute);font-weight:800;font-size:10px;letter-spacing:.08em;padding:9px 0;cursor:pointer}
+.pf-side .seg button:last-child{border-right-width:1px}
+.pf-side .seg button.on{background:var(--white);color:var(--ink);border-color:var(--white)}
+
+/* machine state */
+.pf-machine{margin-top:auto}
+.pf-big{width:100%;background:var(--red);border:none;color:#fff;font-weight:900;font-size:12.5px;
+  letter-spacing:.1em;text-transform:uppercase;padding:14px;cursor:pointer}
+.pf-big:hover{filter:brightness(1.08)}
+.pf-row2{display:flex;gap:8px;margin-top:8px}
+.pf-row2 .pf-btn{flex:1;background:none;border:1px solid var(--line);color:var(--mute);
+  font-weight:800;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:10px 0;cursor:pointer}
+.pf-row2 .pf-btn:hover{color:var(--white);border-color:var(--mute)}
+
+/* stage — the sheet takes the whole block */
+.pf-stage{position:relative;padding:16px;min-height:0;overflow:hidden;
+  background:radial-gradient(1100px 640px at 55% 42%,#474a41 0%,#31342c 72%)}
+.pf-stage .bed{position:absolute;inset:16px;width:auto;max-height:none;aspect-ratio:auto}
+/* leave paper margins for the labels + caption; canvas & svg share the same
+   box so the pen crosshair stays aligned with the ink */
+.pf-stage #pcanvas,.pf-stage #stage{inset:46px 40px 92px}
+.pf-stage .bed .bl{left:16px;transform:none}
+.pf-view{position:absolute;top:8px;right:16px;z-index:3;font-weight:700;font-size:8px;
+  letter-spacing:.16em;text-transform:uppercase;color:#a99a76}
+.pf-cap{position:absolute;left:26px;bottom:20px;z-index:3;pointer-events:none}
+.pf-cap h2{font-weight:900;font-size:clamp(1.5rem,3vw,2.6rem);line-height:.95;color:#15160f;margin:0}
+.pf-cap h2 i{color:var(--red);font-style:normal}
+.pf-cap p{font-weight:700;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:#8f8873;margin:7px 0 0}
+
+/* LIVE PLOT overlay card */
+.pf-card{position:absolute;top:34px;right:34px;z-index:9;width:284px;
+  background:rgba(18,20,13,.82);border:1px solid rgba(245,244,239,.16);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 16px 44px rgba(0,0,0,.4);color:var(--mute)}
+.pf-card .hd{display:flex;justify-content:space-between;padding:10px 14px;
+  border-bottom:1px solid rgba(245,244,239,.14);font-weight:800;font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim)}
+.pf-card .hd b{color:var(--red)}
+.pf-card .big{display:flex;justify-content:space-between;align-items:baseline;padding:12px 14px 8px}
+.pf-card .big label{font-weight:800;font-size:8.5px;letter-spacing:.2em;color:var(--dim)}
+.pf-card .big b{font-weight:900;font-size:26px;color:var(--white)}
+.pf-card .big b i{font-style:normal;font-weight:700;font-size:13px;color:var(--dim);margin-left:2px}
+.pf-card .pbar{margin:0 14px;background:rgba(245,244,239,.14)}
+.pf-card .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;padding:13px 14px}
+.pf-card .grid label{display:block;font-weight:800;font-size:8px;letter-spacing:.18em;color:var(--dim)}
+.pf-card .grid b{font-weight:800;font-size:13.5px;color:var(--white)}
+.pf-card .grid b i{font-style:normal;font-weight:700;font-size:9.5px;color:var(--dim);margin-left:2px}
+.pf-card .ft{display:flex;justify-content:space-between;padding:9px 14px;
+  border-top:1px solid rgba(245,244,239,.14);font-weight:700;font-size:8px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* bottom status strip */
+.pf-status{display:flex;gap:22px;align-items:center;padding:8px 18px;background:#16170f;
+  border-bottom:1px solid var(--line);font-weight:700;font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)}
+.pf-status .sp{flex:1}
+.pf-status .jp{font-family:var(--jp);color:var(--red)}
+
+/* responsive: stack sidebar under the stage; card goes static */
+@media(max-width:940px){
+  .pf-ws{grid-template-columns:1fr;height:auto}
+  .pf-stage{order:1;height:72vh;min-height:420px}
+  .pf-side{order:2;border-right:none;border-top:1px solid var(--line)}
+  .pf-machine{margin-top:0}
+  .pf-card{width:auto;left:34px}
+  .pf-cap{display:none}
+}
+@media(max-width:560px){
+  .pf-card{top:16px;left:16px;right:16px}
+  .pf-stage .bed{inset:10px}
+  .pf-stage #pcanvas,.pf-stage #stage{inset:34px 16px 40px}
+  .pf-job{display:none}
+}
