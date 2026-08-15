@@ -41,12 +41,12 @@
     }
     if (!CFG.newsletterEndpoint) {
       e.preventDefault();
-      show("Drop list opens soon — email hello@plotflow.io to be added.", true);
+      show("Sign-up opens soon. Email hello@plotflow.io to be added.", true);
       return;
     }
     // Let the native POST fly to the hidden iframe.
     form.setAttribute("action", CFG.newsletterEndpoint);
-    show("You're on the list. Watch your inbox for the next drop.", true);
+    show("Recorded. You will be notified when an edition is released or restocked.", true);
     // Clear after the browser has serialized + sent the form.
     setTimeout(function () { form.reset(); }, 100);
   });

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · Index direction</title>
+<style>
+  :root{
+    --paper:#f6f4ec; --ink:#20211a; --dim:#82847a; --line:#ddd9cb; --red:#c93b22;
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif; --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:14.5px;line-height:1.75}
+  .col{max-width:660px;margin:0 auto;padding:0 28px}
+  header{padding:64px 0 0}
+  .brand{font-weight:700;font-size:15px}
+  .brand i{color:var(--red);font-style:normal}
+  .lede{margin-top:34px}
+  .lede p{margin-bottom:14px}
+  .lede .quiet{color:var(--dim);font-size:13px}
+  hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+  h2{font-size:13px;font-weight:700;letter-spacing:.02em;margin-bottom:22px}
+  h2 span{color:var(--dim);font-weight:400;font-family:var(--mono);font-size:11px;margin-left:10px}
+  /* index entries — drawing left, ledger caption right */
+  .entry{display:grid;grid-template-columns:150px 1fr;gap:30px;padding:22px 0;
+    border-top:1px solid var(--line);align-items:center}
+  .entry:last-of-type{border-bottom:1px solid var(--line)}
+  .entry svg{width:100%;height:150px}
+  .entry svg path{fill:none;stroke:var(--ink);stroke-width:1.8}
+  .entry h3{font-size:14.5px;font-weight:700}
+  .entry h3 .jp{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+  .entry .spec{font-family:var(--mono);font-size:10.5px;color:var(--dim);line-height:2;margin-top:6px}
+  .entry .spec b{color:var(--ink);font-weight:400}
+  .entry a{font-size:12px;color:var(--red);text-decoration:none;border-bottom:1px solid currentColor}
+  .prose p{margin-bottom:14px;color:#3a3c32}
+  .prose .fn{font-size:12.5px;color:var(--dim)}
+  /* notify — one sentence, one field */
+  form{display:flex;gap:10px;margin-top:14px;max-width:420px}
+  input{flex:1;border:1px solid var(--line);background:#fff;padding:10px 12px;font:inherit;font-size:13px}
+  button{border:1px solid var(--ink);background:none;padding:10px 18px;font:inherit;font-size:12.5px;cursor:pointer}
+  button:hover{background:var(--ink);color:var(--paper)}
+  footer{padding:40px 0 64px;font-family:var(--mono);font-size:10px;color:var(--dim);
+    display:flex;justify-content:space-between}
+</style></head>
+<body>
+<div class="col">
+  <header>
+    <div class="brand">PLOTFLOW<i>*</i> <span style="color:var(--dim);font-weight:400">— pen-plotter studio</span></div>
+    <div class="lede">
+      <p>This studio makes drawings of Universal-Century mobile suits with a pen plotter.
+      A machine moves a 0.3&nbsp;mm pigment fineliner across Strathmore Bristol, stroke by
+      stroke, following a prepared program. A typical sheet takes twenty to thirty minutes
+      of continuous drawing and ten to thirty metres of ink.</p>
+      <p>Because ink flow depends on temperature, humidity, and feed rate, no two copies of
+      an edition are identical. Each is inspected, signed, and numbered. Editions are
+      limited to 25.</p>
+      <p class="quiet">The live plot — a real-time simulation of the machine at work — is
+      on the <a href="#" style="color:var(--red)">console page</a>.</p>
+    </div>
+  </header>
+
+  <hr>
+
+  <h2>Index of editions<span>six records</span></h2>
+  <div id="index"></div>
+
+  <hr>
+
+  <div class="prose">
+    <h2>Notes</h2>
+    <p>Orders are plotted after they are placed; allow two to three weeks before dispatch.
+    Shipping is free within the U.S. and a flat $20 elsewhere. Sheets damaged in transit
+    are replaced.</p>
+    <p>New editions are released irregularly. To be notified when one is released or
+    restocked, leave an email address. It is used for that purpose only.</p>
+    <form onsubmit="return false"><input type="email" placeholder="email address"><button>Notify</button></form>
+    <p class="fn" style="margin-top:26px">マシンドロー — drawn by machine. Nothing here is
+    an inkjet or a screen print; every mark on every sheet was made by a pen.</p>
+  </div>
+
+  <footer>
+    <span>PLOTFLOW · est. 2026 · plotted in the U.S.A.</span>
+    <span>プロットフロー</span>
+  </footer>
+</div>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, ORDER = window.PLOTFLOW.shopOrder;
+  function stats(s){
+    const re=/([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+    let m,px=null,py=null,draw=0,travel=0,lifts=0;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    while((m=re.exec(s.d))!==null){
+      const x=+m[2],y=+m[3];
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+      if(m[1]==='M'){ if(px!==null){travel+=Math.hypot(x-px,y-py);lifts++;} }
+      else if(px!==null){ draw+=Math.hypot(x-px,y-py); }
+      px=x;py=y;
+    }
+    const mm=420/Math.max(maxx-minx,maxy-miny);
+    return {ink:draw*mm/1000, min:(draw*mm)/1100+(travel*mm)/6600+lifts*0.10/60,
+            strokes:lifts+1, bb:[minx,miny,maxx-minx,maxy-miny]};
+  }
+  const fmt=n=>{const s2=Math.round(n*60);return Math.floor(s2/60)+' min '+String(s2%60).padStart(2,'0')+' s'};
+  document.getElementById('index').innerHTML = ORDER.map((k,i)=>{
+    const s=S[k], t=stats(s), p=t.bb[2]*0.05;
+    const ed=s.edition.split('·')[0].trim().replace('ED. ','');
+    return `<div class="entry">
+      <svg viewBox="${t.bb[0]-p} ${t.bb[1]-p} ${t.bb[2]+2*p} ${t.bb[3]+2*p}"
+        preserveAspectRatio="xMidYMid meet"><path d="${s.d}"/></svg>
+      <div>
+        <h3>${String(i+1).padStart(2,'0')} — ${s.name}<span class="jp">${s.jp} · ${s.code}</span></h3>
+        <div class="spec">
+          <b>${t.ink.toFixed(1)} m</b> of ink · <b>${t.strokes.toLocaleString()}</b> strokes ·
+          plot time <b>${fmt(t.min)}</b><br>
+          11×14 in · edition ${ed} · available
+        </div>
+        <a href="#">View record →</a>
+      </div>
+    </div>`;
+  }).join('');
+</script>
+</body></html>
