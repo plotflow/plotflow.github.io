@@ -23,8 +23,14 @@
   var ink = $('ink'), inktot = $('inktot'), elapsed = $('elapsed'), total = $('total');
   var bed = $('bed'), bedlabel = $('bedlabel'), selSuit = $('suit'), playBtn = $('play'), replay = $('replay');
 
-  var FEED = 1100;   // mm/min, shown in HUD + used for plot-time
-  var BASE = 22;     // seconds for a full plot at 1x speed
+  var FEED = 1100;         // mm/min pen-down draw speed, shown in HUD
+  var TRAVEL_FEED = 6600;  // mm/min pen-up travel (the carriage moves much faster between strokes)
+  var LIFT_S = 0.10;       // seconds per pen lift+lower cycle (servo up + down)
+  // Plot time = draw + pen-up travel + lift cycles — tuned against PlotGrid
+  // actuals (~0.45 s/stroke incl. overhead), not just ink-length ÷ feed.
+  var BASE = 30;     // seconds the simulation runs at 1x watch speed —
+                     // the machine-speed multiplier shown in the dock is
+                     // derived from the real plot time (≈ x45–x60)
   var INK = '#e8351f';
   var cur, len = 1, drawn = 0, painted = 0, playing = true, speed = 1, mmPerUnit = 1, totalMin = 1;
   var vb = { x: 0, y: 0, w: 1, h: 1 };
@@ -42,6 +48,24 @@
   function fmt(min) {
     var s = Math.max(0, Math.round(min * 60));
     return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }
+
+  // Walk the raw path string once: pen-down length, pen-up travel length, and
+  // lift count (each M after the first is a pen lift + travel + pen lower).
+  function pathStats(d) {
+    var draw = 0, travel = 0, lifts = 0, px = null, py = null, pen = false;
+    var re = /([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, m;
+    while ((m = re.exec(d)) !== null) {
+      var x = +m[2], y = +m[3];
+      if (m[1] === 'M') {
+        if (px !== null) { travel += Math.hypot(x - px, y - py); lifts++; }
+        pen = false;
+      } else if (px !== null) {
+        draw += Math.hypot(x - px, y - py);
+      }
+      px = x; py = y;
+    }
+    return { draw: draw, travel: travel, lifts: lifts };
   }
 
   // Map a point in suit/user coordinates to canvas device pixels, matching the
@@ -115,7 +139,11 @@
     len = ppath.getTotalLength(); if (!len || !isFinite(len)) len = 1;
     var md = Math.max(vb.w, vb.h);
     mmPerUnit = 420 / md;                 // longest side ≈ 420mm
-    totalMin = (len * mmPerUnit) / FEED;
+    var st = pathStats(cur.d);
+    totalMin = (st.draw * mmPerUnit) / FEED
+             + (st.travel * mmPerUnit) / TRAVEL_FEED
+             + (st.lifts * LIFT_S) / 60;
+    updateSimX();
     penC.setAttribute('r', md * 0.014);
     penX.setAttribute('d', 'M ' + (-md * 0.032) + ' 0 H ' + (md * 0.032) + ' M 0 ' + (-md * 0.032) + ' V ' + (md * 0.032));
     pen.setAttribute('opacity', '0');
@@ -159,6 +187,14 @@
     if (playBtn) playBtn.textContent = 'Pause';
   }
 
+  // honest speed disclosure: the sim runs the real plot in BASE/speed seconds
+  function updateSimX() {
+    var el = $('simx');
+    if (!el || !totalMin) return;
+    var x = Math.round((totalMin * 60) / (BASE / speed));
+    el.textContent = 'SIM \u2248 \u00d7' + x + ' machine speed';
+  }
+
   var last = null;
   function frame(t) {
     if (last == null) last = t;
@@ -188,6 +224,7 @@
     var b = e.target.closest('button'); if (!b) return;
     [].forEach.call(e.currentTarget.children, function (x) { x.classList.remove('on'); });
     b.classList.add('on'); speed = parseFloat(b.dataset.s);
+    updateSimX();
   });
   if (selSuit) selSuit.addEventListener('change', function (e) { load(e.target.value); });
   if (replay) replay.addEventListener('click', restart);

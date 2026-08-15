@@ -1,8 +1,8 @@
 # PLOTFLOW
 
-**Independent pen-plotter studio.** Universal-Century mobile suits, rebuilt as a single unbroken line and drawn in ink by machine.
+**Independent pen-plotter studio.** Universal-Century mobile suits, redrawn as precise vector line work and drawn in ink by machine.
 
-一筆書き — *hitofudegaki*, "one continuous line."
+マシンドロー — *machine-draw*: drawn by machine, never printed.
 
 🌐 **[plotflow.io](https://plotflow.io)**
 
@@ -10,20 +10,20 @@
 
 ## What it is
 
-PlotFlow reimagines each mobile suit as one continuous vector path — no pen lifts, no breaks — and traces it in technical pen on archival paper with an AxiDraw plotter. Nothing is printed. Every impression is *drawn*, so each carries the minor variation of the medium; editions are limited, made to order, signed, and numbered.
+PlotFlow rebuilds each mobile suit as precise vector line work and traces it in technical pen on archival paper with an AxiDraw plotter. Nothing is printed. Every impression is *drawn*, so each carries the minor variation of the medium; editions are limited, made to order, signed, and numbered.
 
 This repository is the PlotFlow homepage — a no-build static site (plain HTML/CSS/JS, no framework, no bundler) hosted on GitHub Pages. Its centerpiece is an interactive **Live Plot** that animates a suit being drawn line-by-line by a virtual plotter, alongside the shop of current editions.
 
 ## The work
 
 - **Drawn, not printed** — technical pen on 300gsm archival stock, never a print
-- **One continuous line** — each suit is a single unbroken path
+- **Drawn by machine** — an AxiDraw traces every stroke, pen up and pen down
 - **Limited editions** — made to order, signed and numbered
 - Variation in line and ink is a feature of the medium, not a flaw
 
 ## Process
 
-1. **Vectorize** (ベクター化) — the suit is rebuilt as one continuous vector path
+1. **Vectorize** (ベクター化) — the suit is rebuilt as clean vector line work
 2. **Plot** (作画) — an AxiDraw traces it in ink; a single A1 can run for hours
 3. **Finish** (仕上げ) — inspected, signed, and numbered
 
@@ -63,4 +63,4 @@ git add -A && git commit -m "update site" && git push
 
 ---
 
-<sub>© 2026 PLOTFLOW* — plotted in the U.S.A. · 一筆書き · one continuous line</sub>
+<sub>© 2026 PLOTFLOW* — plotted in the U.S.A. · マシンドロー · drawn by machine</sub>

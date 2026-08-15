@@ -43,6 +43,14 @@ REG  = '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf'
 JP   = '/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf'
 
 # ---------- parse path 'd' into polyline subpaths ----------
+def plot_minutes(sp, total_draw, mm):
+    """Plot time = draw + pen-up travel + lift cycles (tuned to PlotGrid actuals)."""
+    travel = 0.0
+    for a, b in zip(sp, sp[1:]):
+        travel += math.hypot(b[0][0]-a[-1][0], b[0][1]-a[-1][1])
+    lifts = max(0, len(sp)-1)
+    return (total_draw*mm)/FEED + (travel*mm)/6600 + lifts*0.10/60
+
 def parse_path(d):
     # tokens like "M 744,398" or "L 736,382"
     subpaths, cur = [], []
@@ -101,7 +109,7 @@ def render(key, color, dur=15, fps=30, out=None):
 
     mm_per_unit = 420 / max(vbw, vbh)
     ink_total_m = (total_len * mm_per_unit) / 1000
-    total_sec = (total_len * mm_per_unit) / FEED * 60
+    total_sec = plot_minutes(subpaths, total_len, mm_per_unit) * 60
 
     total_frames = dur * fps
     plot_end = int(total_frames * 0.80)

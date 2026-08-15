@@ -1,0 +1,20 @@
+# PlotFlow Marketing Automation Requirements
+
+# Instagram API
+requests>=2.31.0
+
+# AI Content Generation
+anthropic>=0.34.0
+
+# Scheduling & Time
+pytz>=2024.1
+python-dateutil>=2.8.2
+
+# Media generation (process videos + showcase stills)
+Pillow>=10.0.0
+numpy>=1.24.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9   # bundles a static ffmpeg binary — no system ffmpeg needed
+
+# Data handling
+python-dotenv>=1.0.0

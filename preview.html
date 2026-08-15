@@ -3,13 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJ4VQ4K1B"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied',
+    ad_personalization: 'denied', analytics_storage: 'denied'
+  });
   gtag('js', new Date());
   gtag('config', 'G-1HJ4VQ4K1B');
 </script>
+<script src="scripts/consent.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PLOTFLOW · マシンドロー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -333,7 +337,7 @@ const elapsed=document.getElementById('elapsed'), total=document.getElementById(
 const bed=document.getElementById('bed'), bedlabel=document.getElementById('bedlabel');
 const selSuit=document.getElementById('suit'), playBtn=document.getElementById('play'), replay=document.getElementById('replay');
 
-const FEED=1100, BASE=22;
+const FEED=1100, BASE=30;
 let cur, len=1, drawn=0, playing=true, speed=1, mmPerUnit=1, totalMin=1;
 
 ORDER.forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=SUITS[k].name+" · "+SUITS[k].code;selSuit.appendChild(o);});

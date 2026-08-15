@@ -7,6 +7,9 @@ DATA = json.loads(src)
 SUITS = DATA['suits']
 ORDER = DATA.get('plotterOrder', list(SUITS.keys()))
 
+OUT = 'assets/posts'
+os.makedirs(OUT, exist_ok=True)
+
 S = 1080; SS = 3; C = S * SS
 INK  = (21, 22, 15)
 RED  = (232, 53, 31)
@@ -40,6 +43,16 @@ def seg_lengths(subpaths):
             segs.append((x0,y0,x1,y1,total,L))
             total += L
     return segs, total
+
+
+def plot_minutes(sp, total_draw, mm):
+    """Plot time = draw + pen-up travel + lift cycles (tuned to PlotGrid actuals),
+    not just ink-length / feed."""
+    travel = 0.0
+    for a, b in zip(sp, sp[1:]):
+        travel += math.hypot(b[0][0]-a[-1][0], b[0][1]-a[-1][1])
+    lifts = max(0, len(sp)-1)
+    return (total_draw*mm)/1100 + (travel*mm)/6600 + lifts*0.10/60
 
 def bbox(sp):
     xs = [p[0] for s in sp for p in s]
@@ -145,7 +158,7 @@ def post_process(key, frac=0.55):
     d.text((C-80*SS-bw, C-80*SS), 'PLOTFLOW*', font=f_brand, fill=INK+(80,))
 
     out = img.resize((S,S), Image.LANCZOS)
-    path = f'/tmp/post-{key}-process.png'
+    path = f'{OUT}/post-{key}-process.png'
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
@@ -188,11 +201,11 @@ def post_drop(key):
     f_spec = ImageFont.truetype(REG, 13*SS)
     d.text((80*SS, C-220*SS), 'Staedtler 0.3mm on Strathmore Bristol · 11×14″ · Signed & numbered', font=f_spec, fill=DIM)
 
-    # price + CTA
-    f_price = ImageFont.truetype(BOLD, 36*SS)
-    d.text((80*SS, C-160*SS), s.get('price','$45'), font=f_price, fill=RED)
+    # edition size + CTA (no price — gallery, not storefront)
+    f_edline = ImageFont.truetype(BOLD, 20*SS)
+    d.text((80*SS, C-160*SS), 'EDITION OF 25 · SIGNED & NUMBERED', font=f_edline, fill=RED)
     f_cta = ImageFont.truetype(BOLD, 16*SS)
-    d.text((80*SS, C-108*SS), 'plotflow.io', font=f_cta, fill=MUTE)
+    d.text((80*SS, C-116*SS), 'plotflow.io', font=f_cta, fill=MUTE)
 
     # brand top-right
     f_brand = ImageFont.truetype(BOLD, 14*SS)
@@ -200,7 +213,7 @@ def post_drop(key):
     d.text((C-80*SS-bw, 60*SS), 'PLOTFLOW*', font=f_brand, fill=MUTE+(140,))
 
     out = img.resize((S,S), Image.LANCZOS)
-    path = f'/tmp/post-{key}-drop.png'
+    path = f'{OUT}/post-{key}-drop.png'
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
@@ -252,9 +265,11 @@ def post_lore(key):
         d.text((200*SS, y), val, font=f_spec, fill=INK+(160,))
         y += 22*SS
 
-    # price
-    f_price = ImageFont.truetype(BOLD, 28*SS)
-    d.text((90*SS, C-110*SS), s.get('price','$45'), font=f_price, fill=RED)
+    # signature: drawn by machine (no price — gallery, not storefront)
+    f_sig_jp = ImageFont.truetype(JP, 26*SS)
+    d.text((90*SS, C-116*SS), 'マシンドロー', font=f_sig_jp, fill=RED)
+    f_sig_en = ImageFont.truetype(REG, 12*SS)
+    d.text((90*SS, C-74*SS), 'DRAWN BY MACHINE', font=f_sig_en, fill=DIM)
 
     # brand bottom-right
     f_brand = ImageFont.truetype(BOLD, 16*SS)
@@ -262,7 +277,7 @@ def post_lore(key):
     d.text((C-80*SS-bw, C-100*SS), 'PLOTFLOW*', font=f_brand, fill=INK+(70,))
 
     out = img.resize((S,S), Image.LANCZOS)
-    path = f'/tmp/post-{key}-lore.png'
+    path = f'{OUT}/post-{key}-lore.png'
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
@@ -272,9 +287,10 @@ def post_spec(key):
     s = SUITS[key]
     sp = parse_path(s['d']); bb = bbox(sp)
     segs, total = seg_lengths(sp)
+    npts = sum(len(x) for x in sp)   # vertices along the plotted path
     mm = 420 / max(bb[2]-bb[0], bb[3]-bb[1])
     ink_m = (total*mm)/1000
-    plot_min = (total*mm)/1100
+    plot_min = plot_minutes(sp, total, mm)
 
     img = Image.new('RGB', (C,C), INK)
     d = ImageDraw.Draw(img, 'RGBA')
@@ -327,7 +343,7 @@ def post_spec(key):
         ('EDITION', s.get('edition','').split('·')[0].strip()),
         ('INK', f'{ink_m:.1f}m'),
         ('PLOT TIME', f'{int(plot_min)}min'),
-        ('PRICE', s.get('price','$45')),
+        ('VERTICES', f'{npts:,}'),
     ]
     for i, (label, val) in enumerate(data):
         x = 60*SS + i*col_w
@@ -343,7 +359,7 @@ def post_spec(key):
     specs = [
         ('PAPER', 'Strathmore 300 Series Bristol, smooth'),
         ('PEN', 'Staedtler Triplus 0.3mm, pigment-based'),
-        ('PLOTTER', 'AxiDraw V3, continuous line path'),
+        ('PLOTTER', 'AxiDraw V3, drawn stroke by stroke'),
         ('FINISH', 'Inspected, signed, numbered by hand'),
     ]
     for label, val in specs:
@@ -354,12 +370,12 @@ def post_spec(key):
     # bottom strip
     d.rectangle([0, C-36*SS, C, C], fill=RED)
     f_strip = ImageFont.truetype(BOLD, 10*SS)
-    strip = 'PLOTFLOW*  ·  マシンドロー  ·  DRAWN BY MACHINE  ·  EST. 2026  ·  PLOTTED IN THE U.S.A.'
+    strip = 'PLOTFLOW*  ·  DRAWN BY MACHINE  ·  EST. 2026  ·  PLOTTED IN THE U.S.A.'
     sw = d.textlength(strip, font=f_strip)
     d.text((C/2-sw/2, C-28*SS), strip, font=f_strip, fill=WHITE)
 
     out = img.resize((S,S), Image.LANCZOS)
-    path = f'/tmp/post-{key}-spec.png'
+    path = f'{OUT}/post-{key}-spec.png'
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
@@ -393,7 +409,7 @@ def post_brand(variant='dark'):
     d.text((80*SS, 430*SS), 'マシンドロー', font=f_jp_big, fill=fg+(80,) if variant=='dark' else fg+(60,))
 
     # body text
-    body = "Universal-Century mobile suits, rebuilt as continuous vector paths and traced in pigment ink on archival paper by an AxiDraw plotter. Nothing is printed. Every impression is drawn."
+    body = "Universal-Century mobile suits, redrawn as vector line work and traced in pigment ink on archival paper by an AxiDraw plotter. Nothing is printed. Every impression is drawn."
     lines = wrap(d, body, f_body, 700*SS)
     y = 560*SS
     for ln in lines:
@@ -423,7 +439,7 @@ def post_brand(variant='dark'):
     d.text((C-80*SS-bw, C-60*SS), 'plotflow.io', font=f_brand, fill=accent+(160,))
 
     out = img.resize((S,S), Image.LANCZOS)
-    path = f'/tmp/post-brand-{variant}.png'
+    path = f'{OUT}/post-brand-{variant}.png'
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 

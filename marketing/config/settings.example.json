@@ -1,0 +1,58 @@
+{
+  "instagram": {
+    "access_token": "YOUR_INSTAGRAM_ACCESS_TOKEN",
+    "account_id": "YOUR_INSTAGRAM_BUSINESS_ACCOUNT_ID",
+    "api_version": "v21.0",
+    "graph_host": "graph.instagram.com",
+    "_graph_host_note": "graph.instagram.com = 'Instagram API with Instagram login' (no Facebook Page needed; simplest for posting to your own account). Use graph.facebook.com only if you set the app up with Facebook login + a linked Page."
+  },
+  "posting": {
+    "schedule": {
+      "enabled": true,
+      "times": ["09:00", "13:00", "17:00", "20:00"],
+      "timezone": "America/New_York",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    },
+    "frequency": {
+      "daily_limit": 3,
+      "min_hours_between": 3
+    }
+  },
+  "content": {
+    "hashtags": {
+      "core": ["#plotflow", "マシンドロー", "#penplotter", "#axiDraw", "#machineArt"],
+      "art": ["#gundam", "#mobilesuit", "#universalCentury", "#lineart", "#continuousLine"],
+      "process": ["#plotter", "#penAndInk", "#generativeArt", "#roboticArt", "#axidrawart"],
+      "product": ["#limitedEdition", "#artPrint", "#originalArt", "#artCollector", "#contemporaryArt"]
+    },
+    "max_hashtags": 20,
+    "caption_variants": 3,
+    "languages": ["en", "jp"]
+  },
+  "media": {
+    "formats": {
+      "image": {
+        "square": [1080, 1080],
+        "portrait": [1080, 1350],
+        "landscape": [1080, 608]
+      },
+      "video": {
+        "fps": 30,
+        "duration_range": [15, 60],
+        "square": [1080, 1080]
+      }
+    },
+    "export_path": "./marketing/media/generated"
+  },
+  "ai": {
+    "enabled": true,
+    "model": "claude-sonnet-4",
+    "tone": "artistic, technical, minimalist",
+    "style": "Blend Japanese aesthetics with technical precision. Emphasize craftsmanship, process, and the unique nature of machine-drawn art."
+  },
+  "site": {
+    "url": "https://plotflow.io",
+    "social_path": "assets/social",
+    "_comment": "Media is served from {url}/{social_path}. Run: python media_generator.py build --publish-dir ../assets/social, then commit assets/social so GitHub Pages hosts the files publicly for the Instagram API."
+  }
+}
