@@ -62,6 +62,18 @@ export default {
       return handleWebhook(request, env);
     }
 
+    // ---- health endpoint: which pieces are configured (booleans only) ----
+    // curl .../health → instantly shows whether the webhook/email path can
+    // work at all. A false here explains "orders but no emails" silently.
+    if (url.pathname === "/health" && request.method === "GET") {
+      return json({
+        stripe_key: !!env.STRIPE_SECRET_KEY,
+        webhook_secret: !!env.STRIPE_WEBHOOK_SECRET,
+        resend_key: !!env.RESEND_API_KEY,
+        stock_kv: !!env.STOCK
+      }, 200, corsHeaders(request.headers.get("Origin") || "", "GET, OPTIONS"));
+    }
+
     // ---- stock endpoint (remaining count per edition) ----
     if (url.pathname === "/stock") {
       const sOrigin = request.headers.get("Origin") || "";
@@ -224,20 +236,31 @@ async function handleWebhook(request, env) {
       </div>`;
 
     if (env.RESEND_API_KEY) {
-      await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + env.RESEND_API_KEY,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: `PlotFlow Orders <${FROM_EMAIL}>`,
-          to: [NOTIFY_EMAIL],
-          subject: `New order: ${meta.editions || "PlotFlow edition"}`,
-          html: html,
-          text: text
-        })
-      });
+      // Surface email failures in the Cloudflare logs (`wrangler tail` /
+      // dashboard) instead of letting a rejected send vanish silently.
+      try {
+        const mailResp = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer " + env.RESEND_API_KEY,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            from: `PlotFlow Orders <${FROM_EMAIL}>`,
+            to: [NOTIFY_EMAIL],
+            subject: `New order: ${meta.editions || "PlotFlow edition"}`,
+            html: html,
+            text: text
+          })
+        });
+        if (!mailResp.ok) {
+          console.error("Order email FAILED", mailResp.status, await mailResp.text(), "session:", session.id);
+        }
+      } catch (e) {
+        console.error("Order email FAILED (network)", String(e), "session:", session.id);
+      }
+    } else {
+      console.error("Order email SKIPPED — RESEND_API_KEY not set. session:", session.id);
     }
 
     // Decrement remaining stock per purchased edition. metadata.skus looks

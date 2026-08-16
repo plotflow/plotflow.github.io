@@ -275,3 +275,18 @@
   .pfr-stagewrap{height:62vh;min-height:380px}
   .pfr-panel{border-left:none;border-top:1px solid var(--line)}
 }
+
+/* pen swatches as plain color squares (specimen-record style):
+   square chip, label beneath, outline ring when selected —
+   overrides the pill treatment from styles.css on the record page */
+.pfr-panel .pd-swatches{gap:16px}
+.pfr-panel .pd-swatch{flex-direction:column;align-items:center;gap:7px;
+  padding:0;border:none;background:none}
+.pfr-panel .pd-swatch .pd-dot{width:34px;height:34px;border-radius:0;
+  box-shadow:0 0 0 1px var(--line)}
+.pfr-panel .pd-swatch:hover .pd-dot{box-shadow:0 0 0 1px var(--mute)}
+.pfr-panel .pd-swatch.on .pd-dot{outline:2px solid var(--white);outline-offset:2px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+.pfr-panel .pd-swatch-name{font-size:8.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--dim)}
+.pfr-panel .pd-swatch.on .pd-swatch-name{color:var(--white)}
