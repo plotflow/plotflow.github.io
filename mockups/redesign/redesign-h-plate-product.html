@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · H — Plate product page</title>
+<style>
+  /* Product page as a printed catalogue plate: the whole page IS the sheet.
+     Bristol ground, artwork huge, one thin caption rail. Opposite pole to G. */
+  :root{
+    --paper:#f6f3ec; --ink:#20211a; --dim:#82847a; --line:#ddd8c9; --red:#c9331d;
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif; --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.7}
+  header{display:flex;justify-content:space-between;align-items:center;
+    padding:20px 34px;border-bottom:1px solid var(--line)}
+  .brand{font-weight:900;font-size:15px;letter-spacing:.05em}
+  .brand i{color:var(--red);font-style:normal}
+  header nav{display:flex;gap:22px;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  header nav a{color:var(--dim);text-decoration:none}
+  header .cart{border:1px solid var(--ink);background:none;padding:7px 14px;
+    font:inherit;font-weight:700;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+
+  .plate{display:grid;grid-template-columns:1fr 340px;gap:0;min-height:calc(100vh - 70px)}
+  .art{position:relative;border-right:1px solid var(--line);padding:30px}
+  .art svg{position:absolute;left:40px;top:64px;width:calc(100% - 80px);height:calc(100% - 148px)}
+  .art svg path{fill:none;stroke:var(--ink);stroke-width:1.3;vector-effect:non-scaling-stroke}
+  .plateno{position:absolute;top:22px;left:34px;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.12em}
+  .scale{position:absolute;bottom:26px;left:34px;right:34px;display:flex;justify-content:space-between;
+    font-family:var(--mono);font-size:9.5px;color:var(--dim);border-top:1px solid var(--line);padding-top:10px}
+
+  .rail{padding:30px 34px;display:flex;flex-direction:column;gap:0}
+  .code{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.12em}
+  h1{font-weight:900;font-size:34px;line-height:1;text-transform:uppercase;margin:8px 0 2px}
+  .jp{color:var(--dim);font-size:13.5px;margin-bottom:16px}
+  .lore{color:#3a3c32;border-top:1px solid var(--line);padding-top:16px}
+  dl{margin:18px 0 0;border-top:1px solid var(--line)}
+  .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+  .row dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .row dd{font-family:var(--mono);font-size:11.5px}
+  .pens{display:flex;gap:12px;margin:18px 0}
+  .pens button{width:30px;height:30px;border:1px solid var(--line);cursor:pointer}
+  .pens button.on{outline:2px solid var(--ink);outline-offset:2px}
+  .buy{margin-top:auto;padding-top:18px;border-top:2px solid var(--ink)}
+  .buy .l1{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .price{font-weight:900;font-size:26px}
+  .ed{font-family:var(--mono);font-size:10px;color:var(--red)}
+  .acq{width:100%;background:var(--ink);color:var(--paper);border:none;padding:14px;cursor:pointer;
+    font:inherit;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .acq:hover{background:var(--red)}
+  .note{font-size:11px;color:var(--dim);margin-top:10px;line-height:1.7}
+  @media(max-width:920px){.plate{grid-template-columns:1fr}.art{height:64vh;border-right:none;border-bottom:1px solid var(--line)}}
+</style></head>
+<body>
+<header>
+  <span class="brand">PLOTFLOW<i>*</i></span>
+  <nav><a href="#">Current editions</a><a href="#">Process</a><a href="#">Studio</a></nav>
+  <button class="cart">Cart — 0</button>
+</header>
+
+<div class="plate">
+  <div class="art">
+    <span class="plateno" id="plateno">PLATE 01 — RECORD PF-010</span>
+    <svg id="art" preserveAspectRatio="xMidYMid meet"><path id="artp" d=""/></svg>
+    <div class="scale"><span id="sc1">0 mm</span><span>STRATHMORE 300 BRISTOL · 11×14 IN · ACTUAL DRAWING SHOWN AT REDUCED SCALE</span><span id="sc2">420 mm</span></div>
+  </div>
+
+  <aside class="rail">
+    <span class="code" id="code"></span>
+    <h1 id="name"></h1>
+    <div class="jp" id="jp"></div>
+    <p class="lore" id="lore"></p>
+
+    <dl id="spec"></dl>
+
+    <div class="pens" id="pens"></div>
+
+    <div class="buy">
+      <div class="l1"><span class="price">$225</span><span class="ed" id="ed"></span></div>
+      <button class="acq">Acquire — plotted to order</button>
+      <p class="note">Drawn after the order is placed; allow 2–3 weeks before dispatch.
+      Free U.S. shipping, flat $20 international. Signed and numbered by hand.</p>
+    </div>
+  </aside>
+</div>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, key = window.PLOTFLOW.shopOrder[0], s = S[key];
+  function stats(s){
+    const re=/([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+    let m,px=null,py=null,draw=0,travel=0,lifts=0,verts=0;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    while((m=re.exec(s.d))!==null){
+      const x=+m[2],y=+m[3]; verts++;
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+      if(m[1]==='M'){ if(px!==null){travel+=Math.hypot(x-px,y-py);lifts++;} }
+      else if(px!==null){ draw+=Math.hypot(x-px,y-py); }
+      px=x;py=y;
+    }
+    const mm=420/Math.max(maxx-minx,maxy-miny);
+    return {ink:draw*mm/1000, min:(draw*mm)/1100+(travel*mm)/6600+lifts*0.10/60,
+            strokes:lifts+1, verts, bb:[minx,miny,maxx-minx,maxy-miny]};
+  }
+  const t = stats(s), p = Math.max(t.bb[2],t.bb[3])*0.05;
+  document.getElementById('artp').setAttribute('d', s.d);
+  document.getElementById('art').setAttribute('viewBox',
+    (t.bb[0]-p)+' '+(t.bb[1]-p)+' '+(t.bb[2]+2*p)+' '+(t.bb[3]+2*p));
+  document.getElementById('plateno').textContent = 'PLATE 01 — RECORD ' + s.code;
+  document.getElementById('code').textContent = '№ ' + s.code;
+  document.getElementById('name').textContent = s.name;
+  document.getElementById('jp').textContent = s.jp;
+  document.getElementById('lore').textContent = s.lore || '';
+  document.getElementById('ed').textContent = 'EDITION OF 25';
+  const fmt=n=>{const x=Math.round(n*60);return Math.floor(x/60)+' min '+String(x%60).padStart(2,'0')+' s'};
+  document.getElementById('spec').innerHTML = [
+    ['Ink laid', t.ink.toFixed(1)+' m'], ['Strokes', t.strokes.toLocaleString()],
+    ['Vertices', t.verts.toLocaleString()], ['Plot time', fmt(t.min)],
+    ['Paper', 'Bristol 300, 11×14 in'], ['Pen', 'Triplus 0.3 mm pigment'],
+  ].map(r=>`<div class="row"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
+  const pens=[['#c9331d',1],['#20211a',0],['#6b4a2f',0]];
+  document.getElementById('pens').innerHTML = pens.map(c=>
+    `<button style="background:${c[0]}" class="${c[1]?'on':''}"></button>`).join('');
+</script>
+</body></html>

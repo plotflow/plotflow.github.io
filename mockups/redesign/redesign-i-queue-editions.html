@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · I — Editions as job queue</title>
+<style>
+  /* Current Editions rebuilt as the console's job queue: every edition is a
+     job row with live computed stats, availability meter, and OPEN RECORD.
+     Bridges the console homepage and the product records (G/H). */
+  :root{
+    --bar:#33362b; --side:#3c3f34; --con:#43463e; --bristol:#f6f3ec;
+    --white:#f5f4ef; --mute:#c3c5b8; --dim:#8f9184; --ink:#15160f; --red:#e8351f;
+    --line:rgba(245,244,239,.22);
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif; --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--con);color:var(--mute);font-family:var(--sans);font-size:13px;line-height:1.6}
+  .bar{display:flex;align-items:center;gap:18px;padding:11px 18px;background:var(--bar);
+    border-bottom:1px solid var(--line);position:sticky;top:0;z-index:9}
+  .bar .brand{font-weight:900;font-size:15px;letter-spacing:.06em;color:var(--white);text-decoration:none}
+  .bar .brand i{color:var(--red);font-style:normal}
+  .bar .job{font-weight:700;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .bar .job b{color:var(--white)}
+  .bar nav{margin-left:auto;display:flex;gap:20px;align-items:center}
+  .bar nav a{font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);text-decoration:none}
+  .bar .cart{background:none;border:1px solid var(--red);color:var(--red);font-weight:800;
+    font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px}
+
+  .head{display:flex;align-items:baseline;gap:14px;padding:26px 22px 14px}
+  .head h1{font-weight:900;font-size:22px;letter-spacing:.02em;color:var(--white);text-transform:uppercase}
+  .head .n{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  .head .meta{margin-left:auto;font-weight:700;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);text-align:right;line-height:1.8}
+
+  .cols{display:grid;grid-template-columns:120px 1.3fr 1fr 1fr 1fr 1.1fr 120px;gap:0 18px;
+    padding:8px 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    font-weight:800;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+  .num{text-align:right}
+  .q{display:grid;grid-template-columns:120px 1.3fr 1fr 1fr 1fr 1.1fr 120px;gap:0 18px;
+    align-items:center;padding:14px 22px;border-bottom:1px solid var(--line);cursor:pointer}
+  .q:hover{background:rgba(245,244,239,.05)}
+  .q .thumb{background:var(--bristol);height:96px;position:relative;overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+  .q .thumb svg{position:absolute;left:8px;top:8px;width:calc(100% - 16px);height:calc(100% - 16px)}
+  .q .thumb svg path{fill:none;stroke:var(--red);stroke-width:.55;vector-effect:non-scaling-stroke}
+  .q h3{font-weight:900;font-size:15px;color:var(--white);text-transform:uppercase}
+  .q .code{font-family:var(--mono);font-size:9.5px;color:var(--dim);letter-spacing:.1em}
+  .q .jp{color:var(--dim);font-size:11.5px}
+  .stat{font-family:var(--mono);font-size:11.5px;color:var(--white);text-align:right}
+  .stat label{display:block;font-family:var(--sans);font-weight:800;font-size:8px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+  .avail{text-align:right}
+  .avail .m{height:4px;background:rgba(245,244,239,.14);margin-top:7px;position:relative}
+  .avail .m b{position:absolute;inset:0 auto 0 0;background:var(--red)}
+  .open{border:1px solid var(--line);background:none;color:var(--mute);font-weight:800;
+    font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:10px 0;width:100%;cursor:pointer}
+  .q:hover .open{border-color:var(--red);color:var(--red)}
+  .foot{padding:14px 22px;font-weight:700;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);display:flex;gap:22px}
+  .foot .sp{flex:1}
+  @media(max-width:1100px){
+    .cols{display:none}
+    .q{grid-template-columns:100px 1fr 110px;grid-template-rows:auto auto}
+    .q .s1,.q .s2{display:none}
+  }
+</style></head>
+<body>
+<header class="bar">
+  <a class="brand" href="#">PLOTFLOW<i>*</i></a>
+  <span class="job">CONSOLE · <b>EDITION QUEUE</b> · 6 RECORDS</span>
+  <nav><a href="#" style="color:var(--white)">Current Editions</a><a href="#">Process</a><a href="#">Studio</a>
+  <button class="cart">Cart [0]</button></nav>
+</header>
+
+<div class="head">
+  <h1>Current editions</h1><span class="n">作品 · RUNS OF 25</span>
+  <div class="meta">PLOTTED TO ORDER · NO CORRECTION APPLIED<br>VALUES COMPUTED FROM EACH STROKE PROGRAM</div>
+</div>
+
+<div class="cols">
+  <span></span><span>Designation</span><span class="num">Ink</span><span class="num">Strokes</span>
+  <span class="num">Plot time</span><span class="num">Availability</span><span></span>
+</div>
+<div id="queue"></div>
+
+<div class="foot">
+  <span>PEN 0.3 MM</span><span>FEED 1100 MM/MIN</span><span>SHEET 11×14″ BRISTOL</span>
+  <span class="sp"></span><span>AXIDRAW</span>
+</div>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, ORDER = window.PLOTFLOW.shopOrder;
+  function stats(s){
+    const re=/([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+    let m,px=null,py=null,draw=0,travel=0,lifts=0;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    while((m=re.exec(s.d))!==null){
+      const x=+m[2],y=+m[3];
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+      if(m[1]==='M'){ if(px!==null){travel+=Math.hypot(x-px,y-py);lifts++;} }
+      else if(px!==null){ draw+=Math.hypot(x-px,y-py); }
+      px=x;py=y;
+    }
+    const mm=420/Math.max(maxx-minx,maxy-miny);
+    return {ink:draw*mm/1000, min:(draw*mm)/1100+(travel*mm)/6600+lifts*0.10/60,
+            strokes:lifts+1, bb:[minx,miny,maxx-minx,maxy-miny]};
+  }
+  const fmt=n=>{const x=Math.round(n*60);return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')};
+  // availability: mockup numbers — the real page reads scripts/stock.js
+  const left=[21,25,14,25,9,17];
+  document.getElementById('queue').innerHTML = ORDER.map((k,i)=>{
+    const s=S[k], t=stats(s), p=Math.max(t.bb[2],t.bb[3])*0.05;
+    return `<div class="q">
+      <div class="thumb"><svg viewBox="${t.bb[0]-p} ${t.bb[1]-p} ${t.bb[2]+2*p} ${t.bb[3]+2*p}"
+        preserveAspectRatio="xMidYMid meet"><path d="${s.d}"/></svg></div>
+      <div><div class="code">№ ${s.code}</div><h3>${s.name}</h3><div class="jp">${s.jp}</div></div>
+      <div class="stat s1"><label>Ink</label>${t.ink.toFixed(1)} m</div>
+      <div class="stat s1"><label>Strokes</label>${t.strokes.toLocaleString()}</div>
+      <div class="stat s2"><label>Plot time</label>${fmt(t.min)}</div>
+      <div class="avail"><span class="stat">${left[i]} / 25</span>
+        <div class="m"><b style="width:${left[i]/25*100}%"></b></div></div>
+      <button class="open">Open record</button>
+    </div>`;
+  }).join('');
+</script>
+</body></html>
