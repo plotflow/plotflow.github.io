@@ -320,3 +320,6 @@ footer .grain{opacity:.3}
 .cart-checkout:disabled{opacity:.45;cursor:not-allowed}
 .cart-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:95;background:var(--ink);color:var(--white);border:1px solid var(--line);padding:12px 18px;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
 .cart-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 井筒に橘 crest — footer seal (56px, above the size floor for the framed mark) */
+.foot-crest{position:relative;z-index:2;display:block;width:56px;height:56px;margin:0 0 26px}
