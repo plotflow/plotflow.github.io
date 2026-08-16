@@ -56,7 +56,7 @@
     el.setAttribute('aria-label', 'Cookie consent');
     el.innerHTML =
       '<div class="hd"><span><b>Cookies</b> · tracking</span><span>GA4</span></div>' +
-      '<p>We use Google Analytics to count visits and see which editions get attention — no ads, no data resale. Analytics only loads if you accept.</p>' +
+      '<p>We use Google Analytics to count visits and see which editions get attention. Analytics loads only if you accept.</p>' +
       '<div class="btns"><button class="ok">Accept</button><button class="no">Decline</button></div>';
     el.querySelector('.ok').addEventListener('click', function () {
       store('granted'); loadGA(); removeBanner();
