@@ -41,6 +41,50 @@
   $("pdBedlabel").textContent = suit.code + " " + suit.name;
   var sizeM = (suit.edition || "").split("·").pop().trim();
   $("pdSize").textContent = sizeM || "11×14″";
+  var recCode = $("pfRecCode");
+  if (recCode) recCode.textContent = suit.code;
+
+  // ---- stroke program table (console record layout) ----
+  // Same physical model as the Live Plot: pen-down feed, pen-up travel
+  // feed, and a fixed cost per pen lift.
+  (function () {
+    var tbl = $("pdProgram"); if (!tbl) return;
+    var re = /([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, m;
+    var px = null, py = null, draw = 0, travel = 0, lifts = 0, verts = 0;
+    var minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+    while ((m = re.exec(suit.d)) !== null) {
+      var x = +m[2], y = +m[3]; verts++;
+      if (x < minx) minx = x; if (x > maxx) maxx = x;
+      if (y < miny) miny = y; if (y > maxy) maxy = y;
+      if (m[1] === "M") { if (px !== null) { travel += Math.hypot(x - px, y - py); lifts++; } }
+      else if (px !== null) { draw += Math.hypot(x - px, y - py); }
+      px = x; py = y;
+    }
+    var mm = 420 / Math.max(maxx - minx, maxy - miny);
+    var min = (draw * mm) / 1100 + (travel * mm) / 6600 + (lifts * 0.10) / 60;
+    var sec = Math.round(min * 60);
+    var rows = [
+      ["Ink laid", (draw * mm / 1000).toFixed(1) + " m"],
+      ["Strokes", (lifts + 1).toLocaleString()],
+      ["Vertices", verts.toLocaleString()],
+      ["Plot time", Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0")],
+      ["Feed", "1100 mm/min"]
+    ];
+    tbl.innerHTML = rows.map(function (r) {
+      return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td></tr>";
+    }).join("");
+  })();
+
+  // ---- record navigation (prev / next in shop order) ----
+  (function () {
+    var prev = $("pdPrev"), next = $("pdNext");
+    var ORDER = (window.PLOTFLOW && window.PLOTFLOW.shopOrder) || [];
+    var i = ORDER.indexOf(key);
+    if (i < 0 || !ORDER.length) return;
+    var n = ORDER.length;
+    if (prev) prev.href = "product.html?id=" + encodeURIComponent(ORDER[(i - 1 + n) % n]);
+    if (next) next.href = "product.html?id=" + encodeURIComponent(ORDER[(i + 1) % n]);
+  })();
 
   // ---- color swatches ----
   var color = DEFAULT_COLOR;

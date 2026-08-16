@@ -1,7 +1,9 @@
 /* ============================================================
-   PLOTFLOW · Shop grid
-   Builds edition cards from window.PLOTFLOW (data/editions.js).
-   The "▶ Plot" button hands the suit to the hero plotter.
+   PLOTFLOW · Edition queue (shop)
+   Builds the console's job list from window.PLOTFLOW
+   (data/editions.js): one row per edition with stats computed
+   from its stroke program, an availability meter fed by
+   scripts/stock.js, and Acquire / Open record / ▶ Plot actions.
    ============================================================ */
 (function () {
   var P = window.PLOTFLOW || {};
@@ -10,73 +12,97 @@
   var grid = document.getElementById('grid');
   if (!grid) return;
 
-  var STAR = '<svg viewBox="0 0 100 100"><line x1="50" y1="6" x2="50" y2="94"/><line x1="6" y1="50" x2="94" y2="50"/><line x1="19" y1="19" x2="81" y2="81"/><line x1="81" y1="19" x2="19" y2="81"/></svg>';
+  // Same physical model as the Live Plot (plotter.js): pen-down feed,
+  // pen-up travel feed, and a fixed cost per pen lift.
+  var FEED = 1100, TRAVEL_FEED = 6600, LIFT_S = 0.10;
 
-  ORDER.forEach(function (key, i) {
+  function stats(d) {
+    var re = /([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, m;
+    var px = null, py = null, draw = 0, travel = 0, lifts = 0;
+    var minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+    while ((m = re.exec(d)) !== null) {
+      var x = +m[2], y = +m[3];
+      if (x < minx) minx = x; if (x > maxx) maxx = x;
+      if (y < miny) miny = y; if (y > maxy) maxy = y;
+      if (m[1] === 'M') { if (px !== null) { travel += Math.hypot(x - px, y - py); lifts++; } }
+      else if (px !== null) { draw += Math.hypot(x - px, y - py); }
+      px = x; py = y;
+    }
+    var mm = 420 / Math.max(maxx - minx, maxy - miny);   // longest side ≈ 420mm on sheet
+    return {
+      ink: draw * mm / 1000,
+      min: (draw * mm) / FEED + (travel * mm) / TRAVEL_FEED + (lifts * LIFT_S) / 60,
+      strokes: lifts + 1,
+      bb: [minx, miny, maxx - minx, maxy - miny]
+    };
+  }
+
+  function fmt(min) {
+    var s = Math.round(min * 60);
+    return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  }
+
+  ORDER.forEach(function (key) {
     var s = SUITS[key]; if (!s) return;
-    var card = document.createElement('article');
-    card.className = 'card';
-    card.dataset.key = key;
-    var no = '№ PF-0' + (10 + i);
+    var t = stats(s.d), p = Math.max(t.bb[2], t.bb[3]) * 0.05;
     var href = 'product.html?id=' + encodeURIComponent(key);
-    card.innerHTML =
-      '<a class="cover" href="' + href + '">' +
-        '<div class="art"><svg viewBox="0 0 ' + s.w + ' ' + s.h + '" preserveAspectRatio="xMidYMid meet">' +
-          '<path d="' + s.d + '" fill="none" stroke="currentColor" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></div>' +
-        '<div class="grain"></div><div class="ht"></div>' +
-        '<div class="top"><span class="tiny">PLOTFLOW*</span><span class="tiny num">' + no + '</span></div>' +
-        '<div class="name">' + s.name + '</div>' +
-        '<div class="jp">' + s.jp + '</div>' +
-        '<span class="ast star">' + STAR + '</span>' +
-        '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">0.3 MM · BRISTOL</span></div>' +
-        '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
+    var row = document.createElement('article');
+    row.className = 'qrow';
+    row.dataset.key = key;
+    row.innerHTML =
+      '<a class="thumb" href="' + href + '" aria-label="' + s.name + ' record">' +
+        '<svg viewBox="' + (t.bb[0] - p) + ' ' + (t.bb[1] - p) + ' ' +
+          (t.bb[2] + 2 * p) + ' ' + (t.bb[3] + 2 * p) + '" preserveAspectRatio="xMidYMid meet">' +
+          '<path d="' + s.d + '"/></svg>' +
+        '<button class="qplot" data-plot="' + key + '" aria-label="Plot ' + s.name + '">▶︎ Plot</button>' +
       '</a>' +
-      '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div><div class="stock tiny" data-stock hidden></div></div>' +
-        '<div style="display:flex;align-items:center"><span class="pr">' + s.price + '</span><button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div></div>';
-    grid.appendChild(card);
-
-    // Crop the viewBox to the suit's actual bounding box (+ padding) so every
-    // edition fills its cover at a consistent scale, instead of being
-    // letterboxed inside the mostly-empty original canvas.
-    var svg = card.querySelector('.art svg');
-    var path = card.querySelector('.art path');
-    try {
-      var bb = path.getBBox();
-      var pad = Math.max(bb.width, bb.height) * 0.06;
-      svg.setAttribute('viewBox',
-        (bb.x - pad) + ' ' + (bb.y - pad) + ' ' +
-        (bb.width + pad * 2) + ' ' + (bb.height + pad * 2));
-    } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
+      '<div class="des"><span class="code">№ ' + s.code + '</span>' +
+        '<a class="nm" href="' + href + '">' + s.name + '</a>' +
+        '<span class="jp">' + s.jp + '</span></div>' +
+      '<div class="qstat"><label>Ink</label>' + t.ink.toFixed(1) + ' m</div>' +
+      '<div class="qstat"><label>Strokes</label>' + t.strokes.toLocaleString() + '</div>' +
+      '<div class="qstat"><label>Plot time</label>' + fmt(t.min) + '</div>' +
+      '<div class="avail"><span class="n" data-stock-n>EDITION OF 25</span>' +
+        '<div class="m" hidden data-stock-m><b></b></div></div>' +
+      '<div class="act"><div class="l1"><span class="pr">' + s.price + '</span>' +
+        '<button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div>' +
+        '<a class="rec" href="' + href + '">Open record →</a></div>';
+    grid.appendChild(row);
   });
 
-  // Fill in live remaining-count badges once stock loads (fails silent).
+  // Availability meters — filled once live stock loads (fails silent:
+  // without the endpoint the rows keep the static "EDITION OF 25" label).
   if (window.PlotflowStock) {
     window.PlotflowStock.ready(function (counts) {
       if (!counts) return;
       var SIZE = window.PlotflowStock.size;
       ORDER.forEach(function (key) {
-        var card = grid.querySelector('.card[data-key="' + key + '"]');
-        if (!card || typeof counts[key] !== 'number') return;
+        var row = grid.querySelector('.qrow[data-key="' + key + '"]');
+        if (!row || typeof counts[key] !== 'number') return;
         var left = counts[key];
-        var badge = card.querySelector('[data-stock]');
-        var acq = card.querySelector('.acq');
+        var n = row.querySelector('[data-stock-n]');
+        var m = row.querySelector('[data-stock-m]');
+        var acq = row.querySelector('.acq');
         if (left <= 0) {
-          card.classList.add('sold-out');
-          if (badge) { badge.textContent = 'Sold out'; badge.hidden = false; }
+          row.classList.add('sold-out');
+          if (n) { n.textContent = 'SOLD OUT'; n.classList.add('low'); }
           if (acq) { acq.textContent = 'Sold out'; acq.disabled = true; }
-        } else if (badge) {
-          badge.textContent = left + ' / ' + SIZE + ' left';
-          if (left <= 5) badge.classList.add('low');
-          badge.hidden = false;
+        } else {
+          if (n) {
+            n.textContent = left + ' / ' + SIZE + ' AVAILABLE';
+            if (left <= 5) n.classList.add('low');
+          }
+          if (m) { m.hidden = false; m.querySelector('b').style.width = (left / SIZE * 100) + '%'; }
         }
       });
     });
   }
 
+  // "▶ Plot" hands the suit to the hero plotter (button sits inside the record link).
   grid.addEventListener('click', function (e) {
     var b = e.target.closest('[data-plot]');
     if (!b) return;
-    e.preventDefault();           // the button sits inside the card's product link
+    e.preventDefault();
     if (window.PlotflowPlotter) window.PlotflowPlotter.load(b.dataset.plot);
     var feature = document.getElementById('feature');
     if (feature) feature.scrollIntoView({ behavior: 'smooth' });

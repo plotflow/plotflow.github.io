@@ -21,6 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/styles.css">
+<link rel="stylesheet" href="styles/console.css">
 <meta name="description" content="A made-to-order, machine-drawn PLOTFLOW edition. Drawn in ink on Strathmore Bristol, signed and numbered.">
 <link rel="canonical" href="https://plotflow.io/product.html">
 <meta name="theme-color" content="#43463e">
@@ -38,83 +39,94 @@
 </head>
 <body>
 
-<nav><div class="nav-in">
-  <a href="/" class="brand">Plotflow<i>*</i></a>
-  <div style="display:flex;align-items:center;gap:16px">
-    <div class="nav-links"><a href="/#shop">Current Editions</a><a href="/#process">Process</a><a href="/#feature">Live Plot</a></div>
+<!-- CONSOLE BAR -->
+<header class="pf-bar">
+  <a href="/" class="brand">PLOTFLOW<i>*</i></a>
+  <span class="pf-job">CONSOLE · RECORD <b id="pfRecCode">—</b> · SPECIMEN</span>
+  <div class="pf-nav">
+    <a href="/#shop">Current Editions</a><a href="/#process">Process</a><a href="about.html">Studio</a>
     <button class="cart">Cart [0]</button>
   </div>
-</div></nav>
+</header>
 
-<section class="page">
-  <div class="wrap">
-    <a class="pd-back tiny" href="/#shop">← All editions</a>
-
-    <div class="pd" id="pd" hidden>
-      <!-- LEFT: live plot preview on Strathmore Bristol -->
-      <div class="pd-stage-wrap">
-        <div class="pd-stage" id="pdStage">
-          <span class="pd-bedlabel tiny" id="pdBedlabel"></span>
-          <canvas id="pdCanvas"></canvas>
-          <svg id="pdSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path id="pdPath" d=""></path></svg>
-          <button class="pd-replay" id="pdReplay" hidden>▶&#xFE0E; Watch it plot</button>
-        </div>
-        <div class="pd-stage-meta tiny"><span id="pdInk">—</span><span id="pdSize"></span></div>
-        <button class="pd-wallpaper tiny" id="pdWallpaper">↓ Download phone wallpaper</button>
-        <div class="pd-nudge" id="pdNudge" hidden>
-          <p class="pd-nudge-copy tiny">Saved. To be notified when the next edition is released, leave an email address.</p>
-          <form class="pd-nudge-form" id="pdNudgeForm" novalidate>
-            <input type="email" id="pdNudgeEmail" placeholder="you@example.com" aria-label="Email address" autocomplete="email" />
-            <button type="submit">Notify</button>
-          </form>
-          <p class="pd-nudge-msg tiny" id="pdNudgeMsg" hidden></p>
-        </div>
-      </div>
-
-      <!-- RIGHT: details + acquire -->
-      <div class="pd-info">
-        <div class="pd-head">
-          <div class="pd-code tiny" id="pdCode"></div>
-          <h1 class="pd-name" id="pdName"></h1>
-          <div class="jp pd-jp" id="pdJp"></div>
-        </div>
-
-        <div class="pd-edrow">
-          <span class="pd-ed tiny" id="pdEd"></span>
-          <span class="pd-price" id="pdPrice"></span>
-        </div>
-        <div class="pd-stock tiny" id="pdStock" hidden></div>
-
-        <p class="pd-lore" id="pdLore"></p>
-
-        <div class="pd-field">
-          <span class="pd-field-label tiny">Pen color</span>
-          <div class="pd-swatches" id="pdSwatches" role="radiogroup" aria-label="Pen color"></div>
-        </div>
-
-        <button class="pd-acquire" id="pdAcquire">Acquire · <span id="pdAcquirePrice"></span></button>
-        <p class="pd-note tiny">Plotted to order in your chosen ink. Shipping + any taxes calculated at checkout.</p>
-
-        <div class="pd-specs">
-          <h3>Materials &amp; specs</h3>
-          <ul>
-            <li><strong>Paper:</strong> Strathmore 300 Series Bristol, smooth, 11×14″</li>
-            <li><strong>Ink:</strong> Staedtler Triplus 0.3mm fineliner, pigment-based &amp; lightfast</li>
-            <li><strong>Made by:</strong> AxiDraw pen plotter, drawn line by line</li>
-            <li><strong>Finishing:</strong> Inspected, signed, and numbered by hand</li>
-          </ul>
-          <h3>Shipping &amp; returns</h3>
-          <p>Each edition is plotted to order. Please allow up to 2–3 weeks for production before dispatch. Free U.S. shipping; flat $20 international at checkout. Damaged-in-transit pieces are replaced free. See <a href="shipping.html">Shipping</a> &amp; <a href="returns.html">Returns</a>.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="pd-missing" id="pdMissing" hidden>
-      <div class="page-head"><h1>Not found<span class="star">*</span></h1><div class="jp">作品が見つかりません</div></div>
-      <div class="page-body"><p>That edition isn't part of the current run. <a href="/#shop">Browse all editions →</a></p></div>
+<!-- RECORD: sheet left, record panel right -->
+<section class="pfr" id="pd" hidden>
+  <div class="pfr-stagewrap">
+    <div class="pfr-sheet">
+      <span class="corner c-tl"></span><span class="corner c-tr"></span>
+      <span class="corner c-bl"></span><span class="corner c-br"></span>
+      <span class="bl tiny" id="pdBedlabel"></span>
+      <span class="vr">SPECIMEN VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
+      <canvas id="pdCanvas"></canvas>
+      <svg id="pdSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path id="pdPath" d=""></path></svg>
+      <button class="pd-replay" id="pdReplay" hidden>▶&#xFE0E; Watch it plot</button>
     </div>
   </div>
+
+  <aside class="pfr-panel">
+    <div class="pfr-sec">
+      <div class="pfr-code" id="pdCode"></div>
+      <h1 class="pfr-name" id="pdName"></h1>
+      <div class="pfr-jp" id="pdJp"></div>
+      <p class="pfr-lore" id="pdLore"></p>
+    </div>
+
+    <div class="pfr-sec">
+      <h5>Stroke program<sup>1</sup></h5>
+      <table class="pfr-tbl"><tbody id="pdProgram"></tbody></table>
+    </div>
+
+    <div class="pfr-sec">
+      <h5>Pen<sup>2</sup></h5>
+      <div class="pd-swatches" id="pdSwatches" role="radiogroup" aria-label="Pen color"></div>
+      <div class="pfr-meta"><span id="pdInk">—</span><span id="pdSize"></span></div>
+    </div>
+
+    <div class="pfr-sec">
+      <div class="pfr-buyrow">
+        <span class="pd-price" id="pdPrice"></span>
+        <span class="pd-ed" id="pdEd"></span>
+      </div>
+      <div class="pd-stock" id="pdStock" hidden></div>
+      <button class="pd-acquire" id="pdAcquire">Acquire · <span id="pdAcquirePrice"></span></button>
+      <p class="pd-note tiny">Plotted to order in the chosen ink. Shipping and any taxes calculated at checkout.</p>
+      <button class="pd-wallpaper tiny" id="pdWallpaper">↓ Download phone wallpaper</button>
+      <div class="pd-nudge" id="pdNudge" hidden>
+        <p class="pd-nudge-copy tiny">Saved. To be notified when the next edition is released, leave an email address.</p>
+        <form class="pd-nudge-form" id="pdNudgeForm" novalidate>
+          <input type="email" id="pdNudgeEmail" placeholder="you@example.com" aria-label="Email address" autocomplete="email" />
+          <button type="submit">Notify</button>
+        </form>
+        <p class="pd-nudge-msg tiny" id="pdNudgeMsg" hidden></p>
+      </div>
+    </div>
+
+    <div class="pfr-sec pfr-fn">
+      <p><sup>1</sup> Values computed from the stroke program, not estimated. Plot time
+      includes pen-up travel at 6600&nbsp;mm/min and 0.10&nbsp;s per pen lift.</p>
+      <p><sup>2</sup> Staedtler Triplus 0.3&nbsp;mm pigment fineliner on Strathmore 300
+      Bristol, 11×14&nbsp;in. Ink laydown varies with temperature, humidity, and feed;
+      no correction is applied. Each sheet is inspected, signed, and numbered.</p>
+      <p>Allow 2–3 weeks for production before dispatch. Free U.S. shipping; flat $20
+      international. Damaged-in-transit sheets are replaced — see
+      <a href="shipping.html" style="color:var(--red)">Shipping</a> &amp;
+      <a href="returns.html" style="color:var(--red)">Returns</a>.</p>
+    </div>
+
+    <div class="pfr-nav">
+      <a href="#" id="pdPrev">← Prev record</a>
+      <a href="/#shop" id="pdAll">All editions</a>
+      <a href="#" id="pdNext">Next record →</a>
+    </div>
+  </aside>
 </section>
+
+<div class="pd-missing" id="pdMissing" hidden>
+  <section class="page"><div class="wrap">
+    <div class="page-head"><h1>Not found<span class="star">*</span></h1><div class="jp">作品が見つかりません</div></div>
+    <div class="page-body"><p>That edition isn't part of the current run. <a href="/#shop">Browse all editions →</a></p></div>
+  </div></section>
+</div>
 
 <footer>
   <div class="grain"></div>
