@@ -28,7 +28,7 @@
         '<div class="name">' + s.name + '</div>' +
         '<div class="jp">' + s.jp + '</div>' +
         '<span class="ast star">' + STAR + '</span>' +
-        '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">マシンドロー</span></div>' +
+        '<div class="foot"><span class="tiny">' + s.code + '</span><span class="tiny">0.3 MM · BRISTOL</span></div>' +
         '<button class="plotbtn" data-plot="' + key + '">▶︎ Plot</button>' +
       '</a>' +
       '<div class="buy"><div><div class="ed">' + s.edition + '</div><div class="t">' + s.code + ' ' + s.name + '</div><div class="stock tiny" data-stock hidden></div></div>' +
