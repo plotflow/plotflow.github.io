@@ -14,12 +14,12 @@ OUT = os.path.join(ROOT, "data", "editions.js")
 
 # key -> metadata. `file` is the svg basename in assets/plots (without .svg).
 META = {
- "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. 09/25 · 11×14″", "price":"$45"},
- "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. 18/25 · 11×14″", "price":"$45"},
- "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. 05/25 · 11×14″", "price":"$45"},
- "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. 12/25 · 11×14″", "price":"$45"},
- "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. 22/25 · 11×14″", "price":"$45"},
- "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. 15/25 · 11×14″", "price":"$45"},
+ "zaku":     {"file":"zaku-ii",  "name":"Zaku II",  "code":"MS-06",     "jp":"ザク",                 "edition":"ED. OF 25 · 11×14″", "price":"$45"},
+ "guncannon":{"file":"guncannon","name":"Guncannon","code":"RX-77",     "jp":"ガンキャノン",          "edition":"ED. OF 25 · 11×14″", "price":"$45"},
+ "bigzam":   {"file":"big-zam",  "name":"Big Zam",  "code":"MA-08",     "jp":"ビグ・ザム",            "edition":"ED. OF 25 · 11×14″", "price":"$45"},
+ "dom":      {"file":"dom",      "name":"Dom",      "code":"MS-09",     "jp":"ドム",                 "edition":"ED. OF 25 · 11×14″", "price":"$45"},
+ "zgok":     {"file":"zgok",     "name":"Z'Gok",    "code":"MSM-07",    "jp":"ズゴック",              "edition":"ED. OF 25 · 11×14″", "price":"$45"},
+ "gp02":     {"file":"gp-02",    "name":"GP-02A",   "code":"RX-78GP02", "jp":"ガンダム試作2号機",     "edition":"ED. OF 25 · 11×14″", "price":"$45"},
 }
 
 # Short editorial blurb shown on each edition's product page + lore card.
