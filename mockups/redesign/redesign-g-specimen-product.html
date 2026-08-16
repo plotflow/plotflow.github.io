@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PLOTFLOW · G — Specimen product record</title>
+<style>
+  :root{
+    --bar:#33362b; --side:#3c3f34; --con:#43463e; --bristol:#f6f3ec;
+    --white:#f5f4ef; --mute:#c3c5b8; --dim:#8f9184; --ink:#15160f; --red:#e8351f;
+    --line:rgba(245,244,239,.22);
+    --sans:'Archivo','Liberation Sans',Arial,sans-serif; --mono:'Liberation Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--con);color:var(--mute);font-family:var(--sans);font-size:13px;line-height:1.65}
+  .bar{position:sticky;top:0;z-index:9;display:flex;align-items:center;gap:18px;
+    padding:11px 18px;background:var(--bar);border-bottom:1px solid var(--line)}
+  .bar .brand{font-weight:900;font-size:15px;letter-spacing:.06em;color:var(--white);text-decoration:none}
+  .bar .brand i{color:var(--red);font-style:normal}
+  .bar .job{font-weight:700;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .bar .job b{color:var(--white)}
+  .bar nav{margin-left:auto;display:flex;gap:20px;align-items:center}
+  .bar nav a{font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);text-decoration:none}
+  .bar .cart{background:none;border:1px solid var(--red);color:var(--red);font-weight:800;
+    font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px}
+
+  /* record layout: sheet left, record panel right */
+  .rec{display:grid;grid-template-columns:1fr 420px;min-height:calc(100vh - 44px)}
+  .sheetwrap{position:relative;padding:22px;
+    background:radial-gradient(1000px 600px at 50% 40%,#4d5045 0%,#383b31 72%)}
+  .sheet{position:absolute;inset:22px;background:var(--bristol);overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.3)}
+  .sheet .bl{position:absolute;top:8px;left:16px;font-weight:700;font-size:8px;
+    letter-spacing:.16em;text-transform:uppercase;color:#a99a76;z-index:3}
+  .sheet .vr{position:absolute;top:8px;right:16px;font-weight:700;font-size:8px;
+    letter-spacing:.16em;text-transform:uppercase;color:#a99a76;z-index:3}
+  .sheet svg{position:absolute;left:44px;top:44px;width:calc(100% - 88px);height:calc(100% - 88px)}
+  .sheet svg path{fill:none;stroke:var(--red);stroke-width:1.4;vector-effect:non-scaling-stroke}
+  .corner{position:absolute;width:15px;height:15px;border:1.5px solid #b7ab8a;z-index:3}
+  .c-tl{top:8px;left:8px;border-right:none;border-bottom:none}.c-tr{top:8px;right:8px;border-left:none;border-bottom:none}
+  .c-bl{bottom:8px;left:8px;border-right:none;border-top:none}.c-br{bottom:8px;right:8px;border-left:none;border-top:none}
+
+  /* record panel */
+  .panel{background:var(--side);border-left:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto}
+  .sec{padding:18px;border-bottom:1px solid var(--line)}
+  .sec h5{font-weight:800;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+  .code{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.1em}
+  h1{font-weight:900;font-size:30px;line-height:1;color:var(--white);margin:6px 0 2px;text-transform:uppercase}
+  .jp{color:var(--dim);font-size:13px}
+  .lore{margin-top:12px;color:var(--mute)}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+  td{padding:6px 0;border-bottom:1px solid rgba(245,244,239,.10)}
+  td:first-child{color:var(--dim);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+  td:last-child{text-align:right;color:var(--white)}
+  tr:last-child td{border-bottom:none}
+  .sw{display:flex;gap:10px}
+  .sw button{width:34px;height:34px;border:1px solid var(--line);cursor:pointer;position:relative}
+  .sw button.on{outline:2px solid var(--white);outline-offset:2px}
+  .sw span{display:block;font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--dim);
+    text-transform:uppercase;margin-top:6px;text-align:center;width:34px}
+  .buyrow{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+  .price{font-weight:900;font-size:24px;color:var(--white)}
+  .ed{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  .acq{width:100%;background:var(--red);border:none;color:#fff;font-weight:900;font-size:12.5px;
+    letter-spacing:.1em;text-transform:uppercase;padding:14px;cursor:pointer}
+  .note{font-size:11px;color:var(--dim);margin-top:10px;line-height:1.7}
+  .fn{font-size:10.5px;color:var(--dim);line-height:1.8}
+  .fn sup{color:var(--red)}
+  .qnav{margin-top:auto;display:flex;border-top:1px solid var(--line)}
+  .qnav a{flex:1;padding:12px;text-align:center;font-weight:800;font-size:9.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);text-decoration:none}
+  .qnav a+a{border-left:1px solid var(--line)}
+  @media(max-width:980px){.rec{grid-template-columns:1fr}.sheetwrap{height:60vh}.panel{border-left:none}}
+</style></head>
+<body>
+<header class="bar">
+  <a class="brand" href="#">PLOTFLOW<i>*</i></a>
+  <span class="job">CONSOLE · RECORD <b id="jc">—</b> · SPECIMEN</span>
+  <nav><a href="#">Current Editions</a><a href="#">Process</a><a href="#">Studio</a>
+  <button class="cart">Cart [0]</button></nav>
+</header>
+
+<div class="rec">
+  <div class="sheetwrap">
+    <div class="sheet">
+      <span class="corner c-tl"></span><span class="corner c-tr"></span>
+      <span class="corner c-bl"></span><span class="corner c-br"></span>
+      <span class="bl" id="bl">BED 01</span>
+      <span class="vr">SPECIMEN VIEW · FINISHED SHEET · INK 0.30 MM</span>
+      <svg id="art" preserveAspectRatio="xMidYMid meet"><path id="artp" d=""/></svg>
+    </div>
+  </div>
+
+  <aside class="panel">
+    <div class="sec">
+      <div class="code" id="code"></div>
+      <h1 id="name"></h1>
+      <div class="jp" id="jp"></div>
+      <p class="lore" id="lore"></p>
+    </div>
+
+    <div class="sec">
+      <h5>Stroke program<sup style="color:var(--red)">1</sup></h5>
+      <table id="spec"></table>
+    </div>
+
+    <div class="sec">
+      <h5>Pen<sup style="color:var(--red)">2</sup></h5>
+      <div class="sw" id="sw"></div>
+    </div>
+
+    <div class="sec">
+      <div class="buyrow"><span class="price">$225</span><span class="ed" id="ed"></span></div>
+      <button class="acq">Acquire — plotted to order</button>
+      <p class="note">Drawn after the order is placed; allow 2–3 weeks before dispatch.
+      Free U.S. shipping, flat $20 international. Signed and numbered.</p>
+    </div>
+
+    <div class="sec fn">
+      <p><sup>1</sup> Values computed from the stroke program, not estimated. Plot time
+      includes pen-up travel at 6600 mm/min and 0.10 s per lift.</p>
+      <p><sup>2</sup> Staedtler Triplus 0.3 mm pigment fineliner on Strathmore 300 Bristol,
+      11×14 in. Ink laydown varies with temperature, humidity, and feed; no correction is applied.</p>
+    </div>
+
+    <div class="qnav"><a href="#">← Prev record</a><a href="#">All editions</a><a href="#">Next record →</a></div>
+  </aside>
+</div>
+
+<script src="/data/editions.js"></script>
+<script>
+  const S = window.PLOTFLOW.suits, key = window.PLOTFLOW.shopOrder[0], s = S[key];
+  function stats(s){
+    const re=/([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+    let m,px=null,py=null,draw=0,travel=0,lifts=0,verts=0;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    while((m=re.exec(s.d))!==null){
+      const x=+m[2],y=+m[3]; verts++;
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+      if(m[1]==='M'){ if(px!==null){travel+=Math.hypot(x-px,y-py);lifts++;} }
+      else if(px!==null){ draw+=Math.hypot(x-px,y-py); }
+      px=x;py=y;
+    }
+    const mm=420/Math.max(maxx-minx,maxy-miny);
+    return {ink:draw*mm/1000, min:(draw*mm)/1100+(travel*mm)/6600+lifts*0.10/60,
+            strokes:lifts+1, verts, bb:[minx,miny,maxx-minx,maxy-miny]};
+  }
+  const t = stats(s), p = Math.max(t.bb[2],t.bb[3])*0.05;
+  document.getElementById('artp').setAttribute('d', s.d);
+  document.getElementById('art').setAttribute('viewBox',
+    (t.bb[0]-p)+' '+(t.bb[1]-p)+' '+(t.bb[2]+2*p)+' '+(t.bb[3]+2*p));
+  document.getElementById('jc').textContent = s.code;
+  document.getElementById('bl').textContent = 'BED 01 · ' + s.code;
+  document.getElementById('code').textContent = '№ ' + s.code + ' · RECORD';
+  document.getElementById('name').textContent = s.name;
+  document.getElementById('jp').textContent = s.jp;
+  document.getElementById('lore').textContent = s.lore || '';
+  document.getElementById('ed').textContent = 'EDITION OF 25 · 11×14 IN';
+  const fmt=n=>{const x=Math.round(n*60);return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')};
+  document.getElementById('spec').innerHTML = [
+    ['Ink laid', t.ink.toFixed(1)+' m'],
+    ['Strokes', t.strokes.toLocaleString()],
+    ['Vertices', t.verts.toLocaleString()],
+    ['Plot time', fmt(t.min)],
+    ['Feed', '1100 mm/min'],
+  ].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+  const pens=[['#e8351f','Red',1],['#15160f','Ink',0],['#6b4a2f','Sepia',0]];
+  document.getElementById('sw').innerHTML = pens.map(c=>
+    `<div><button style="background:${c[0]}" class="${c[2]?'on':''}" aria-label="${c[1]}"></button><span>${c[1]}</span></div>`).join('');
+</script>
+</body></html>
