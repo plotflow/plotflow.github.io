@@ -74,6 +74,29 @@
   function mapX(ux) { return (tf.ox + (ux - vb.x) * tf.s) * tf.dpr; }
   function mapY(uy) { return (tf.oy + (uy - vb.y) * tf.s) * tf.dpr; }
 
+  // Size the sheet to the artwork: the bed takes the suit's aspect ratio
+  // (plus uniform paper margins) and centres in the stage, so the drawing
+  // fills the paper instead of floating in blank bristol. The stage
+  // backdrop absorbs the leftover space.
+  var stageBox = bed ? bed.parentElement : null;
+  function fitBed() {
+    if (!bed || !stageBox) return;
+    var cs = getComputedStyle(stageBox);
+    var pl = parseFloat(cs.paddingLeft) || 0, pr = parseFloat(cs.paddingRight) || 0;
+    var pt = parseFloat(cs.paddingTop) || 0, pb = parseFloat(cs.paddingBottom) || 0;
+    var aw = stageBox.clientWidth - pl - pr, ah = stageBox.clientHeight - pt - pb;
+    if (aw <= 0 || ah <= 0) return;
+    var ar = vb.w / vb.h;              // art aspect = sheet aspect (7% margins all round)
+    var w = aw, h = w / ar;
+    if (h > ah) { h = ah; w = h * ar; }
+    bed.style.width = w + 'px';
+    bed.style.height = h + 'px';
+    bed.style.left = (pl + (aw - w) / 2) + 'px';
+    bed.style.top = (pt + (ah - h) / 2) + 'px';
+    bed.style.right = 'auto';
+    bed.style.bottom = 'auto';
+  }
+
   // Size the canvas backing store to the bed and (re)derive the meet transform.
   // Resizing the backing store clears it, so this also resets the ink.
   function resetCanvas() {
@@ -162,6 +185,7 @@
     if (total) total.textContent = fmt(totalMin);
     if (bedlabel) bedlabel.textContent = 'BED 01 · ' + cur.code;
     drawn = 0; playing = true; last = null;   // reset the clock → always start from a blank sheet
+    fitBed();
     resetCanvas();
     if (replay) replay.classList.remove('show');
     if (playBtn) playBtn.textContent = 'Pause';
@@ -206,7 +230,7 @@
   }
 
   // Re-fit + repaint the current progress when the bed changes size.
-  function refit() { resetCanvas(); if (drawn >= len) fastPaintAll(); else paintTo(drawn); }
+  function refit() { fitBed(); resetCanvas(); if (drawn >= len) fastPaintAll(); else paintTo(drawn); }
   window.addEventListener('resize', refit);
 
   function restart() {
