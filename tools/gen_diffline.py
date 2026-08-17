@@ -151,6 +151,11 @@ PRESETS = {
     # tall column, tighter repulsion → denser folds
     "column": dict(steps=950, n0=56, r0=26, stretch=(0.6, 4.6),
                    r_rep=19.0),
+    # organic labyrinth (after Pedersen & Singh) — confined growth tuned for
+    # even corridor spacing; only the FINAL curve is drawn, one closed line
+    "labyrinth": dict(steps=1600, n0=60, r0=40, r_rep=14.0, d_split=4.2,
+                      ins_rate=70, n_max=30000, k_noise=0.3, step_max=1.8,
+                      final_only=True),
 }
 
 if __name__ == "__main__":
@@ -160,7 +165,11 @@ if __name__ == "__main__":
     for name, kw in PRESETS.items():
         if which and name != which:
             continue
+        kw = dict(kw)
+        final_only = kw.pop("final_only", False)
         snaps = grow(seed=seed, **kw)
+        if final_only:
+            snaps = snaps[-1:]
         base = os.path.join(OUT, "diffline-%s-s%d" % (name, seed))
         verts = to_svg(snaps, base + ".svg")
         to_png(snaps, base + ".png")
