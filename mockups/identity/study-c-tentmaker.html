@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Identity study C — TENTMAKER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* STUDY C — dark editorial. Meinhardt's seashell pigmentation (the tent
+     patterns of Conus textile) as the identity. Type: Cormorant Garamond +
+     Space Mono. Palette: warm ink, bone, brass. */
+  :root{ --ink:#14100e; --bone:#e8dcc8; --brass:#b08d57; --dim:#8a7f6d; --line:#332c25 }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--bone);font-family:'Cormorant Garamond',serif}
+  .mono{font-family:'Space Mono',monospace}
+  header{display:flex;justify-content:space-between;align-items:center;padding:26px 46px;border-bottom:1px solid var(--line)}
+  .brand{font-size:24px;font-weight:600;letter-spacing:.34em;text-transform:uppercase}
+  .brand i{font-style:normal;color:var(--brass)}
+  nav{display:flex;gap:30px;font-size:10px;letter-spacing:.28em;color:var(--dim)}
+  .hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+  .hero-l{padding:80px 50px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--line)}
+  h1{font-weight:400;font-size:64px;line-height:1.04;letter-spacing:.01em}
+  h1 em{color:var(--brass)}
+  .lede{margin-top:26px;font-size:19px;line-height:1.7;color:#cdbfa7;max-width:44ch}
+  .rule{margin-top:36px;display:flex;gap:18px;align-items:center}
+  .rule span{font-size:10px;letter-spacing:.3em;color:var(--dim)}
+  .rule i{flex:1;height:1px;background:var(--line)}
+  .hero-r{position:relative;min-height:620px}
+  .hero-r svg{position:absolute;left:36px;top:36px;width:calc(100% - 72px);height:calc(100% - 92px)}
+  .hero-r .cap{position:absolute;left:20px;bottom:12px;font-size:9px;letter-spacing:.22em;color:var(--dim)}
+  .spec{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+  .spec>div{padding:40px 46px}
+  .spec>div+div{border-left:1px solid var(--line)}
+  .spec h5{font-size:9px;letter-spacing:.3em;color:var(--dim);margin-bottom:20px}
+  .tA{font-size:52px;font-weight:400;line-height:1}
+  .tA em{color:var(--brass)}
+  .tB{font-size:22px;font-style:italic;margin-top:8px;color:#cdbfa7}
+  .tC{font-size:15px;margin-top:14px;line-height:1.7;color:#a89a84}
+  .chips{display:flex}
+  .chip{flex:1;height:88px;position:relative}
+  .chip b{position:absolute;left:8px;bottom:6px;font-size:8.5px;letter-spacing:.1em;font-family:'Space Mono',monospace}
+  .quote{font-size:19px;font-style:italic;line-height:1.75;color:#cdbfa7}
+  .quote b{font-style:normal;color:var(--brass);font-weight:400}
+  footer{padding:26px 46px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+</style></head>
+<body>
+<header>
+  <div class="brand">Tentmaker<i>.</i></div>
+  <nav class="mono"><span>SHELLS</span><span>EQUATIONS</span><span>EDITIONS</span><span>ATELIER</span></nav>
+</header>
+
+<section class="hero">
+  <div class="hero-l">
+    <h1>The snail knows<br>the <em>equation</em>.</h1>
+    <p class="lede">A cone shell paints its pattern one growth line at a time,
+    at the lip of the shell, following an activator–inhibitor law it cannot
+    see and never finishes. We run the same law, and a pen lays down every
+    growth line in ink — the shell's whole life, flat on cotton.</p>
+    <div class="rule"><span class="mono">MEINHARDT SYSTEM</span><i></i><span class="mono">220 GROWTH LINES</span></div>
+  </div>
+  <div class="hero-r">
+    <svg id="shell" viewBox="0 0 620 548" preserveAspectRatio="xMidYMid meet"></svg>
+    <span class="cap mono">CONUS TEXTILE — ACTIVATOR–INHIBITOR, DRAWN EDGE BY EDGE</span>
+  </div>
+</section>
+
+<section class="spec">
+  <div>
+    <h5 class="mono">TYPOGRAPHY — CORMORANT GARAMOND</h5>
+    <div class="tA">Aa Qq <em>&amp;</em> 128</div>
+    <div class="tB">the pattern is the animal's diary</div>
+    <p class="tC mono" style="font-size:11px;letter-spacing:.06em">SPACE MONO CARRIES
+    PARAMETERS AND PLATE NUMBERS.</p>
+  </div>
+  <div>
+    <h5 class="mono">PALETTE — SHELL &amp; INK</h5>
+    <div class="chips">
+      <div class="chip" style="background:#14100e;border:1px solid var(--line)"><b style="color:#e8dcc8">INK 14100E</b></div>
+      <div class="chip" style="background:#e8dcc8"><b style="color:#14100e">BONE E8DCC8</b></div>
+      <div class="chip" style="background:#b08d57"><b style="color:#14100e">BRASS B08D57</b></div>
+      <div class="chip" style="background:#8a7f6d"><b style="color:#14100e">UMBER 8A7F6D</b></div>
+    </div>
+    <p class="tC">Dark gallery walls; the sheets are the light. Brass only for
+    emphasis, never for surface.</p>
+  </div>
+  <div>
+    <h5 class="mono">VOICE</h5>
+    <p class="quote">Line 141 is where the storm happened — the activator broke
+    through and the tents collapsed into flame. The snail kept going.
+    <b>So does the pen.</b></p>
+  </div>
+</section>
+
+<footer class="mono"><span>TENTMAKER — SHELL PATTERNS FROM FIRST PRINCIPLES</span><span>MMXXVI</span></footer>
+
+<script>
+// 1-D activator–inhibitor with substrate depletion (Meinhardt's shell class):
+// each row is one growth increment at the shell lip; stacking rows down the
+// page replays the shell's life. Drawn as short strokes where activator is high.
+(function(){
+  const N=300, ROWS=220;
+  let s=29; const rnd=()=> (s=(s*1664525+1013904223)>>>0)/4294967296;
+  let a=new Float32Array(N), b=new Float32Array(N).fill(1);
+  for(let i=0;i<N;i++) if(rnd()<0.06) a[i]=0.9+0.4*rnd();
+  const Da=0.015, Db=0.36, ra=0.09, rb=0.014, bb=0.11, sat=0.28;
+  const rows=[];
+  const a2=new Float32Array(N), b2=new Float32Array(N);
+  for(let t=0;t<ROWS*3;t++){
+    for(let i=0;i<N;i++){
+      const im=(i+N-1)%N, ip=(i+1)%N;
+      const la=a[im]+a[ip]-2*a[i], lb=b[im]+b[ip]-2*b[i];
+      const aa=a[i]*a[i]/(1+sat*a[i]*a[i]);
+      a2[i]=a[i]+Da*la+ra*(aa*b[i]-a[i])+0.0015*rnd();
+      b2[i]=b[i]+Db*lb+bb-rb*b[i]-ra*aa*b[i]*0.95;
+      if(a2[i]<0)a2[i]=0; if(b2[i]<0)b2[i]=0;
+    }
+    a.set(a2); b.set(b2);
+    if(t%3===0) rows.push(Float32Array.from(a));
+  }
+  const W=620,H=548, dy=H/ROWS;
+  let out='';
+  for(let r=0;r<rows.length;r++){
+    const y=(r+0.5)*dy, row=rows[r];
+    let runStart=-1;
+    for(let i=0;i<=N;i++){
+      const on = i<N && row[i]>0.55;
+      if(on && runStart<0) runStart=i;
+      if(!on && runStart>=0){
+        const x1=runStart/N*W, x2=i/N*W;
+        out+=`<line x1="${x1.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#e8dcc8" stroke-width="1.35"/>`;
+        runStart=-1;
+      }
+    }
+  }
+  document.getElementById('shell').innerHTML=out;
+  window.__done=true;
+})();
+</script>
+</body></html>
