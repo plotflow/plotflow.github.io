@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/console.css">
-<meta name="description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta name="description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <link rel="canonical" href="https://plotflow.io/">
 <meta name="theme-color" content="#43463e">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -30,12 +30,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PLOTFLOW">
 <meta property="og:title" content="PLOTFLOW* · Pen-plotter editions">
-<meta property="og:description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta property="og:description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <meta property="og:url" content="https://plotflow.io/">
 <meta property="og:image" content="https://plotflow.io/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PLOTFLOW* · Pen-plotter editions">
-<meta name="twitter:description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta name="twitter:description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <meta name="twitter:image" content="https://plotflow.io/assets/og.png">
 </head>
 <body>
@@ -45,8 +45,7 @@
   <a href="/" class="brand">PLOTFLOW<i>*</i></a>
   <span class="pf-job">CONSOLE · PLOTTING <b id="pfJobCode">—</b> · LIVE SIMULATION</span>
   <div class="pf-nav">
-    <a href="#shop">Current Editions</a><a href="#process">Process</a><a href="about.html">Studio</a>
-    <button class="cart">Cart [0]</button>
+    <a href="#shop">Studies</a><a href="commissions.html">Commissions</a><a href="#process">Process</a><a href="about.html">Studio</a>
   </div>
 </header>
 
@@ -56,7 +55,7 @@
     <div class="pf-tabs"><span>SCENE</span><span class="on">PLOT</span><span>QUEUE</span><span>LOG</span></div>
 
     <div class="pf-sec">
-      <h5>EDITION QUEUE · <span class="jp">作品</span></h5>
+      <h5>STUDY QUEUE · <span class="jp">習作</span></h5>
       <div id="pfQueue"></div>
     </div>
 
@@ -128,14 +127,28 @@
   <div class="grain"></div>
   <div class="wrap">
     <div class="shop-head">
-      <h2>Current Editions<span class="star">*</span></h2><span class="jp">作品</span>
-      <div class="meta tiny">Editions of 25, plotted to order. Copies within an edition differ in line weight and ink laydown; no correction is applied. Values are computed from each stroke program.</div>
+      <h2>Studies<span class="star">*</span></h2><span class="jp">習作</span>
+      <div class="meta tiny">Drawing studies of Universal-Century machines — fan works, displayed and not sold. Values are computed from each stroke program. Original work is drawn through commissions.</div>
     </div>
     <div class="pfq-cols">
       <span></span><span>Designation</span><span class="num">Ink</span><span class="num">Strokes</span>
-      <span class="num">Plot time</span><span class="num">Availability</span><span></span>
+      <span class="num">Plot time</span><span></span>
     </div>
     <div class="pfq" id="grid"></div>
+  </div>
+</section>
+
+<!-- COMMISSIONS -->
+<section class="comm" id="commissions">
+  <div class="grain"></div>
+  <div class="wrap comm-in">
+    <div><h2>Commissions<span class="star">*</span></h2><div class="jp">特注制作</div></div>
+    <div>
+      <p>The studies above are fan works and are not sold. Commissioned work is original:
+      a machine designed for the sheet, rebuilt as vector line work, and drawn by the
+      plotter — one drawing, one owner. From $350 for 11×14″.</p>
+      <a class="comm-cta" href="commissions.html">Commission a piece →</a>
+    </div>
   </div>
 </section>
 
@@ -157,7 +170,7 @@
     <div class="news-copy">
       <h2>Notifications<span class="star">*</span></h2>
       <div class="jp">入荷通知</div>
-      <p>New editions are released irregularly. To be notified when one is released or restocked, leave an email address.</p>
+      <p>New work is released irregularly. To be notified when a study or commission slot opens, leave an email address.</p>
     </div>
     <form class="news-form" id="newsForm" novalidate>
       <div class="news-row">
@@ -186,7 +199,6 @@
 <!-- data first, then components -->
 <script src="data/editions.js"></script>
 <script src="scripts/config.js"></script>
-<script src="scripts/stock.js"></script>
 <script src="scripts/shop.js"></script>
 <script src="scripts/plotter.js"></script>
 <script>
@@ -201,7 +213,7 @@
         var s = S[k], on = sel.value === k;
         return '<button class="pf-q' + (on ? ' on' : '') + '" data-k="' + k + '">' +
           '<span class="code">' + s.code + '</span><span class="nm">' + s.name + '</span>' +
-          '<span class="st">' + (on ? 'PLOTTING' : 'AVAILABLE') + '</span></button>';
+          '<span class="st">' + (on ? 'PLOTTING' : 'ARCHIVE') + '</span></button>';
       }).join('');
       if (job && S[sel.value]) job.textContent = S[sel.value].code;
     }
@@ -216,6 +228,5 @@
   })();
 </script>
 <script src="scripts/newsletter.js"></script>
-<script src="scripts/cart.js"></script>
 </body>
 </html>

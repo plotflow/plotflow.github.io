@@ -1,9 +1,9 @@
 /* ============================================================
-   PLOTFLOW · Edition queue (shop)
-   Builds the console's job list from window.PLOTFLOW
-   (data/editions.js): one row per edition with stats computed
-   from its stroke program, an availability meter fed by
-   scripts/stock.js, and Acquire / Open record / ▶ Plot actions.
+   PLOTFLOW · Study archive
+   Builds the console's study list from window.PLOTFLOW
+   (data/editions.js): one row per study with stats computed from
+   its stroke program. The Universal-Century sheets are fan works,
+   displayed only — commercial work goes through commissions.
    ============================================================ */
 (function () {
   var P = window.PLOTFLOW || {};
@@ -50,7 +50,7 @@
     row.className = 'qrow';
     row.dataset.key = key;
     row.innerHTML =
-      '<a class="thumb" href="' + href + '" aria-label="' + s.name + ' record">' +
+      '<a class="thumb" href="' + href + '" aria-label="' + s.name + ' study record">' +
         '<svg viewBox="' + (t.bb[0] - p) + ' ' + (t.bb[1] - p) + ' ' +
           (t.bb[2] + 2 * p) + ' ' + (t.bb[3] + 2 * p) + '" preserveAspectRatio="xMidYMid meet">' +
           '<path d="' + s.d + '"/></svg>' +
@@ -62,43 +62,12 @@
       '<div class="qstat"><label>Ink</label>' + t.ink.toFixed(1) + ' m</div>' +
       '<div class="qstat"><label>Strokes</label>' + t.strokes.toLocaleString() + '</div>' +
       '<div class="qstat"><label>Plot time</label>' + fmt(t.min) + '</div>' +
-      '<div class="avail"><span class="n" data-stock-n>EDITION OF 25</span>' +
-        '<div class="m" hidden data-stock-m><b></b></div></div>' +
-      '<div class="act"><div class="l1"><span class="pr">' + s.price + '</span>' +
-        '<button class="acq" data-acq="' + key + '" data-color="black">Acquire</button></div>' +
+      '<div class="act"><span class="study">Study · not for sale</span>' +
         '<a class="rec" href="' + href + '">Open record →</a></div>';
     grid.appendChild(row);
   });
 
-  // Availability meters — filled once live stock loads (fails silent:
-  // without the endpoint the rows keep the static "EDITION OF 25" label).
-  if (window.PlotflowStock) {
-    window.PlotflowStock.ready(function (counts) {
-      if (!counts) return;
-      var SIZE = window.PlotflowStock.size;
-      ORDER.forEach(function (key) {
-        var row = grid.querySelector('.qrow[data-key="' + key + '"]');
-        if (!row || typeof counts[key] !== 'number') return;
-        var left = counts[key];
-        var n = row.querySelector('[data-stock-n]');
-        var m = row.querySelector('[data-stock-m]');
-        var acq = row.querySelector('.acq');
-        if (left <= 0) {
-          row.classList.add('sold-out');
-          if (n) { n.textContent = 'SOLD OUT'; n.classList.add('low'); }
-          if (acq) { acq.textContent = 'Sold out'; acq.disabled = true; }
-        } else {
-          if (n) {
-            n.textContent = left + ' / ' + SIZE + ' AVAILABLE';
-            if (left <= 5) n.classList.add('low');
-          }
-          if (m) { m.hidden = false; m.querySelector('b').style.width = (left / SIZE * 100) + '%'; }
-        }
-      });
-    });
-  }
-
-  // "▶ Plot" hands the suit to the hero plotter (button sits inside the record link).
+  // "▶ Plot" hands the study to the hero plotter (button sits inside the record link).
   grid.addEventListener('click', function (e) {
     var b = e.target.closest('[data-plot]');
     if (!b) return;

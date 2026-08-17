@@ -323,3 +323,16 @@ footer .grain{opacity:.3}
 
 /* 井筒に橘 crest — footer seal (56px, above the size floor for the framed mark) */
 .foot-crest{position:relative;z-index:2;display:block;width:56px;height:56px;margin:0 0 26px}
+
+/* ── commissions band (homepage) ── */
+.comm{background:var(--ink);color:var(--bristol);padding:64px 0;position:relative}
+.comm .grain{opacity:.35}
+.comm-in{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:center}
+.comm-in h2{font-weight:900;font-size:clamp(2rem,4.5vw,3.2rem);line-height:.95;text-transform:uppercase}
+.comm-in .star{color:var(--red)}
+.comm-in .jp{font-family:var(--jp);font-weight:700;color:var(--dim);margin-top:10px}
+.comm-in p{color:var(--mute);font-size:15px;line-height:1.75;max-width:560px}
+.comm-cta{display:inline-block;margin-top:18px;background:var(--red);color:#fff;text-decoration:none;
+  font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:13px 22px}
+.comm-cta:hover{background:var(--bristol);color:var(--ink)}
+@media(max-width:760px){.comm-in{grid-template-columns:1fr}}

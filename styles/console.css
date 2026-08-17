@@ -145,12 +145,12 @@
    (renders into #grid on the homepage via scripts/shop.js)
    ============================================================ */
 .pfq-cols{position:relative;z-index:2;display:grid;
-  grid-template-columns:110px 1.3fr .55fr .6fr .65fr .9fr 200px;gap:0 18px;
+  grid-template-columns:110px 1.3fr .55fr .6fr .65fr 210px;gap:0 18px;
   padding:10px 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   font-weight:800;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .pfq-cols .num{text-align:right}
 .pfq{position:relative;z-index:2}
-.qrow{display:grid;grid-template-columns:110px 1.3fr .55fr .6fr .65fr .9fr 200px;gap:0 18px;
+.qrow{display:grid;grid-template-columns:110px 1.3fr .55fr .6fr .65fr 210px;gap:0 18px;
   align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
 .qrow:hover{background:rgba(245,244,239,.04)}
 .qrow .thumb{display:block;background:var(--bristol);height:92px;position:relative;
@@ -176,22 +176,16 @@
 .qrow .avail .m{height:4px;background:rgba(245,244,239,.14);margin-top:7px;position:relative}
 .qrow .avail .m b{position:absolute;top:0;bottom:0;left:0;background:var(--red)}
 .qrow .act{text-align:right}
-.qrow .act .l1{display:flex;justify-content:flex-end;align-items:center;gap:12px}
-.qrow .act .pr{font-weight:900;font-size:15px;color:var(--white)}
-.qrow .act .acq{font-weight:800;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
-  border:1px solid var(--line);background:none;color:var(--mute);padding:9px 14px;cursor:pointer}
-.qrow .act .acq:hover{background:var(--red);border-color:var(--red);color:#fff}
-.qrow .act .acq:disabled{color:var(--dim);background:none;border-color:var(--line);cursor:not-allowed}
-.qrow .act .rec{display:inline-block;margin-top:8px;font-weight:800;font-size:8.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none}
-.qrow .act .rec:hover{color:var(--red)}
-.qrow.sold-out .thumb{opacity:.45}
-.qrow.sold-out .des .nm{color:var(--dim)}
+.qrow .act .study{display:block;font-weight:800;font-size:8.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)}
+.qrow .act .rec{display:inline-block;margin-top:9px;font-weight:800;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-decoration:none;
+  border:1px solid var(--line);padding:8px 14px}
+.qrow .act .rec:hover{border-color:var(--red);color:var(--red)}
 @media(max-width:1100px){
   .pfq-cols{display:none}
   .qrow{grid-template-columns:96px 1fr 170px;gap:0 14px}
   .qrow .qstat{display:none}
-  .qrow .avail{display:none}
 }
 @media(max-width:560px){
   .qrow{grid-template-columns:80px 1fr;grid-template-rows:auto auto}
@@ -286,3 +280,8 @@
 /* manifesto crest — stroked red on the dark ground */
 .mani-crest{display:block;width:96px;height:96px;margin-bottom:20px}
 @media(max-width:940px){.pf-seal{width:40px;height:40px;right:14px;bottom:12px}}
+
+/* study note on the record page */
+.pfr-study{font-size:12px;line-height:1.7;color:var(--mute);margin:0 0 14px}
+.pfr-study b{color:var(--white);text-transform:uppercase;font-size:10.5px;letter-spacing:.12em}
+.pfr-panel .pd-acquire{display:block;text-align:center;text-decoration:none}

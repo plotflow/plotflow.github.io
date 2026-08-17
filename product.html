@@ -15,27 +15,27 @@
 </script>
 <script src="scripts/consent.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Edition · PLOTFLOW*</title>
+<title>Study · PLOTFLOW*</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/console.css">
-<meta name="description" content="A made-to-order, machine-drawn PLOTFLOW edition. Drawn in ink on Strathmore Bristol, signed and numbered.">
+<meta name="description" content="A machine-drawn PLOTFLOW study sheet — fan work, displayed only. Original pieces are drawn through commissions.">
 <link rel="canonical" href="https://plotflow.io/product.html">
 <meta name="theme-color" content="#43463e">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="PLOTFLOW">
-<meta property="og:title" content="Edition · PLOTFLOW*">
-<meta property="og:description" content="A made-to-order, machine-drawn PLOTFLOW edition. Drawn in ink on Strathmore Bristol, signed and numbered.">
+<meta property="og:title" content="Study · PLOTFLOW*">
+<meta property="og:description" content="A machine-drawn PLOTFLOW study sheet — fan work, displayed only. Original pieces are drawn through commissions.">
 <meta property="og:url" content="https://plotflow.io/product.html">
 <meta property="og:image" content="https://plotflow.io/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Edition · PLOTFLOW*">
-<meta name="twitter:description" content="A made-to-order, machine-drawn PLOTFLOW edition. Drawn in ink on Strathmore Bristol, signed and numbered.">
+<meta name="twitter:title" content="Study · PLOTFLOW*">
+<meta name="twitter:description" content="A machine-drawn PLOTFLOW study sheet — fan work, displayed only. Original pieces are drawn through commissions.">
 <meta name="twitter:image" content="https://plotflow.io/assets/og.png">
 </head>
 <body>
@@ -45,8 +45,7 @@
   <a href="/" class="brand">PLOTFLOW<i>*</i></a>
   <span class="pf-job">CONSOLE · RECORD <b id="pfRecCode">—</b> · SPECIMEN</span>
   <div class="pf-nav">
-    <a href="/#shop">Current Editions</a><a href="/#process">Process</a><a href="about.html">Studio</a>
-    <button class="cart">Cart [0]</button>
+    <a href="/#shop">Studies</a><a href="commissions.html">Commissions</a><a href="/#process">Process</a><a href="about.html">Studio</a>
   </div>
 </header>
 
@@ -57,7 +56,7 @@
       <span class="corner c-tl"></span><span class="corner c-tr"></span>
       <span class="corner c-bl"></span><span class="corner c-br"></span>
       <span class="bl tiny" id="pdBedlabel"></span>
-      <span class="vr">SPECIMEN VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
+      <span class="vr">STUDY SHEET · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
       <canvas id="pdCanvas"></canvas>
       <svg id="pdSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path id="pdPath" d=""></path></svg>
       <img class="pf-seal" src="assets/logo-seal.svg" alt="" width="48" height="48">
@@ -85,16 +84,13 @@
     </div>
 
     <div class="pfr-sec">
-      <div class="pfr-buyrow">
-        <span class="pd-price" id="pdPrice"></span>
-        <span class="pd-ed" id="pdEd"></span>
-      </div>
-      <div class="pd-stock" id="pdStock" hidden></div>
-      <button class="pd-acquire" id="pdAcquire">Acquire — plotted to order<span id="pdAcquirePrice" hidden></span></button>
-      <p class="pd-note tiny">Plotted to order in the chosen ink. Shipping and any taxes calculated at checkout.</p>
+      <p class="pfr-study"><b>Study — not for sale.</b> This sheet is a drawing study of a
+      Universal-Century design; it is displayed here and is not sold. Original work —
+      a machine designed for you, drawn the same way — is taken on through commissions.</p>
+      <a class="pd-acquire" href="commissions.html">Commission an original →</a>
       <button class="pd-wallpaper tiny" id="pdWallpaper">↓ Download phone wallpaper</button>
       <div class="pd-nudge" id="pdNudge" hidden>
-        <p class="pd-nudge-copy tiny">Saved. To be notified when the next edition is released, leave an email address.</p>
+        <p class="pd-nudge-copy tiny">Saved. To be notified when new work is released, leave an email address.</p>
         <form class="pd-nudge-form" id="pdNudgeForm" novalidate>
           <input type="email" id="pdNudgeEmail" placeholder="you@example.com" aria-label="Email address" autocomplete="email" />
           <button type="submit">Notify</button>
@@ -109,15 +105,15 @@
       <p><sup>2</sup> Staedtler Triplus 0.3&nbsp;mm pigment fineliner on Strathmore 300
       Bristol, 11×14&nbsp;in. Ink laydown varies with temperature, humidity, and feed;
       no correction is applied. Each sheet is inspected, signed, and numbered.</p>
-      <p>Allow 2–3 weeks for production before dispatch. Free U.S. shipping; flat $20
-      international. Damaged-in-transit sheets are replaced — see
+      <p>Commissioned pieces are quoted individually and ship worldwide — see
+      <a href="commissions.html" style="color:var(--red)">Commissions</a>,
       <a href="shipping.html" style="color:var(--red)">Shipping</a> &amp;
       <a href="returns.html" style="color:var(--red)">Returns</a>.</p>
     </div>
 
     <div class="pfr-nav">
       <a href="#" id="pdPrev">← Prev record</a>
-      <a href="/#shop" id="pdAll">All editions</a>
+      <a href="/#shop" id="pdAll">All studies</a>
       <a href="#" id="pdNext">Next record →</a>
     </div>
   </aside>
@@ -126,7 +122,7 @@
 <div class="pd-missing" id="pdMissing" hidden>
   <section class="page"><div class="wrap">
     <div class="page-head"><h1>Not found<span class="star">*</span></h1><div class="jp">作品が見つかりません</div></div>
-    <div class="page-body"><p>That edition isn't part of the current run. <a href="/#shop">Browse all editions →</a></p></div>
+    <div class="page-body"><p>That study isn't in the archive. <a href="/#shop">Browse the studies →</a></p></div>
   </div></section>
 </div>
 
@@ -135,7 +131,7 @@
   <div class="wrap">
     <img class="foot-crest" src="assets/logo-crest.svg" alt="" width="56" height="56">
     <div class="foot-cols">
-      <div class="fc"><h5>Shop*</h5><a href="/#shop">All editions</a><a href="commissions.html">Commissions</a></div>
+      <div class="fc"><h5>Work*</h5><a href="/#shop">Studies</a><a href="commissions.html">Commissions</a></div>
       <div class="fc"><h5>Studio*</h5><a href="/#process">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
       <div class="fc"><h5>Info*</h5><a href="shipping.html">Shipping</a><a href="returns.html">Returns</a><a href="faq.html">FAQ</a></div>
       <div class="fc"><h5>Elsewhere*</h5><a href="https://instagram.com/plotflow" target="_blank" rel="noopener">@plotflow</a><a href="/#newsletter">Newsletter</a><span class="est">est. 2026</span></div>
@@ -147,9 +143,7 @@
 <!-- data first, then components -->
 <script src="data/editions.js"></script>
 <script src="scripts/config.js"></script>
-<script src="scripts/stock.js"></script>
 <script src="scripts/subscribe.js"></script>
 <script src="scripts/product.js"></script>
-<script src="scripts/cart.js"></script>
 </body>
 </html>
