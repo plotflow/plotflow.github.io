@@ -163,6 +163,28 @@
     svg.setAttribute("viewBox", vb.x + " " + vb.y + " " + vb.w + " " + vb.h);
     len = path.getTotalLength(); if (!len || !isFinite(len)) len = 1;
 
+    // Size the sheet to the artwork's aspect (7% margins), centred in the
+    // stage — same treatment as the homepage bed, so the drawing fills the
+    // paper instead of floating in blank bristol.
+    var sheet = document.querySelector(".pfr-sheet");
+    var sheetWrap = document.querySelector(".pfr-stagewrap");
+    function fitSheet() {
+      if (!sheet || !sheetWrap) return;
+      var pad2 = 22;
+      var aw = sheetWrap.clientWidth - pad2 * 2, ah = sheetWrap.clientHeight - pad2 * 2;
+      if (aw <= 0 || ah <= 0) return;
+      var ar = vb.w / vb.h;
+      var w = aw, h = w / ar;
+      if (h > ah) { h = ah; w = h * ar; }
+      sheet.style.width = w + "px";
+      sheet.style.height = h + "px";
+      sheet.style.left = (pad2 + (aw - w) / 2) + "px";
+      sheet.style.top = (pad2 + (ah - h) / 2) + "px";
+      sheet.style.right = "auto";
+      sheet.style.bottom = "auto";
+    }
+    fitSheet();
+
     function mapX(ux) { return (tf.ox + (ux - vb.x) * tf.s) * tf.dpr; }
     function mapY(uy) { return (tf.oy + (uy - vb.y) * tf.s) * tf.dpr; }
 
@@ -225,7 +247,7 @@
       resetCanvas();
     }
 
-    window.addEventListener("resize", function () { resetCanvas(); paintTo(drawn); });
+    window.addEventListener("resize", function () { fitSheet(); resetCanvas(); paintTo(drawn); });
     if (replay) replay.addEventListener("click", restart);
 
     resetCanvas();
