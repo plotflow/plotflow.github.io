@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>MORPHOGEN A4 — poster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  /* A4 — brutalist poster. Archivo Black at viewport scale, the pattern
+     living INSIDE the letterforms, acid-yellow accent, hard rules. */
+  :root{ --paper:#f7f7f5; --ink:#0c0c0c; --grey:#8b8b88; --hair:#e0e0dc; --acid:#d8ff00 }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Archivo',sans-serif}
+  .mono{font-family:'Space Mono',monospace}
+  .tick{display:flex;justify-content:space-between;padding:12px 24px;border-bottom:2px solid var(--ink);
+    font-size:11px;letter-spacing:.1em}
+  .tick .y{background:var(--acid);padding:1px 8px}
+  .poster{position:relative;padding:34px 24px 26px;border-bottom:2px solid var(--ink)}
+  .big{font-family:'Archivo Black',sans-serif;font-size:17.2vw;line-height:.82;letter-spacing:-.03em;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-color:#0c0c0c;background-size:cover;background-position:center}
+  .under{display:flex;justify-content:space-between;align-items:flex-end;margin-top:18px}
+  .under p{font-size:15px;line-height:1.5;max-width:44ch;color:#333}
+  .under .stamp{font-size:10px;letter-spacing:.12em;text-align:right;color:var(--grey)}
+  .under .stamp b{display:inline-block;background:var(--ink);color:var(--acid);padding:4px 10px;
+    font-weight:600;letter-spacing:.14em;margin-bottom:6px}
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid var(--ink)}
+  .cell{position:relative;border-left:1px solid var(--ink);aspect-ratio:1}
+  .cell:first-child{border-left:none}
+  .cell canvas{position:absolute;inset:0;width:100%;height:100%}
+  .cell .n{position:absolute;left:10px;top:8px;font-size:10px;background:var(--paper);
+    padding:2px 7px;border:1px solid var(--ink)}
+  .cell.acc .n{background:var(--acid)}
+  .words{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:2px solid var(--ink)}
+  .words>div{padding:26px 24px;border-left:1px solid var(--ink)}
+  .words>div:first-child{border-left:none}
+  .words h5{font-size:10px;letter-spacing:.16em;color:var(--grey);margin-bottom:12px}
+  .words .t1{font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1.02;letter-spacing:-.01em}
+  .words .t2{font-size:13px;color:#333;margin-top:10px;line-height:1.55}
+  .words .chips{display:flex;margin-top:12px}
+  .words .chip{flex:1;height:56px;position:relative}
+  .chip b{position:absolute;left:6px;bottom:4px;font-size:8.5px}
+  footer{display:flex;justify-content:space-between;padding:14px 24px;font-size:10px;letter-spacing:.12em;color:var(--grey)}
+</style></head>
+<body>
+<div class="tick mono"><span>MORPHOGEN — PATTERN WORKS</span><span class="y">ISSUE 01</span><span>DRAWN BY MACHINE FROM NATURE'S EQUATIONS</span></div>
+
+<div class="poster">
+  <div class="big" id="bigA">MORPHO</div>
+  <div class="big" id="bigB">GEN*</div>
+  <div class="under">
+    <p>Turing's reaction–diffusion, computed at full resolution and clipped
+    into the letterforms above — the identity regenerates itself every time
+    the page loads. Below: the same mathematics, plotted in ink.</p>
+    <div class="stamp mono"><b>ACID D8FF00</b><br>PAPER F7F7F5 · INK 0C0C0C · GREY 8B8B88</div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="cell"><canvas data-f="0.030" data-k="0.062" data-s="4"></canvas><span class="n mono">01 SOLITON</span></div>
+  <div class="cell acc"><canvas data-f="0.0545" data-k="0.062" data-s="7"></canvas><span class="n mono">02 LABYRINTH</span></div>
+  <div class="cell"><canvas data-f="0.055" data-k="0.062" data-s="11"></canvas><span class="n mono">03 STRIPES</span></div>
+  <div class="cell"><canvas data-f="0.026" data-k="0.059" data-s="5"></canvas><span class="n mono">04 MITOSIS</span></div>
+</div>
+
+<div class="words">
+  <div>
+    <h5 class="mono">TYPOGRAPHY</h5>
+    <div class="t1">ARCHIVO BLACK SHOUTS.</div>
+    <p class="t2">Archivo regular explains. Space Mono keeps the numbers.
+    Nothing else is allowed in.</p>
+  </div>
+  <div>
+    <h5 class="mono">PALETTE</h5>
+    <div class="chips">
+      <div class="chip" style="background:#f7f7f5;border:1px solid var(--hair)"><b>F7F7F5</b></div>
+      <div class="chip" style="background:#0c0c0c"><b style="color:#fff">0C0C0C</b></div>
+      <div class="chip" style="background:#8b8b88"><b style="color:#fff">8B8B88</b></div>
+      <div class="chip" style="background:#d8ff00"><b>D8FF00</b></div>
+    </div>
+    <p class="t2">Monochrome plus one acid interruption — used like a price
+    sticker, never like decoration.</p>
+  </div>
+  <div>
+    <h5 class="mono">VOICE</h5>
+    <div class="t1">F 0.0545. K 0.0620. NO ADJECTIVES.</div>
+    <p class="t2">The poster speaks in parameters and lets the pattern do the
+    persuading.</p>
+  </div>
+</div>
+
+<footer class="mono"><span>MORPHOGEN — PATTERN WORKS</span><span>EST. 2026</span></footer>
+
+<script>
+function gsField(cw, ch, f, k, steps, seed, dark, bg){
+  const off=document.createElement('canvas'); off.width=cw; off.height=ch;
+  const N=120, NX=Math.floor(N*cw/Math.max(cw,ch)), NY=Math.floor(N*ch/Math.max(cw,ch));
+  const n=NX*NY,u=new Float32Array(n).fill(1),v=new Float32Array(n);
+  let s=seed; const rnd=()=> (s=(s*1664525+1013904223)>>>0)/4294967296;
+  for(let i=0;i<12;i++){const cx=6+Math.floor(rnd()*(NX-12)),cy=6+Math.floor(rnd()*(NY-12));
+    for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)v[(cy+y)*NX+cx+x]=1;}
+  const du=0.16,dv=0.08,u2=new Float32Array(n),v2=new Float32Array(n);
+  for(let t=0;t<steps;t++){
+    for(let y=1;y<NY-1;y++)for(let x=1;x<NX-1;x++){const i=y*NX+x;
+      const lu=u[i-1]+u[i+1]+u[i-NX]+u[i+NX]-4*u[i], lv=v[i-1]+v[i+1]+v[i-NX]+v[i+NX]-4*v[i];
+      const uvv=u[i]*v[i]*v[i];
+      u2[i]=u[i]+du*lu-uvv+f*(1-u[i]); v2[i]=v[i]+dv*lv+uvv-(f+k)*v[i];}
+    u.set(u2);v.set(v2);}
+  const ctx=off.getContext('2d');
+  ctx.fillStyle=bg||'#fff'; ctx.fillRect(0,0,cw,ch);
+  ctx.fillStyle=dark||'#0c0c0c';
+  const cell=cw/NX;
+  for(let y=0;y<NY;y++)for(let x=0;x<NX;x++){const val=v[y*NX+x];
+    if(val>0.18){const r=Math.min(1,(val-0.18)/0.25)*cell*0.62;
+      ctx.beginPath();ctx.arc((x+.5)*cell,(y+.5)*cell,r,0,7);ctx.fill();}}
+  return off;
+}
+// pattern inside the masthead letterforms
+const fieldA=gsField(1400,340, 0.0545,0.0620, 4200, 7, '#f7f7f5', '#0c0c0c');
+const fieldB=gsField(1400,340, 0.030,0.0620, 4200, 9, '#f7f7f5', '#0c0c0c');
+document.getElementById('bigA').style.backgroundImage='url('+fieldA.toDataURL()+')';
+document.getElementById('bigB').style.backgroundImage='url('+fieldB.toDataURL()+')';
+// plate strip
+document.querySelectorAll('.cell canvas').forEach(function(c,i){
+  c.width=420;c.height=420;
+  const field=gsField(420,420, +c.dataset.f, +c.dataset.k, 3600, +c.dataset.s,
+                      '#0c0c0c', c.parentElement.classList.contains('acc')?'#d8ff00':'#fff');
+  c.getContext('2d').drawImage(field,0,0);
+});
+window.__done=true;
+</script>
+</body></html>
