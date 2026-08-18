@@ -232,24 +232,7 @@ footer .grain{opacity:.3}
 .pd-stage #pdCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2}
 .pd-stage #pdSvg{position:absolute;width:0;height:0;overflow:hidden}
 .pd-bedlabel{position:absolute;top:10px;left:11px;z-index:3;color:var(--ink);opacity:.5;letter-spacing:.18em}
-.pd-replay{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;
-  font-family:var(--sans);font-weight:800;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink);background:var(--bristol);border:1px solid var(--ink);padding:9px 16px}
-.pd-replay:hover{background:var(--ink);color:var(--bristol)}
 .pd-stage-meta{display:flex;justify-content:space-between;margin-top:10px;color:var(--dim)}
-.pd-wallpaper{display:block;width:100%;margin-top:8px;padding:10px;color:var(--dim);border:1px solid rgba(21,22,15,.3);
-  background:transparent;font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;transition:border-color .2s,color .2s}
-.pd-wallpaper:hover{border-color:var(--ink);color:var(--ink)}
-.pd-nudge{margin-top:10px;padding:14px;border:1px solid rgba(21,22,15,.3);background:#fff}
-.pd-nudge-copy{color:#5b5e54;letter-spacing:.06em;line-height:1.5;margin-bottom:10px;text-transform:none;font-size:11px;font-weight:600}
-.pd-nudge-form{display:flex;gap:8px}
-.pd-nudge-form input{flex:1;min-width:0;background:var(--bristol);border:1px solid rgba(21,22,15,.3);color:var(--ink);
-  font-family:var(--sans);font-size:13px;padding:9px 11px}
-.pd-nudge-form input:focus{outline:none;border-color:var(--ink)}
-.pd-nudge-form button{background:var(--ink);color:var(--bristol);font-weight:800;font-size:9px;letter-spacing:.12em;
-  text-transform:uppercase;padding:9px 14px;white-space:nowrap}
-.pd-nudge-form button:hover{background:var(--red);color:#fff}
-.pd-nudge-msg{margin-top:8px;color:var(--dim);letter-spacing:.06em;text-transform:none;font-size:11px;font-weight:600}
 
 .pd-head{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:18px}
 .pd-code{color:var(--red);letter-spacing:.18em;margin-bottom:8px}
