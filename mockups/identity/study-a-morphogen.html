@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Identity study A — MORPHOGEN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* STUDY A — laboratory Swiss. Turing patterns as the identity.
+     Type: Space Grotesk + IBM Plex Mono. Palette: paper/ink/signal orange. */
+  :root{ --paper:#fafaf7; --ink:#111411; --dim:#8a8d88; --line:#e2e2da; --signal:#ff4d00 }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Space Grotesk',sans-serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 40px;border-bottom:1px solid var(--line)}
+  .brand{font-weight:700;font-size:20px;letter-spacing:-.01em}
+  .brand i{font-style:normal;color:var(--signal)}
+  nav{display:flex;gap:28px;font-size:13px;color:var(--dim)}
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border-bottom:1px solid var(--line)}
+  .hero-l{padding:64px 40px;display:flex;flex-direction:column;justify-content:center}
+  h1{font-weight:700;font-size:64px;line-height:.98;letter-spacing:-.03em}
+  h1 span{color:var(--signal)}
+  .lede{margin-top:22px;font-size:16px;line-height:1.6;color:#3c3f3b;max-width:44ch}
+  .tag{margin-top:34px;font-size:11px;letter-spacing:.18em;color:var(--dim)}
+  .hero-r{border-left:1px solid var(--line);position:relative;min-height:560px}
+  .hero-r canvas{position:absolute;inset:0;width:100%;height:100%}
+  .hero-r .cap{position:absolute;left:16px;bottom:12px;font-size:10px;color:var(--dim)}
+  .spec{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+  .spec>div{padding:34px 40px}
+  .spec>div+div{border-left:1px solid var(--line)}
+  .spec h5{font-size:10px;letter-spacing:.2em;color:var(--dim);margin-bottom:18px;font-weight:500}
+  .type-xl{font-size:44px;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .type-md{font-size:19px;margin-top:10px}
+  .type-sm{font-size:12.5px;color:var(--dim);margin-top:10px;line-height:1.6}
+  .chips{display:flex;gap:0;margin-top:6px}
+  .chip{flex:1;height:84px;position:relative}
+  .chip b{position:absolute;left:8px;bottom:6px;font-size:9px;font-weight:500}
+  .plates{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--line)}
+  .plate{padding:28px;border-left:1px solid var(--line)}
+  .plate:first-child{border-left:none}
+  .plate svg,.plate canvas{width:100%;aspect-ratio:1;display:block;background:#fff;border:1px solid var(--line)}
+  .plate .m{display:flex;justify-content:space-between;margin-top:12px;font-size:10.5px;color:var(--dim)}
+  footer{padding:22px 40px;display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim)}
+</style></head>
+<body>
+<header>
+  <div class="brand">MORPHOGEN<i>.</i></div>
+  <nav class="mono"><span>PATTERNS</span><span>PROCESS</span><span>EDITIONS</span><span>STUDIO</span></nav>
+</header>
+
+<section class="hero">
+  <div class="hero-l">
+    <h1>The equations<br>nature draws<br>with<span>.</span></h1>
+    <p class="lede">Every pattern in this studio is computed by a mechanism found in
+    living systems — Turing's reaction–diffusion, the golden-angle spiral of a
+    sunflower head — then drawn in ink by a pen plotter, one line at a time.</p>
+    <p class="tag mono">GRAY–SCOTT SYSTEM · F 0.0545 · K 0.0620 · Δt 1.0</p>
+  </div>
+  <div class="hero-r">
+    <canvas id="rd" width="560" height="560"></canvas>
+    <span class="cap mono">FIG. 1 — REACTION–DIFFUSION, 12,000 STEPS FROM A SINGLE SEED</span>
+  </div>
+</section>
+
+<section class="spec">
+  <div>
+    <h5 class="mono">TYPOGRAPHY — SPACE GROTESK</h5>
+    <div class="type-xl">Aa Rr Gg 037</div>
+    <div class="type-md">Patterns computed, then drawn.</div>
+    <p class="type-sm mono">IBM PLEX MONO FOR DATA — F 0.035 · K 0.065 · 140×180 GRID.
+    Grotesk carries the voice; mono carries the numbers.</p>
+  </div>
+  <div>
+    <h5 class="mono">PALETTE — LABORATORY</h5>
+    <div class="chips">
+      <div class="chip" style="background:#fafaf7;border:1px solid var(--line)"><b>PAPER FAFAF7</b></div>
+      <div class="chip" style="background:#111411"><b style="color:#fff">INK 111411</b></div>
+      <div class="chip" style="background:#ff4d00"><b style="color:#fff">SIGNAL FF4D00</b></div>
+      <div class="chip" style="background:#8a8d88"><b style="color:#fff">GREY 8A8D88</b></div>
+    </div>
+    <p class="type-sm">One signal colour, used once per view. Everything else is
+    ink on paper, like the plots themselves.</p>
+  </div>
+  <div>
+    <h5 class="mono">VOICE</h5>
+    <p class="type-sm" style="font-size:14px;color:var(--ink)">
+    "Spots form when activator outruns inhibitor. This sheet ran for 12,000
+    steps before the pen touched paper. No two runs agree."</p>
+    <p class="type-sm mono" style="margin-top:16px">STATEMENTS, PARAMETERS, NO ADJECTIVES.</p>
+  </div>
+</section>
+
+<section class="plates">
+  <div class="plate">
+    <canvas id="p1" width="360" height="360"></canvas>
+    <div class="m mono"><span>PLATE 01 — SOLITONS</span><span>F.030 K.062</span></div>
+  </div>
+  <div class="plate">
+    <canvas id="p2" width="360" height="360"></canvas>
+    <div class="m mono"><span>PLATE 02 — STRIPES</span><span>F.055 K.062</span></div>
+  </div>
+  <div class="plate">
+    <svg id="p3" viewBox="0 0 360 360"></svg>
+    <div class="m mono"><span>PLATE 03 — PHYLLOTAXIS</span><span>137.508°</span></div>
+  </div>
+</section>
+
+<footer class="mono"><span>MORPHOGEN — DRAWN FROM FIRST PRINCIPLES</span><span>EST. 2026</span></footer>
+
+<script>
+// Gray–Scott reaction–diffusion (the actual Turing-type system)
+function grayScott(canvas, f, k, steps, seed){
+  const N = 150, u = new Float32Array(N*N).fill(1), v = new Float32Array(N*N);
+  let s = seed; const rnd = () => (s = (s*1664525+1013904223)>>>0) / 4294967296;
+  for (let i=0;i<8;i++){ // a few random seeds
+    const cx = 30+Math.floor(rnd()*(N-60)), cy = 30+Math.floor(rnd()*(N-60));
+    for(let y=-3;y<=3;y++) for(let x=-3;x<=3;x++) v[(cy+y)*N+cx+x] = 1;
+  }
+  const du=0.16, dv=0.08, u2=new Float32Array(N*N), v2=new Float32Array(N*N);
+  for(let t=0;t<steps;t++){
+    for(let y=1;y<N-1;y++) for(let x=1;x<N-1;x++){
+      const i=y*N+x;
+      const lu = u[i-1]+u[i+1]+u[i-N]+u[i+N]-4*u[i];
+      const lv = v[i-1]+v[i+1]+v[i-N]+v[i+N]-4*v[i];
+      const uvv = u[i]*v[i]*v[i];
+      u2[i]=u[i]+du*lu-uvv+f*(1-u[i]);
+      v2[i]=v[i]+dv*lv+uvv-(f+k)*v[i];
+    }
+    u.set(u2); v.set(v2);
+  }
+  const ctx=canvas.getContext('2d'), W=canvas.width;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,W);
+  ctx.fillStyle='#111411';
+  const cell=W/N;
+  for(let y=0;y<N;y++) for(let x=0;x<N;x++){
+    const val=v[y*N+x];
+    if(val>0.18){ const r=Math.min(1,(val-0.18)/0.25)*cell*0.62;
+      ctx.beginPath(); ctx.arc((x+.5)*cell,(y+.5)*cell,r,0,7); ctx.fill(); }
+  }
+}
+grayScott(document.getElementById('rd'),   0.0545,0.0620, 9000, 7);
+grayScott(document.getElementById('p1'),   0.0300,0.0620, 6500, 3);
+grayScott(document.getElementById('p2'),   0.0550,0.0620, 7000, 11);
+
+// Vogel phyllotaxis — exact
+(function(){
+  const svg=document.getElementById('p3'); let out='';
+  const GA=Math.PI*2*(1-1/1.6180339887);
+  for(let n=0;n<620;n++){
+    const r=6.6*Math.sqrt(n), th=n*GA;
+    const x=180+r*Math.cos(th), y=180+r*Math.sin(th);
+    const rad=1.1+1.6*Math.sqrt(n/620);
+    out+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="none" stroke="#111411" stroke-width="1"/>`;
+  }
+  svg.innerHTML=out;
+})();
+window.__done = true;
+</script>
+</body></html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Identity study B — MERISTEM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  /* STUDY B — herbarium editorial. Leaf venation (space colonization / auxin
+     canalization) as the identity. Type: Fraunces + Newsreader + Plex Mono.
+     Palette: pressed-paper cream, leaf greens, terracotta. */
+  :root{ --paper:#f4f1e8; --ink:#1c2b21; --sage:#5a7a5e; --terra:#c75b39; --dim:#8d927f; --line:#ddd8c4 }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Newsreader',serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .disp{font-family:'Fraunces',serif}
+  header{display:flex;justify-content:space-between;align-items:baseline;padding:26px 44px;border-bottom:2px solid var(--ink)}
+  .brand{font-family:'Fraunces',serif;font-weight:900;font-size:24px;letter-spacing:.01em}
+  .brand em{font-style:italic;font-weight:400;color:var(--terra)}
+  nav{display:flex;gap:26px;font-size:12px;letter-spacing:.14em;color:var(--dim)}
+  .hero{display:grid;grid-template-columns:1fr 1.1fr;border-bottom:1px solid var(--line)}
+  .plateL{position:relative;border-right:1px solid var(--line);min-height:640px;background:#f8f5ec;overflow:hidden}
+  .plateL svg{position:absolute;left:30px;top:30px;width:calc(100% - 60px);height:calc(100% - 74px)}
+  .plateL .cap{position:absolute;left:22px;bottom:16px;font-size:10px;letter-spacing:.14em;color:var(--dim)}
+  .plateL .no{position:absolute;right:22px;top:16px;font-size:10px;letter-spacing:.14em;color:var(--dim)}
+  .hero-r{padding:70px 46px;display:flex;flex-direction:column;justify-content:center}
+  h1{font-family:'Fraunces',serif;font-weight:900;font-size:66px;line-height:.96;letter-spacing:-.01em}
+  h1 em{font-style:italic;font-weight:400;color:var(--sage)}
+  .lede{margin-top:24px;font-size:18px;line-height:1.65;max-width:46ch;color:#33422f}
+  .lede i{color:var(--terra)}
+  .rule{margin:30px 0 0;padding-top:16px;border-top:1px solid var(--line);
+    font-size:11px;letter-spacing:.2em;color:var(--dim)}
+  .spec{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+  .spec>div{padding:36px 44px}
+  .spec>div+div{border-left:1px solid var(--line)}
+  .spec h5{font-size:10px;letter-spacing:.22em;color:var(--dim);margin-bottom:18px}
+  .tA{font-family:'Fraunces',serif;font-weight:900;font-size:46px;line-height:1}
+  .tB{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:24px;margin-top:8px;color:var(--sage)}
+  .tC{font-size:13px;margin-top:12px;line-height:1.65;color:#33422f}
+  .chips{display:flex}
+  .chip{flex:1;height:88px;position:relative}
+  .chip b{position:absolute;left:8px;bottom:6px;font-size:9px;letter-spacing:.06em;font-family:'IBM Plex Mono',monospace}
+  .verse{font-size:15px;line-height:1.8;font-style:italic;color:#33422f}
+  .verse b{font-style:normal;color:var(--terra)}
+  footer{padding:24px 44px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.16em;color:var(--dim)}
+</style></head>
+<body>
+<header>
+  <div class="brand">MERISTEM <em>press</em></div>
+  <nav class="mono"><span>SPECIMENS</span><span>METHOD</span><span>FOLIO</span><span>CONTACT</span></nav>
+</header>
+
+<section class="hero">
+  <div class="plateL">
+    <svg id="leaf" viewBox="0 0 560 620" preserveAspectRatio="xMidYMid meet"></svg>
+    <span class="no mono">PLATE I</span>
+    <span class="cap mono">AUXIN CANALIZATION · SPACE COLONIZATION, 1,400 SOURCES · RUNIONS 2005</span>
+  </div>
+  <div class="hero-r">
+    <h1>Grown,<br>not drawn<em>.</em></h1>
+    <p class="lede">The vein network on the left was not designed. It grew — node by
+    node, toward sources of the hormone <i>auxin</i> — by the same rule a living
+    leaf uses. The studio raises each specimen in software, then a pen sets it
+    in ink on cotton paper.</p>
+    <div class="rule mono">HERBARIUM OF COMPUTED SPECIMENS · EDITIONS OF ONE</div>
+  </div>
+</section>
+
+<section class="spec">
+  <div>
+    <h5 class="mono">TYPOGRAPHY — FRAUNCES &amp; NEWSREADER</h5>
+    <div class="tA">Aa Gg Qq</div>
+    <div class="tB">specimens in italic</div>
+    <p class="tC">Fraunces black for names, its italic for species. Newsreader
+    for reading. Plex Mono keeps the field notes.</p>
+  </div>
+  <div>
+    <h5 class="mono">PALETTE — PRESSED LEAF</h5>
+    <div class="chips">
+      <div class="chip" style="background:#f4f1e8;border:1px solid var(--line)"><b>F4F1E8</b></div>
+      <div class="chip" style="background:#1c2b21"><b style="color:#f4f1e8">1C2B21</b></div>
+      <div class="chip" style="background:#5a7a5e"><b style="color:#f4f1e8">5A7A5E</b></div>
+      <div class="chip" style="background:#c75b39"><b style="color:#f4f1e8">C75B39</b></div>
+    </div>
+    <p class="tC">Cream stock, ink-green text, sage for the living, one
+    terracotta accent like a collector's wax seal.</p>
+  </div>
+  <div>
+    <h5 class="mono">VOICE</h5>
+    <p class="verse">Specimen № 12 was grown from a single petiole over 900
+    iterations. Its veins found <b>1,382</b> of 1,400 sources. The misses are
+    part of the record.</p>
+  </div>
+</section>
+
+<footer class="mono"><span>MERISTEM PRESS — A HERBARIUM OF COMPUTED SPECIMENS</span><span>EST. MMXXVI</span></footer>
+
+<script>
+// Space colonization venation (Runions et al. 2005), grown inside a leaf blade
+(function(){
+  let s=13; const rnd=()=> (s=(s*1664525+1013904223)>>>0)/4294967296;
+  const W=560,H=620, cx=W/2;
+  // leaf blade outline: two mirrored curves from tip (y=30) to base (y=560)
+  function halfw(t){ return 200*Math.pow(Math.sin(Math.PI*Math.min(1,t*1.04)),0.78); } // t:0 tip..1 base
+  // attractors inside the blade
+  const att=[];
+  while(att.length<1400){
+    const x=rnd()*W, y=30+rnd()*530, t=(y-30)/530;
+    if(Math.abs(x-cx)<halfw(1-t)*0.97) att.push([x,y]);
+  }
+  // grow from petiole (base) upward
+  const nodes=[[cx,595]], parent=[-1];
+  const INF=80, KILL=9, STEP=7;
+  for(let it=0; it<420 && att.length; it++){
+    const pull=new Map();
+    for(let a=att.length-1;a>=0;a--){
+      let best=-1,bd=INF*INF;
+      for(let n=0;n<nodes.length;n++){
+        const dx=att[a][0]-nodes[n][0], dy=att[a][1]-nodes[n][1], d=dx*dx+dy*dy;
+        if(d<bd){bd=d;best=n;}
+      }
+      if(best>=0){
+        if(bd<KILL*KILL){ att.splice(a,1); continue; }
+        if(!pull.has(best)) pull.set(best,[0,0,0]);
+        const p=pull.get(best), d=Math.sqrt(bd);
+        p[0]+=(att[a][0]-nodes[best][0])/d; p[1]+=(att[a][1]-nodes[best][1])/d; p[2]++;
+      }
+    }
+    if(!pull.size) break;
+    for(const [n,p] of pull){
+      const m=Math.hypot(p[0],p[1])||1;
+      nodes.push([nodes[n][0]+STEP*p[0]/m, nodes[n][1]+STEP*p[1]/m]);
+      parent.push(n);
+    }
+  }
+  // vein thickness: count descendants (pipe model-ish)
+  const w=new Float32Array(nodes.length).fill(1);
+  for(let n=nodes.length-1;n>0;n--) if(parent[n]>=0) w[parent[n]]+=w[n];
+  let out='';
+  // blade outline
+  let L='M '+cx+',30 ', R='';
+  for(let t=0;t<=1.001;t+=0.05){
+    const y=30+t*530, hw=halfw(1-t);
+    L+='L '+(cx-hw).toFixed(1)+','+y.toFixed(1)+' ';
+    R='L '+(cx+hw).toFixed(1)+','+y.toFixed(1)+' '+R;
+  }
+  out+=`<path d="${L}L ${cx},560 ${R}L ${cx},30" fill="none" stroke="#5a7a5e" stroke-width="1.1" opacity=".55"/>`;
+  for(let n=1;n<nodes.length;n++){
+    const p=parent[n];
+    const sw=Math.min(4.4, 0.5+Math.log(w[n])*0.62);
+    out+=`<line x1="${nodes[p][0].toFixed(1)}" y1="${nodes[p][1].toFixed(1)}" x2="${nodes[n][0].toFixed(1)}" y2="${nodes[n][1].toFixed(1)}" stroke="#1c2b21" stroke-width="${sw.toFixed(2)}" stroke-linecap="round"/>`;
+  }
+  out+=`<line x1="${cx}" y1="560" x2="${cx}" y2="612" stroke="#1c2b21" stroke-width="4.6" stroke-linecap="round"/>`;
+  document.getElementById('leaf').innerHTML=out;
+  window.__done=true;
+})();
+</script>
+</body></html>

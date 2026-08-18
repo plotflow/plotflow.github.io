@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>MORPHOGEN A3 — specimen viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* A3 — specimen viewer app. Three-pane scientific instrument UI:
+     thumbnail rail / canvas / inspector. Hanken Grotesk + JetBrains Mono,
+     grey chrome, lab-green accent. */
+  :root{ --chrome:#f2f2f0; --panel:#ffffff; --ink:#101010; --grey:#6f6f6c; --hair:#dddddb; --accent:#0b9e4d }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--chrome);color:var(--ink);font-family:'Hanken Grotesk',sans-serif;font-size:13px}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .top{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);
+    border-bottom:1px solid var(--hair)}
+  .top .logo{font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .top .logo i{font-style:normal;color:var(--accent)}
+  .top .crumb{font-size:11px;color:var(--grey)}
+  .top .right{margin-left:auto;display:flex;gap:8px}
+  .btn{font-size:11px;padding:6px 12px;border:1px solid var(--hair);background:var(--panel);border-radius:6px}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .app{display:grid;grid-template-columns:200px 1fr 280px;gap:10px;padding:10px;height:calc(100vh - 45px);min-height:640px}
+  .rail{background:var(--panel);border:1px solid var(--hair);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+  .rail h6{padding:12px 14px 8px;font-size:10px;letter-spacing:.14em;color:var(--grey);font-weight:500}
+  .thumb{display:flex;gap:10px;align-items:center;padding:8px 12px;border-top:1px solid var(--hair);cursor:pointer}
+  .thumb.on{background:#f6faf7;box-shadow:inset 2px 0 0 var(--accent)}
+  .thumb canvas{width:40px;height:40px;border:1px solid var(--hair);border-radius:4px}
+  .thumb .t{font-size:12px;font-weight:500}
+  .thumb .s{font-size:10px;color:var(--grey)}
+  .stage{background:var(--panel);border:1px solid var(--hair);border-radius:10px;position:relative;overflow:hidden}
+  .stage canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(86%,560px);aspect-ratio:1;border:1px solid var(--hair)}
+  .stage .hud{position:absolute;left:14px;top:12px;font-size:10px;color:var(--grey);display:flex;gap:10px}
+  .stage .hud b{color:var(--accent);font-weight:500}
+  .stage .zoom{position:absolute;right:14px;bottom:12px;display:flex;gap:6px}
+  .zoom span{width:26px;height:26px;border:1px solid var(--hair);border-radius:6px;background:var(--panel);
+    display:grid;place-items:center;font-size:12px;color:var(--grey)}
+  .insp{background:var(--panel);border:1px solid var(--hair);border-radius:10px;padding:16px;overflow-y:auto}
+  .insp h2{font-weight:700;font-size:20px;letter-spacing:-.01em}
+  .insp .lat{font-size:12px;color:var(--grey);font-style:italic;margin-top:2px}
+  .kv{margin-top:16px;border-top:1px solid var(--hair)}
+  .kv div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--hair);font-size:11.5px}
+  .kv div span:first-child{color:var(--grey)}
+  .kv .acc{color:var(--accent)}
+  .sliders{margin-top:16px}
+  .sl{margin-bottom:12px}
+  .sl label{display:flex;justify-content:space-between;font-size:10.5px;color:var(--grey);margin-bottom:5px}
+  .track{height:3px;background:var(--hair);border-radius:2px;position:relative}
+  .track b{position:absolute;top:-4px;width:11px;height:11px;border-radius:50%;background:var(--ink)}
+  .insp .cta{width:100%;margin-top:18px;padding:11px;border:none;border-radius:8px;
+    background:var(--ink);color:#fff;font-weight:500;font-size:13px}
+  .insp .note{margin-top:10px;font-size:10.5px;color:var(--grey);line-height:1.5;text-align:center}
+</style></head>
+<body>
+<div class="top">
+  <span class="logo">MORPHOGEN<i>*</i></span>
+  <span class="crumb mono">ARCHIVE / REACTION–DIFFUSION / MG-002</span>
+  <div class="right"><span class="btn mono">SEED ↺</span><span class="btn mono">.SVG</span><span class="btn primary">Plot this</span></div>
+</div>
+
+<div class="app">
+  <aside class="rail">
+    <h6 class="mono">SPECIMENS</h6>
+    <div class="thumb"><canvas data-f="0.030" data-k="0.062" data-s="4"></canvas><div><div class="t">Solitons</div><div class="s mono">MG-001</div></div></div>
+    <div class="thumb on"><canvas data-f="0.0545" data-k="0.062" data-s="7"></canvas><div><div class="t">Labyrinth</div><div class="s mono">MG-002</div></div></div>
+    <div class="thumb"><canvas data-f="0.055" data-k="0.062" data-s="11"></canvas><div><div class="t">Stripe field</div><div class="s mono">MG-003</div></div></div>
+    <div class="thumb"><canvas data-f="0.026" data-k="0.059" data-s="5"></canvas><div><div class="t">Mitosis</div><div class="s mono">MG-004</div></div></div>
+  </aside>
+
+  <main class="stage">
+    <div class="hud mono"><span>GRID 150×150</span><span>STEP <b>9,000</b></span><span>MODE: DOTS</span></div>
+    <canvas id="main" width="560" height="560"></canvas>
+    <div class="zoom mono"><span>−</span><span>+</span><span>⤢</span></div>
+  </main>
+
+  <aside class="insp">
+    <h2>Labyrinth</h2>
+    <div class="lat">Gray–Scott system · Turing class</div>
+    <div class="kv mono">
+      <div><span>CODE</span><span>MG-002</span></div>
+      <div><span>FEED F</span><span>0.0545</span></div>
+      <div><span>KILL K</span><span>0.0620</span></div>
+      <div><span>STEPS</span><span>9,000</span></div>
+      <div><span>INK (EST.)</span><span>31.2 m</span></div>
+      <div><span>PLOT TIME</span><span>41 min</span></div>
+      <div><span>STATE</span><span class="acc">STABLE</span></div>
+    </div>
+    <div class="sliders">
+      <div class="sl"><label class="mono"><span>FEED RATE</span><span>0.0545</span></label><div class="track"><b style="left:52%"></b></div></div>
+      <div class="sl"><label class="mono"><span>KILL RATE</span><span>0.0620</span></label><div class="track"><b style="left:64%"></b></div></div>
+      <div class="sl"><label class="mono"><span>DIFFUSION RATIO</span><span>2.00</span></label><div class="track"><b style="left:38%"></b></div></div>
+    </div>
+    <button class="cta">Plot on 11×14″ Bristol</button>
+    <p class="note">Every plot is one seed, drawn once.<br>The seed is retired with the sheet.</p>
+  </aside>
+</div>
+
+<script>
+function grayScott(canvas, f, k, steps, seed){
+  const cw=canvas.width, N=Math.max(70, Math.floor(150*Math.min(1,cw/560)));
+  const n=N*N,u=new Float32Array(n).fill(1),v=new Float32Array(n);
+  let s=seed; const rnd=()=> (s=(s*1664525+1013904223)>>>0)/4294967296;
+  for(let i=0;i<8;i++){const cx=8+Math.floor(rnd()*(N-16)),cy=8+Math.floor(rnd()*(N-16));
+    for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)v[(cy+y)*N+cx+x]=1;}
+  const du=0.16,dv=0.08,u2=new Float32Array(n),v2=new Float32Array(n);
+  for(let t=0;t<steps;t++){
+    for(let y=1;y<N-1;y++)for(let x=1;x<N-1;x++){const i=y*N+x;
+      const lu=u[i-1]+u[i+1]+u[i-N]+u[i+N]-4*u[i], lv=v[i-1]+v[i+1]+v[i-N]+v[i+N]-4*v[i];
+      const uvv=u[i]*v[i]*v[i];
+      u2[i]=u[i]+du*lu-uvv+f*(1-u[i]); v2[i]=v[i]+dv*lv+uvv-(f+k)*v[i];}
+    u.set(u2);v.set(v2);}
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,cw,cw);
+  ctx.fillStyle='#101010';
+  const cell=cw/N;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const val=v[y*N+x];
+    if(val>0.18){const r=Math.min(1,(val-0.18)/0.25)*cell*0.6;
+      ctx.beginPath();ctx.arc((x+.5)*cell,(y+.5)*cell,r,0,7);ctx.fill();}}
+}
+document.querySelectorAll('.thumb canvas').forEach(function(c){
+  c.width=80;c.height=80;
+  grayScott(c, +c.dataset.f, +c.dataset.k, 2200, +c.dataset.s);
+});
+grayScott(document.getElementById('main'), 0.0545, 0.0620, 9000, 7);
+window.__done=true;
+</script>
+</body></html>

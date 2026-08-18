@@ -22,65 +22,55 @@
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/styles.css">
 <link rel="stylesheet" href="styles/console.css">
-<meta name="description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta name="description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <link rel="canonical" href="https://plotflow.io/">
-<meta name="theme-color" content="#43463e">
+<meta name="theme-color" content="#33362b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PLOTFLOW">
 <meta property="og:title" content="PLOTFLOW* · Pen-plotter editions">
-<meta property="og:description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta property="og:description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <meta property="og:url" content="https://plotflow.io/">
 <meta property="og:image" content="https://plotflow.io/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PLOTFLOW* · Pen-plotter editions">
-<meta name="twitter:description" content="PLOTFLOW is an independent pen-plotter studio. Universal-Century mobile suits drawn in ink by machine. Limited editions, signed and numbered.">
+<meta name="twitter:description" content="PLOTFLOW is an independent pen-plotter studio. Machine-drawn studies and original commissioned pieces, in pigment ink on Bristol.">
 <meta name="twitter:image" content="https://plotflow.io/assets/og.png">
 </head>
 <body>
 
-<!-- CONSOLE BAR -->
-<header class="pf-bar">
+<!-- TOP BAR -->
+<nav><div class="nav-in">
   <a href="/" class="brand">PLOTFLOW<i>*</i></a>
-  <span class="pf-job">CONSOLE · PLOTTING <b id="pfJobCode">—</b> · LIVE SIMULATION</span>
-  <div class="pf-nav">
-    <a href="#shop">Current Editions</a><a href="#process">Process</a><a href="about.html">Studio</a>
-    <button class="cart">Cart [0]</button>
+  <div class="nav-links"><a href="#shop">Studies</a><a href="commissions.html">Commissions</a><a href="#process">Process</a><a href="about.html">Studio</a></div>
+  <a class="cart" href="commissions.html">Commission →</a>
+</div></nav>
+
+<!-- MASTHEAD -->
+<header class="mast">
+  <span class="reg l">+</span><span class="reg r">+</span>
+  <div class="wrap mast-in">
+    <div>
+      <div class="mast-label">STUDY ARCHIVE ｜<span class="jp">習作</span> · LIVE SIMULATION</div>
+      <h1>Plots on paper,<br>drawn line by line.</h1>
+      <p class="mast-lede">A pen-plotter studio. Universal-Century studies are catalogued below and
+      displayed, not sold — original linework is taken on through commissions.</p>
+    </div>
+    <div class="mast-side">
+      <img src="assets/logo-seal.svg" alt="" width="92" height="92">
+      <span class="jp">ペンプロッター</span>
+    </div>
   </div>
 </header>
 
-<!-- WORKSPACE / LIVE PLOT -->
-<section class="pf-ws" id="feature">
-  <aside class="pf-side">
-    <div class="pf-tabs"><span>SCENE</span><span class="on">PLOT</span><span>QUEUE</span><span>LOG</span></div>
-
-    <div class="pf-sec">
-      <h5>EDITION QUEUE · <span class="jp">作品</span></h5>
-      <div id="pfQueue"></div>
-    </div>
-
-    <div class="pf-sec">
-      <h5>SPEED · SIMULATION</h5>
-      <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
-      <p class="pf-note" id="simx"></p>
-      <p class="pf-note">SIMULATION PACE ONLY — THE REAL PLOT TIME SHOWS IN THE LIVE PLOT CARD.</p>
-    </div>
-
-    <div class="pf-sec pf-machine">
-      <h5>MACHINE STATE · <b>PLOTTING</b></h5>
-      <button class="pf-big" id="play">Pause</button>
-      <div class="pf-row2"><button class="pf-btn" id="restart">Restart</button><button class="pf-btn" id="skip">Skip ▸︎▸︎</button></div>
-    </div>
-
-    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
-  </aside>
-
-  <div class="pf-stage">
+<!-- LIVE PLOT — the sheet, full-bleed -->
+<section class="plot" id="feature">
+  <div class="plot-stage">
+    <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
+    <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
     <div class="bed" id="bed">
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
-      <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
-      <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
       <canvas id="pcanvas"></canvas>
       <svg id="stage" viewBox="0 0 1493 801" preserveAspectRatio="xMidYMid meet">
         <path id="ppath" d=""></path>
@@ -89,27 +79,27 @@
           <path id="pen-x" d="" stroke="#15140f" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
         </g>
       </svg>
-      <img class="pf-seal" src="assets/logo-seal.svg" alt="" width="48" height="48">
     </div>
+    <img class="pf-seal" src="assets/logo-seal.svg" alt="" width="48" height="48">
+  </div>
 
-    <aside class="pf-card">
-      <div class="hd"><b>LIVE PLOT*</b><span>MACHINE</span></div>
-      <div class="big"><label>PROGRESS</label><b><span id="pct">0</span><i>%</i></b></div>
-      <div class="pbar"><b id="pbar"></b></div>
-      <div class="grid">
-        <div><label>INK LAID</label><b><span id="ink">0.00</span><i>/ <span id="inktot">0.00</span> m</i></b></div>
-        <div><label>POSITION</label><b><span id="cx">000</span> · <span id="cy">000</span><i>mm</i></b></div>
-        <div><label>ELAPSED</label><b><span id="elapsed">00:00</span></b></div>
-        <div><label>PLOT TIME</label><b><span id="total">00:00</span></b></div>
-      </div>
-    </aside>
+  <div class="plot-strip">
+    <div class="pbar"><b id="pbar"></b></div>
+    <span class="strip-live">● PLOTTING</span>
+    <span class="strip-cap" id="capName">—</span>
+    <span class="strip-stat"><b><span id="pct">0</span>%</b></span>
+    <span class="strip-stat">INK <b><span id="ink">0.00</span></b> / <span id="inktot">0.00</span> m</span>
+    <span class="strip-stat tm"><b><span id="elapsed">00:00</span></b> / <span id="total">00:00</span></span>
+    <span class="strip-stat pos">X <b id="cx">000</b> · Y <b id="cy">000</b> mm</span>
+    <span class="strip-sp"></span>
+    <span class="strip-note" id="simx"></span>
+    <button class="strip-btn" id="play">Pause</button>
+    <button class="strip-btn" id="restart">Restart</button>
+    <button class="strip-btn" id="skip">Skip ▸︎▸︎</button>
+    <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
   </div>
 </section>
-<div class="pf-status">
-  <span>PEN 0.3 MM · RED</span><span>FEED 1100 MM/MIN</span><span>SHEET 11×14″ BRISTOL</span>
-  <span class="sp"></span>
-  <span>AXIDRAW · SIMULATED</span>
-</div>
 
 <!-- MANIFESTO -->
 <section class="mani">
@@ -128,14 +118,31 @@
   <div class="grain"></div>
   <div class="wrap">
     <div class="shop-head">
-      <h2>Current Editions<span class="star">*</span></h2><span class="jp">作品</span>
-      <div class="meta tiny">Editions of 25, plotted to order. Copies within an edition differ in line weight and ink laydown; no correction is applied. Values are computed from each stroke program.</div>
+      <h2>Studies<span class="star">*</span></h2><span class="jp">習作</span>
+      <div class="meta tiny">Drawing studies of Universal-Century machines — fan works, displayed and not sold. Values are computed from each stroke program. Original work is drawn through commissions.</div>
     </div>
     <div class="pfq-cols">
       <span></span><span>Designation</span><span class="num">Ink</span><span class="num">Strokes</span>
-      <span class="num">Plot time</span><span class="num">Availability</span><span></span>
+      <span class="num">Plot time</span><span></span>
     </div>
     <div class="pfq" id="grid"></div>
+  </div>
+</section>
+
+<!-- COMMISSIONS -->
+<section id="commissions">
+  <div class="wrap">
+    <div class="comm-box">
+      <img class="seal" src="assets/logo-seal.svg" alt="" width="52" height="52">
+      <div>
+        <div class="comm-label">COMMISSIONS ｜<span class="jp">特注制作</span></div>
+        <h2>Original linework to your spec.</h2>
+        <p>The studies above are fan works and are not sold. Commissioned work is original:
+        a machine designed for the sheet, rebuilt as vector line work, and drawn by the
+        plotter — one drawing, one owner. From $350 · 11×14″ · 0.3&nbsp;mm pigment on Strathmore Bristol.</p>
+      </div>
+      <a class="comm-cta" href="commissions.html">Request a slot</a>
+    </div>
   </div>
 </section>
 
@@ -157,7 +164,7 @@
     <div class="news-copy">
       <h2>Notifications<span class="star">*</span></h2>
       <div class="jp">入荷通知</div>
-      <p>New editions are released irregularly. To be notified when one is released or restocked, leave an email address.</p>
+      <p>New work is released irregularly. To be notified when a study or commission slot opens, leave an email address.</p>
     </div>
     <form class="news-form" id="newsForm" novalidate>
       <div class="news-row">
@@ -186,36 +193,23 @@
 <!-- data first, then components -->
 <script src="data/editions.js"></script>
 <script src="scripts/config.js"></script>
-<script src="scripts/stock.js"></script>
 <script src="scripts/shop.js"></script>
 <script src="scripts/plotter.js"></script>
 <script>
-  // Sidebar edition queue — drives the same #suit select plotter.js listens to.
+  // Control-strip caption — mirrors whichever study the plotter is drawing.
   (function () {
-    var sel = document.getElementById('suit'), box = document.getElementById('pfQueue');
-    var job = document.getElementById('pfJobCode');
-    if (!sel || !box || !window.PLOTFLOW) return;
-    var S = PLOTFLOW.suits, ORDER = PLOTFLOW.plotterOrder || Object.keys(S);
-    function draw() {
-      box.innerHTML = ORDER.map(function (k) {
-        var s = S[k], on = sel.value === k;
-        return '<button class="pf-q' + (on ? ' on' : '') + '" data-k="' + k + '">' +
-          '<span class="code">' + s.code + '</span><span class="nm">' + s.name + '</span>' +
-          '<span class="st">' + (on ? 'PLOTTING' : 'AVAILABLE') + '</span></button>';
-      }).join('');
-      if (job && S[sel.value]) job.textContent = S[sel.value].code;
-    }
-    box.addEventListener('click', function (e) {
-      var b = e.target.closest('.pf-q'); if (!b) return;
-      sel.value = b.dataset.k;
-      sel.dispatchEvent(new Event('change'));
-      draw();
-    });
+    var sel = document.getElementById('suit'), cap = document.getElementById('capName');
+    if (!sel || !cap || !window.PLOTFLOW) return;
+    var S = PLOTFLOW.suits;
+    function draw() { var s = S[sel.value]; if (s) cap.textContent = s.code + ' · ' + s.name; }
     sel.addEventListener('change', draw);
+    if (window.PlotflowPlotter) {
+      var orig = PlotflowPlotter.load;
+      PlotflowPlotter.load = function (k) { orig(k); draw(); };
+    }
     draw();
   })();
 </script>
 <script src="scripts/newsletter.js"></script>
-<script src="scripts/cart.js"></script>
 </body>
 </html>

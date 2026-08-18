@@ -46,7 +46,7 @@
     }
     // Let the native POST fly to the hidden iframe.
     form.setAttribute("action", CFG.newsletterEndpoint);
-    show("Recorded. You will be notified when an edition is released or restocked.", true);
+    show("Recorded. You will be notified when new work is released.", true);
     // Clear after the browser has serialized + sent the form.
     setTimeout(function () { form.reset(); }, 100);
   });
