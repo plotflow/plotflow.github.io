@@ -1,8 +1,8 @@
 /* ============================================================
    PLOTFLOW · Live Plot component
    Progressively strokes a suit's path onto a <canvas> the way an
-   AxiDraw would — walking the geometry with getPointAtLength and
-   lifting the pen at subpath breaks — with a moving pen head + HUD.
+   AxiDraw would: walking the geometry with getPointAtLength and
+   lifting the pen at subpath breaks: with a moving pen head + HUD.
    (A CSS stroke-dashoffset reveal is unreliable here: each suit's
    path has thousands of M-command subpaths, which the dash trick
    renders all at once.)
@@ -26,9 +26,9 @@
   var FEED = 1100;         // mm/min pen-down draw speed, shown in HUD
   var TRAVEL_FEED = 6600;  // mm/min pen-up travel (the carriage moves much faster between strokes)
   var LIFT_S = 0.10;       // seconds per pen lift+lower cycle (servo up + down)
-  // Plot time = draw + pen-up travel + lift cycles — tuned against PlotGrid
+  // Plot time = draw + pen-up travel + lift cycles: tuned against PlotGrid
   // actuals (~0.45 s/stroke incl. overhead), not just ink-length ÷ feed.
-  var BASE = 30;     // seconds the simulation runs at 1x watch speed —
+  var BASE = 30;     // seconds the simulation runs at 1x watch speed :
                      // the machine-speed multiplier shown in the dock is
                      // derived from the real plot time (≈ x45–x60)
   var INK = '#e8351f';
@@ -157,7 +157,7 @@
       var bb = ppath.getBBox();
       var pad = Math.max(bb.width, bb.height) * 0.06;
       vb = { x: bb.x - pad, y: bb.y - pad, w: bb.width + pad * 2, h: bb.height + pad * 2 };
-    } catch (e) { /* getBBox unavailable — keep full-canvas viewBox */ }
+    } catch (e) { /* getBBox unavailable: keep full-canvas viewBox */ }
     stage.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
 
     len = ppath.getTotalLength(); if (!len || !isFinite(len)) len = 1;
@@ -211,7 +211,7 @@
     }
   }
 
-  // Draw every stroke directly from the parsed polylines in one canvas pass —
+  // Draw every stroke directly from the parsed polylines in one canvas pass :
   // used by Skip and end-state refits, where sampling the whole path with
   // getPointAtLength would stall the frame for ~a second.
   function fastPaintAll() {

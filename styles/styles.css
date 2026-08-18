@@ -102,7 +102,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
   .hero .ast-bug{display:none}
 }
 
-/* MANIFESTO strip — ink on paper */
+/* MANIFESTO strip: ink on paper */
 .mani{position:relative;background:transparent;padding:46px 0;overflow:hidden;border-bottom:2px solid var(--ink)}
 .mani .grain{opacity:.2}
 .mani-in{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
@@ -111,7 +111,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .mani p{color:#5b5e54;font-weight:500;font-size:13px;max-width:46ch;line-height:1.6}
 .mani .jp{color:var(--dim);font-weight:700;font-size:11px;letter-spacing:.1em;margin-top:6px}
 
-/* SHOP — the specimen table on paper */
+/* SHOP: the specimen table on paper */
 .shop{background:transparent;padding:54px 0 64px;position:relative}
 .shop .grain{opacity:.15}
 .shop-head{position:relative;z-index:2;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:0}
@@ -151,7 +151,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .card.sold-out .art,.card.sold-out .jp,.card.sold-out .name{opacity:.4}
 .card.sold-out .plotbtn{display:none}
 
-/* PROCESS — ink-ruled panel on paper */
+/* PROCESS: ink-ruled panel on paper */
 .proc{background:transparent;padding:8px 0 60px;position:relative}
 .proc-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
 @media(max-width:720px){.proc-grid{grid-template-columns:1fr}}
@@ -162,7 +162,7 @@ select{appearance:none;background:rgba(245,244,239,.06);color:var(--white);borde
 .ps h4{font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:12px 0 7px;color:var(--ink)}
 .ps p{color:#5b5e54;font-weight:500;font-size:12px;line-height:1.55}
 
-/* FOOTER — olive chrome, matching the top bar */
+/* FOOTER: olive chrome, matching the top bar */
 footer{background:#33362b;color:var(--white);padding:48px 0 56px;position:relative;overflow:hidden}
 footer .grain{opacity:.3}
 .foot-mast{position:relative;z-index:2;font-weight:900;font-size:clamp(3rem,13vw,9rem);line-height:.8;letter-spacing:-.02em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:16px}
@@ -173,7 +173,7 @@ footer .grain{opacity:.3}
 .fc .est{display:block;font-weight:500;font-size:13px;color:var(--dim);margin-bottom:7px}
 .foot-bot{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim)}
 
-/* INTERIOR PAGES — ink on paper */
+/* INTERIOR PAGES: ink on paper */
 .page{background:transparent;padding:64px 0 80px;position:relative;min-height:60vh}
 .page-head{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:36px}
 .page-head h1{font-weight:900;font-size:clamp(2.4rem,7vw,4.5rem);text-transform:uppercase;letter-spacing:-.01em;line-height:.85;color:var(--ink)}
@@ -199,7 +199,7 @@ footer .grain{opacity:.3}
 .contact-link{font-weight:800;font-size:1.2rem;color:var(--ink)}
 .contact-link:hover{color:var(--red)}
 
-/* NEWSLETTER / DROP LIST — ink on paper */
+/* NEWSLETTER / DROP LIST: ink on paper */
 .news{position:relative;background:transparent;padding:56px 0;overflow:hidden;border-top:2px solid var(--ink)}
 .news .grain{opacity:.15}
 .news-in{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
@@ -324,7 +324,7 @@ footer .grain{opacity:.3}
 .cart-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:95;background:var(--ink);color:var(--white);border:1px solid var(--line);padding:12px 18px;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
 .cart-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* 井筒に橘 crest — footer seal (56px, above the size floor for the framed mark) */
+/* 井筒に橘 crest: footer seal (56px, above the size floor for the framed mark) */
 .foot-crest{position:relative;z-index:2;display:block;width:56px;height:56px;margin:0 0 26px}
 
 /* ── commissions band (homepage) ── */

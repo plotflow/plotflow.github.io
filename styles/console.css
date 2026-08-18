@@ -1,9 +1,9 @@
 /* ============================================================
-   PLOTFLOW · PAPER — the sheet is the site.
+   PLOTFLOW · PAPER: the sheet is the site.
    Bristol is the page ground (body, styles.css); this file holds
-   the paper components: the masthead, the full-bleed live-plot
-   hero with its control strip, the study table, the commissions
-   panel, and the specimen record (product.html).
+   the paper components: the masthead, the live-plot bed with its
+   left control rail, the study plates, the commissions panel, and
+   the specimen record (product.html).
    Chrome (top bar + footer) stays olive; red stays the accent.
    ============================================================ */
 
@@ -14,7 +14,7 @@
 .mast-in{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
 .mast-label{font-weight:800;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
 .mast-label .jp{font-family:var(--jp)}
-.mast h1{font-weight:900;font-size:clamp(2.6rem,7vw,5.75rem);letter-spacing:-.02em;line-height:.95;color:var(--ink)}
+.mast h1{font-weight:900;font-size:clamp(2.15rem,5.1vw,4.5rem);letter-spacing:-.025em;line-height:.98;color:var(--ink)}
 .mast-lede{font-weight:500;font-size:15px;color:#5b5e54;max-width:620px;line-height:1.6;margin-top:20px}
 .mast-side{display:flex;flex-direction:column;align-items:center;gap:16px;flex-shrink:0;padding-top:6px}
 .mast-side img{display:block;width:92px;height:92px}
@@ -26,15 +26,45 @@
   .mast-lede{font-size:13.5px;margin-top:14px}
 }
 
-/* ── live-plot hero: the sheet, full-bleed on the paper page ── */
-.plot{position:relative;border-bottom:2px solid var(--ink)}
-.plot-stage{position:relative;height:72vh;min-height:440px;overflow:hidden}
+/* ── live plot: control rail left, sheet right ── */
+.plot{position:relative;display:grid;grid-template-columns:248px 1fr;border-bottom:2px solid var(--ink)}
+.plot-rail{display:flex;flex-direction:column;border-right:2px solid var(--ink)}
+.rail-sec{padding:16px 18px;border-bottom:1px solid rgba(21,22,15,.18)}
+.rail-sec:last-of-type{border-bottom:none}
+.rail-sec h5{font-weight:800;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+.rail-live{display:flex;align-items:center;gap:7px;font-weight:800;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+.rail-live .dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
+.rail-cap{font-weight:800;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin-top:8px}
+.rail-pct{display:flex;align-items:baseline;gap:2px;margin:6px 0 8px}
+.rail-pct b{font-weight:900;font-size:34px;line-height:1;color:var(--ink)}
+.rail-pct i{font-style:normal;font-weight:700;font-size:13px;color:var(--dim)}
+.plot-rail .pbar{position:relative;height:3px;background:rgba(21,22,15,.14)}
+.plot-rail .pbar b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red)}
+.rail-big{width:100%;background:var(--red);color:#fff;font-weight:800;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;padding:13px;border:1px solid var(--red)}
+.rail-big:hover{background:var(--ink);border-color:var(--ink)}
+.rail-row2{display:flex;gap:8px;margin-top:8px}
+.rail-btn{flex:1;font-weight:800;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:#5b5e54;border:1px solid rgba(21,22,15,.3);padding:10px 0;background:transparent}
+.rail-btn:hover{color:var(--ink);border-color:var(--ink)}
+.plot-rail .seg{display:flex;border:1px solid rgba(21,22,15,.3)}
+.plot-rail .seg button{flex:1;padding:9px 0;font-weight:800;font-size:9.5px;color:#5b5e54;border-right:1px solid rgba(21,22,15,.3)}
+.plot-rail .seg button:last-child{border-right:none}
+.plot-rail .seg button.on{background:var(--ink);color:var(--bristol)}
+.rail-note{font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:10px}
+.rail-tel{margin-top:auto;border-top:1px solid rgba(21,22,15,.18)}
+.rail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rail-grid label{display:block;font-weight:800;font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.rail-grid b{font-weight:800;font-size:12.5px;color:var(--ink)}
+.rail-grid b i{font-style:normal;font-weight:700;font-size:9px;color:var(--dim);margin-left:3px}
+.rail-foot{font-weight:700;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);line-height:1.7;margin-top:14px}
+
+.plot-stage{position:relative;min-height:560px;overflow:hidden}
 /* the bed is positioned + sized by plotter.js fitBed(); this is the fallback.
-   box-shadow/aspect overrides kill the framed-sheet look from styles.css .bed —
+   box-shadow/aspect overrides kill the framed-sheet look from styles.css .bed :
    on the paper page the sheet IS the page. */
 .plot-stage .bed{position:absolute;inset:0;background:var(--bristol);overflow:hidden;
   box-shadow:none;aspect-ratio:auto;max-height:none}
-.plot-stage .bed .bl{left:16px;transform:none}
 .plot-stage #pcanvas,.plot-stage #stage{position:absolute;left:7%;top:7%;width:86%;height:86%}
 #pcanvas{z-index:1;pointer-events:none}
 #stage{z-index:2}
@@ -42,87 +72,76 @@
 .bed .corner{position:absolute;width:15px;height:15px;border:1.5px solid #b7ab8a;z-index:3}
 .bed .c-tl{top:8px;left:8px;border-right:none;border-bottom:none}.bed .c-tr{top:8px;right:8px;border-left:none;border-bottom:none}
 .bed .c-bl{bottom:8px;left:8px;border-right:none;border-top:none}.bed .c-br{bottom:8px;right:8px;border-left:none;border-top:none}
-/* sheet labels pin to the page (the stage), not the floating bed */
+/* sheet labels pin to the stage, not the floating bed */
 .plot-stage .bl{position:absolute;top:10px;left:16px;z-index:3;font-weight:700;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#a99a76;transform:none}
 .plot-stage .pf-view{position:absolute;top:10px;right:16px;z-index:3;font-weight:700;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#a99a76}
 .pfr-sheet .vr,.pfr-sheet .bl{color:#a99a76}
 
-/* control strip under the sheet — one technical line of live data */
-.plot-strip{position:relative;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  padding:13px 26px 12px;border-top:1px solid var(--ink)}
-.plot-strip .pbar{position:absolute;left:0;right:0;top:-2px;height:3px;background:transparent}
-.plot-strip .pbar b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red)}
-.strip-live{display:flex;align-items:center;gap:8px;font-weight:800;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
-.strip-cap{font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
-.strip-stat{font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5b5e54}
-.strip-stat b{color:var(--ink);font-weight:800}
-.strip-sp{flex:1}
-.strip-btn{font-weight:800;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:#5b5e54;border:1px solid rgba(21,22,15,.3);padding:8px 12px;background:transparent}
-.strip-btn:hover{color:var(--ink);border-color:var(--ink)}
-.plot-strip .seg{display:flex;border:1px solid rgba(21,22,15,.3)}
-.plot-strip .seg button{padding:8px 10px;font-weight:800;font-size:9.5px;color:#5b5e54;border-right:1px solid rgba(21,22,15,.3)}
-.plot-strip .seg button:last-child{border-right:none}
-.plot-strip .seg button.on{background:var(--ink);color:var(--bristol)}
-.strip-note{font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+/* tablet + phone: the rail unfolds into a band above the sheet */
 @media(max-width:940px){
-  .plot-stage{height:56vh;min-height:340px}
-  .plot-strip{padding:11px 16px 10px;gap:12px}
-  .strip-note,.strip-stat.pos{display:none}
+  .plot{grid-template-columns:1fr}
+  .plot-rail{position:relative;flex-direction:row;flex-wrap:wrap;align-items:flex-end;gap:0 22px;
+    border-right:none;border-bottom:1px solid rgba(21,22,15,.18);padding:0 16px 12px}
+  .rail-sec{border-bottom:none;padding:12px 0 0}
+  .rail-sec h5{display:none}
+  .rail-cap,.rail-note,.rail-foot{display:none}
+  .rail-live{margin-bottom:4px}
+  .rail-pct{margin:0}
+  .rail-pct b{font-size:26px}
+  .plot-rail .pbar{position:absolute;left:0;right:0;bottom:0}
+  .rail-big{width:auto;padding:10px 18px}
+  .rail-tel{margin-top:0;border-top:none;flex:1 0 100%}
+  .rail-grid{grid-template-columns:repeat(4,1fr);gap:0 14px}
+  .plot-stage{height:58vh;min-height:340px}
 }
-@media(max-width:700px){.plot-stage .pf-view{display:none}}
-@media(max-width:560px){
-  .strip-stat.tm{display:none}
-  .plot-strip .seg{display:none}
+@media(max-width:700px){
+  .plot-stage .pf-view{display:none}
+  .rail-grid{grid-template-columns:repeat(2,1fr);gap:8px 14px}
+  .plot-rail .seg{display:none}
 }
 
 /* ============================================================
-   STUDY TABLE — the specimen ledger on paper
+   STUDY PLATES: each sheet shown as a plate on the paper
    (renders into #grid on the homepage via scripts/shop.js)
    ============================================================ */
-.pfq-cols{position:relative;z-index:2;display:grid;
-  grid-template-columns:110px 1.3fr .55fr .6fr .65fr 210px;gap:0 18px;
-  padding:10px 4px;border-bottom:1px solid var(--ink);
-  font-weight:800;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.pfq-cols .num{text-align:right}
-.pfq{position:relative;z-index:2}
-.qrow{display:grid;grid-template-columns:110px 1.3fr .55fr .6fr .65fr 210px;gap:0 18px;
-  align-items:center;padding:14px 4px;border-bottom:1px solid rgba(21,22,15,.18)}
-.qrow:hover{background:rgba(21,22,15,.03)}
-.qrow .thumb{display:block;height:92px;position:relative;overflow:hidden}
-.qrow .thumb svg{position:absolute;left:2px;top:2px;width:calc(100% - 4px);height:calc(100% - 4px)}
-.qrow .thumb path{fill:none;stroke:var(--ink);stroke-width:.55;vector-effect:non-scaling-stroke;
+.plates{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:34px 30px;padding-top:34px}
+.plate{display:flex;flex-direction:column}
+.pl-sheet{position:relative;display:block;aspect-ratio:4/3;background:#fff;
+  border:1px solid rgba(21,22,15,.28);overflow:hidden}
+.pl-sheet:hover{border-color:var(--ink)}
+.pl-sheet svg{position:absolute;left:9%;top:9%;width:82%;height:82%}
+.pl-sheet path{fill:none;stroke:var(--ink);stroke-width:.6;vector-effect:non-scaling-stroke;
   stroke-linejoin:round;stroke-linecap:round}
-.qrow .qplot{position:absolute;right:2px;bottom:2px;z-index:2;font-weight:800;font-size:8px;
-  letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(21,22,15,.4);
-  background:rgba(246,243,236,.9);color:var(--ink);padding:3px 6px;cursor:pointer}
-.qrow .qplot:hover{background:var(--ink);color:var(--bristol)}
-.qrow .des .code{display:block;font-weight:700;font-size:9px;letter-spacing:.12em;color:var(--dim)}
-.qrow .des .nm{display:inline-block;font-weight:900;font-size:16px;color:var(--ink);
-  text-transform:uppercase;text-decoration:none;margin:3px 0 1px}
-.qrow .des .nm:hover{color:var(--red)}
-.qrow .des .jp{display:block;font-family:var(--jp);font-size:11.5px;color:var(--dim)}
-.qrow .qstat{text-align:right;font-weight:800;font-size:12.5px;color:var(--ink)}
-.qrow .qstat label{display:block;font-weight:800;font-size:8px;letter-spacing:.18em;
+.pl-sheet:hover path{stroke:var(--red)}
+.pl-no{position:absolute;left:10px;top:9px;z-index:2;font-weight:900;font-size:11px;
+  letter-spacing:.1em;color:var(--red)}
+.pl-code{position:absolute;right:10px;top:9px;z-index:2;font-weight:700;font-size:8.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.pl-plot{position:absolute;left:50%;bottom:12px;transform:translateX(-50%) translateY(6px);z-index:3;
+  font-weight:800;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--ink);background:var(--bristol);color:var(--ink);padding:8px 14px;
+  opacity:0;transition:opacity .18s,transform .18s;cursor:pointer;white-space:nowrap}
+.pl-sheet:hover .pl-plot,.pl-plot:focus-visible{opacity:1;transform:translateX(-50%) translateY(0)}
+.pl-plot:hover{background:var(--ink);color:var(--bristol)}
+.pl-name{display:flex;align-items:baseline;gap:10px;margin-top:14px;font-weight:900;font-size:19px;
+  line-height:1;text-transform:uppercase;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.pl-name:hover{color:var(--red)}
+.pl-name .jp{font-family:var(--jp);font-weight:700;font-size:11px;letter-spacing:0;
+  text-transform:none;color:var(--dim)}
+.pl-stats{display:flex;gap:22px;margin-top:12px;padding-top:11px;border-top:1px solid rgba(21,22,15,.18);
+  font-weight:800;font-size:12.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+.pl-stats label{display:block;font-weight:800;font-size:7.5px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--dim);margin-bottom:3px}
-.qrow .act{text-align:right}
-.qrow .act .study{display:block;font-weight:800;font-size:8.5px;letter-spacing:.16em;
+.pl-foot{margin-top:9px;font-weight:700;font-size:8.5px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--dim)}
-.qrow .act .rec{display:inline-block;margin-top:9px;font-weight:800;font-size:9px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--red);text-decoration:none}
-.qrow .act .rec:hover{color:var(--ink)}
-@media(max-width:1100px){
-  .pfq-cols{display:none}
-  .qrow{grid-template-columns:96px 1fr 170px;gap:0 14px}
-  .qrow .qstat{display:none}
-}
+@media(max-width:940px){.plates{grid-template-columns:repeat(2,1fr);gap:28px 22px}}
 @media(max-width:560px){
-  .qrow{grid-template-columns:80px 1fr;grid-template-rows:auto auto}
-  .qrow .thumb{height:80px}
-  .qrow .act{grid-column:1 / -1;text-align:left;padding-top:8px}
+  .plates{grid-template-columns:1fr;gap:26px;padding-top:26px}
+  .pl-plot{opacity:1;transform:translateX(-50%)}
 }
 
-/* ── commissions panel — ink-ruled box with the hanko seal ── */
+/* ── commissions panel: ink-ruled box with the hanko seal ── */
 .comm-box{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:40px;
   border:2px solid var(--ink);padding:34px 36px;margin:54px 0}
 .comm-box .seal{position:absolute;right:22px;top:-26px;width:52px;height:52px}
@@ -139,7 +158,7 @@
 }
 
 /* ============================================================
-   RECORD — product page as a paper specimen sheet
+   RECORD: product page as a paper specimen sheet
    (product.html; live-plot preview driven by scripts/product.js)
    ============================================================ */
 .pfr{display:grid;grid-template-columns:1fr 420px;min-height:calc(100vh - 44px)}
@@ -211,10 +230,10 @@
 .pfr-panel .pd-swatch.on .pd-swatch-name{color:var(--ink)}
 
 /* ── 井筒に橘 crest placements ── */
-/* hanko-style seal on the plot sheet — flat ink on paper, bottom-right */
+/* hanko-style seal on the plot sheet: flat ink on paper, bottom-right */
 .pf-seal{position:absolute;right:20px;bottom:16px;width:48px;height:48px;z-index:3;
   opacity:.92;pointer-events:none}
-/* manifesto crest — stroked red on paper */
+/* manifesto crest: stroked red on paper */
 .mani-crest{display:block;width:96px;height:96px;margin-bottom:20px}
 @media(max-width:940px){.pf-seal{width:40px;height:40px;right:14px;bottom:12px}}
 

@@ -105,7 +105,7 @@ select:focus{outline:1px solid #e8351f;border-color:#e8351f}
     <div class="status" id="status"></div>
 
     <hr class="divider">
-    <p class="tip">Private tool — renders a Reels-ready 1080×1920 H.264 MP4 using the live-plot engine. Add music in the Instagram composer. Requires Chrome 94+ (WebCodecs).</p>
+    <p class="tip">Private tool. Renders a Reels-ready 1080×1920 H.264 MP4 using the live-plot engine. Add music in the Instagram composer. Requires Chrome 94+ (WebCodecs).</p>
   </div>
 </div>
 
@@ -264,19 +264,19 @@ function createStroker(ctx, tf, inkHex, lineW) {
 function drawHUD(ctx, suit, progress, elapsedSec, totalSec, inkDrawnM, inkTotalM, penPt, tf, inkHex) {
   var hc = HUD_CLR;
 
-  // bed label — top left
+  // bed label: top left
   ctx.font = '600 22px ' + HUD_FONT;
   ctx.fillStyle = hc;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText('BED 01 · ' + suit.code, 60, 60);
 
-  // brand — top right
+  // brand: top right
   ctx.font = '800 22px ' + HUD_FONT;
   ctx.textAlign = 'right';
   ctx.fillText('PLOTFLOW*', W - 60, 60);
 
-  // edition name — below bed label
+  // edition name: below bed label
   ctx.font = '500 18px ' + HUD_FONT;
   ctx.textAlign = 'left';
   ctx.fillText(suit.name, 60, 90);
@@ -290,7 +290,7 @@ function drawHUD(ctx, suit, progress, elapsedSec, totalSec, inkDrawnM, inkTotalM
   ctx.textAlign = 'right';
   ctx.fillText('F' + FEED + ' mm/min', W - 60, 90);
 
-  // progress bar — bottom area
+  // progress bar: bottom area
   var barY = H - 160, barH = 3;
   ctx.fillStyle = 'rgba(21,22,15,0.10)';
   ctx.fillRect(60, barY, W - 120, barH);
@@ -608,7 +608,7 @@ async function renderMP4() {
   setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
 
   var mb = (blob.size / (1024 * 1024)).toFixed(1);
-  statusEl.textContent = 'Done — ' + mb + ' MB · ' + a.download;
+  statusEl.textContent = 'Done · ' + mb + ' MB · ' + a.download;
   prevLabel.textContent = suit.code + ' ' + suit.name + ' · rendered · ' + mb + ' MB';
 
   btnRend.disabled = false;
@@ -618,7 +618,7 @@ async function renderMP4() {
 
 btnRend.addEventListener('click', function () {
   if (typeof VideoEncoder === 'undefined') {
-    statusEl.textContent = 'WebCodecs not supported — use Chrome 94+';
+    statusEl.textContent = 'WebCodecs not supported. Use Chrome 94+';
     return;
   }
   renderMP4().catch(function (e) {
