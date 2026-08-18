@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-gen_shanshui.py — a sheet of {Shan, Shui}* via LingDong Huang's
+gen_shanshui.py: a sheet of {Shan, Shui}* via LingDong Huang's
 shan-shui-inf (MIT, vendored in tools/vendor/shan-shui/), reinterpreted
 for the pen.
 
 The original paints an infinite scroll with brush strokes as filled
 polygons, grey washes for tone, and white shapes for occlusion. A pen
 has exactly one mark, so the conversion keeps the dark ink marks
-(drawn as line work), and drops washes and masks — a plotter's reading
+(drawn as line work), and drops washes and masks: a plotter's reading
 of the painting, not a reproduction of it.
 
 Runs the generator headless (Chromium via Playwright), captures a
@@ -47,7 +47,7 @@ def capture(seed, timeout_ms=12000):
 
 def parse(canv, x0, x1, min_alpha=0.0):
     """Dark ink marks inside the window → list of (closed, polyline).
-    min_alpha drops the palest shading strokes — the painting stacks
+    min_alpha drops the palest shading strokes: the painting stacks
     low-opacity marks for tone, but a pen lays every line at full dark,
     so alpha becomes the plot-density dial."""
     out = []

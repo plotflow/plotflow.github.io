@@ -1,5 +1,5 @@
 /* ============================================================
-   PLOTFLOW · Cookie consent — GA4 Consent Mode v2, opt-in (EU pattern)
+   PLOTFLOW · Cookie consent: GA4 Consent Mode v2, opt-in (EU pattern)
    The gtag.js loader is NOT injected until the visitor accepts;
    declining stores the choice and never loads it. Consent defaults
    are set to 'denied' in each page's <head> before this runs.

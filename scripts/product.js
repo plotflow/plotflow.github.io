@@ -137,7 +137,7 @@
     len = path.getTotalLength(); if (!len || !isFinite(len)) len = 1;
 
     // Size the sheet to the artwork's aspect (7% margins), centred in the
-    // stage — same treatment as the homepage bed, so the drawing fills the
+    // stage: same treatment as the homepage bed, so the drawing fills the
     // paper instead of floating in blank bristol.
     var sheet = document.querySelector(".pfr-sheet");
     var sheetWrap = document.querySelector(".pfr-stagewrap");

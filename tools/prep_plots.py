@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-prep_plots.py — normalize raw plotter.vision SVG exports.
+prep_plots.py: normalize raw plotter.vision SVG exports.
 
 Raw exports come as a single <path> with width/height in px and a hard-coded
 red stroke. This makes them recolorable + responsive:

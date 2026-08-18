@@ -82,13 +82,13 @@ python content_generator.py  # Generate sample content
 ## 🎬 Media Generation
 
 Instagram needs publicly-hosted media. The media generator renders each
-edition's continuous-line path into two Instagram-ready assets — no browser,
+edition's continuous-line path into two Instagram-ready assets: no browser,
 no system ffmpeg (a static binary ships with `imageio-ffmpeg`):
 
-- **`{key}_process.mp4`** — 1080×1080 H.264 video of the suit drawn line-by-line
+- **`{key}_process.mp4`**: 1080×1080 H.264 video of the suit drawn line-by-line
   in red ink on Bristol paper, with the moving pen head and bed label. Used for
   *process* posts.
-- **`{key}_showcase.png`** — 1080×1350 still of the finished plot, composed as a
+- **`{key}_showcase.png`**: 1080×1350 still of the finished plot, composed as a
   feed image with code / edition / name / 日本語 / price. Used for everything else.
 
 ### Build the media + manifest
@@ -114,8 +114,8 @@ python automate.py media                           # build all + publish (via au
 
 ## 📤 Manual posting (no Meta API)
 
-If the Meta API is unavailable — a disabled/appealed Facebook account, no
-approved app, or you just want to post by hand — use the exporter. It turns the
+If the Meta API is unavailable: a disabled/appealed Facebook account, no
+approved app, or you just want to post by hand: use the exporter. It turns the
 editorial card library into ready-to-post packs plus a browser review board, so
 you publish through the Instagram app in seconds. No API, no approval, no
 account dependency.
@@ -130,14 +130,14 @@ python automate.py export    # write packs + grouped review board
 canon caption from `tools/captions.json`. It creates `exports/<timestamp>/`:
 
 - one folder per card with the **card image** + **caption.txt**
-- **index.html** — a review board grouped by suit, each card with a **Copy
+- **index.html**: a review board grouped by suit, each card with a **Copy
   caption** button
 
 (Use `python automate.py export` → falls back to `--queue` for the older
 still+video scheduler set if you ever need it: `python exporter.py --queue`.)
 
 Open `index.html`, and for each card: click *Copy caption*, save the image, and
-post it in the Instagram app. Fastest on your phone — AirDrop/sync the folder,
+post it in the Instagram app. Fastest on your phone: AirDrop/sync the folder,
 or open the board on mobile.
 
 ## 📖 Usage (Meta API path)

@@ -108,7 +108,7 @@ def wrap(d, text, font, max_w):
     return lines
 
 # ============================================================
-# TYPE 1: PROCESS — mid-plot freeze frame with pen crosshair
+# TYPE 1: PROCESS: mid-plot freeze frame with pen crosshair
 # ============================================================
 def post_process(key, frac=0.55):
     s = SUITS[key]
@@ -127,7 +127,7 @@ def post_process(key, frac=0.55):
         d.line([px-r*2,py,px+r*2,py], fill=RED+(80,), width=max(1,SS))
         d.line([px,py-r*2,px,py+r*2], fill=RED+(80,), width=max(1,SS))
 
-    # progress readout — bottom
+    # progress readout: bottom
     mm = 420 / max(bb[2]-bb[0], bb[3]-bb[1])
     ink_m = (total*frac*mm)/1000; ink_total = (total*mm)/1000
     pct = round(frac*100)
@@ -162,7 +162,7 @@ def post_process(key, frac=0.55):
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
-# TYPE 2: DROP ANNOUNCEMENT — bold type, edition number hero
+# TYPE 2: DROP ANNOUNCEMENT: bold type, edition number hero
 # ============================================================
 def post_drop(key):
     s = SUITS[key]
@@ -181,7 +181,7 @@ def post_drop(key):
     tw = d.textlength('NOW AVAILABLE', font=f_tag)
     d.rectangle([80*SS, 86*SS, 80*SS+tw, 88*SS], fill=RED)
 
-    # edition number — MASSIVE
+    # edition number: MASSIVE
     ed_raw = s.get('edition','ED. 01/25').split('·')[0].strip()
     f_ed = ImageFont.truetype(BOLD, 140*SS)
     d.text((80*SS, C-520*SS), ed_raw, font=f_ed, fill=WHITE+(30,))
@@ -201,7 +201,7 @@ def post_drop(key):
     f_spec = ImageFont.truetype(REG, 13*SS)
     d.text((80*SS, C-220*SS), 'Staedtler 0.3mm on Strathmore Bristol · 11×14″ · Signed & numbered', font=f_spec, fill=DIM)
 
-    # edition size + CTA (no price — gallery, not storefront)
+    # edition size + CTA (no price: gallery, not storefront)
     f_edline = ImageFont.truetype(BOLD, 20*SS)
     d.text((80*SS, C-160*SS), 'EDITION OF 25 · SIGNED & NUMBERED', font=f_edline, fill=RED)
     f_cta = ImageFont.truetype(BOLD, 16*SS)
@@ -217,7 +217,7 @@ def post_drop(key):
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
-# TYPE 3: LORE CARD — text-forward, suit ghosted
+# TYPE 3: LORE CARD: text-forward, suit ghosted
 # ============================================================
 def post_lore(key):
     s = SUITS[key]
@@ -243,7 +243,7 @@ def post_lore(key):
     nw = d.textlength(s['name'], font=f_name)
     d.text((90*SS+nw+16*SS, 134*SS), s.get('jp',''), font=f_jp, fill=DIM)
 
-    # lore text — large, readable
+    # lore text: large, readable
     f_lore = ImageFont.truetype(REG, 18*SS)
     lore = s.get('lore', '')
     lines = wrap(d, lore, f_lore, 620*SS)
@@ -265,7 +265,7 @@ def post_lore(key):
         d.text((200*SS, y), val, font=f_spec, fill=INK+(160,))
         y += 22*SS
 
-    # signature: drawn by machine (no price — gallery, not storefront)
+    # signature: drawn by machine (no price: gallery, not storefront)
     f_sig_jp = ImageFont.truetype(JP, 26*SS)
     d.text((90*SS, C-116*SS), 'マシンドロー', font=f_sig_jp, fill=RED)
     f_sig_en = ImageFont.truetype(REG, 12*SS)
@@ -281,7 +281,7 @@ def post_lore(key):
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
-# TYPE 4: SPEC SHEET — dense technical readout, editorial energy
+# TYPE 4: SPEC SHEET: dense technical readout, editorial energy
 # ============================================================
 def post_spec(key):
     s = SUITS[key]
@@ -297,7 +297,7 @@ def post_spec(key):
 
     reg_marks(d, 50*SS, 20*SS, PAPER+(30,))
 
-    # suit — right/center
+    # suit: right/center
     draw_suit(d, sp, bb, (280*SS, 100*SS, 700*SS, 620*SS), RED+(200,), max(2,2*SS))
 
     # big ghosted code
@@ -337,7 +337,7 @@ def post_spec(key):
     d.text((60*SS, panel_y+40*SS), s['code'], font=f_label, fill=MUTE)
     panel_y += 70*SS
 
-    # data grid — 4 columns
+    # data grid: 4 columns
     col_w = (C - 120*SS) // 4
     data = [
         ('EDITION', s.get('edition','').split('·')[0].strip()),
@@ -379,7 +379,7 @@ def post_spec(key):
     out.save(path, 'PNG'); print(f'  {path}'); return path
 
 # ============================================================
-# TYPE 5: BRAND/PHILOSOPHY — no suit, pure typography
+# TYPE 5: BRAND/PHILOSOPHY: no suit, pure typography
 # ============================================================
 def post_brand(variant='dark'):
     bg = INK if variant=='dark' else PAPER

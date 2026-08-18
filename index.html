@@ -49,13 +49,12 @@
 
 <!-- MASTHEAD -->
 <header class="mast">
-  <span class="reg l">+</span><span class="reg r">+</span>
   <div class="wrap mast-in">
     <div>
       <div class="mast-label">STUDY ARCHIVE ｜<span class="jp">習作</span> · LIVE SIMULATION</div>
-      <h1>Plots on paper,<br>drawn line by line.</h1>
+      <h1>Computational art,<br>drawn line by line</h1>
       <p class="mast-lede">A pen-plotter studio. Universal-Century studies are catalogued below and
-      displayed, not sold — original linework is taken on through commissions.</p>
+      displayed, not sold. Original linework is taken on through commissions.</p>
     </div>
     <div class="mast-side">
       <img src="assets/logo-seal.svg" alt="" width="92" height="92">
@@ -64,13 +63,12 @@
   </div>
 </header>
 
-<!-- LIVE PLOT — the sheet, full-bleed -->
+<!-- LIVE PLOT: the sheet, with its control strip beneath -->
 <section class="plot" id="feature">
   <div class="plot-stage">
     <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
     <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
     <div class="bed" id="bed">
-      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <canvas id="pcanvas"></canvas>
       <svg id="stage" viewBox="0 0 1493 801" preserveAspectRatio="xMidYMid meet">
         <path id="ppath" d=""></path>
@@ -92,7 +90,7 @@
     <span class="strip-note" id="simx"></span>
     <span class="strip-sp"></span>
     <span class="strip-live">● PLOTTING</span>
-    <span class="strip-cap" id="capName">—</span>
+    <span class="strip-cap" id="capName">READY</span>
     <span class="strip-stat"><b><span id="pct">0</span>%</b></span>
     <span class="strip-stat">INK <b><span id="ink">0.00</span></b> / <span id="inktot">0.00</span> m</span>
     <span class="strip-stat tm"><b><span id="elapsed">00:00</span></b> / <span id="total">00:00</span></span>
@@ -119,13 +117,9 @@
   <div class="wrap">
     <div class="shop-head">
       <h2>Studies<span class="star">*</span></h2><span class="jp">習作</span>
-      <div class="meta tiny">Drawing studies of Universal-Century machines — fan works, displayed and not sold. Values are computed from each stroke program. Original work is drawn through commissions.</div>
+      <div class="meta tiny">Drawing studies of Universal-Century machines: fan works, displayed and not sold. Values are computed from each stroke program. Original work is drawn through commissions.</div>
     </div>
-    <div class="pfq-cols">
-      <span></span><span>Designation</span><span class="num">Ink</span><span class="num">Strokes</span>
-      <span class="num">Plot time</span><span></span>
-    </div>
-    <div class="pfq" id="grid"></div>
+    <div class="plates" id="grid"></div>
   </div>
 </section>
 
@@ -139,7 +133,7 @@
         <h2>Original linework to your spec.</h2>
         <p>The studies above are fan works and are not sold. Commissioned work is original:
         a machine designed for the sheet, rebuilt as vector line work, and drawn by the
-        plotter — one drawing, one owner. From $350 · 11×14″ · 0.3&nbsp;mm pigment on Strathmore Bristol.</p>
+        plotter. One drawing, one owner. From $350 · 11×14″ · 0.3&nbsp;mm pigment on Strathmore Bristol.</p>
       </div>
       <a class="comm-cta" href="commissions.html">Request a slot</a>
     </div>
@@ -158,18 +152,18 @@
 </section>
 
 <!-- NEWSLETTER / DROP LIST -->
-<section class="news" id="newsletter">
+<section class="news" id="droplist">
   <div class="grain"></div>
   <div class="wrap news-in">
     <div class="news-copy">
-      <h2>Notifications<span class="star">*</span></h2>
+      <h2>Join the droplist<span class="star">*</span></h2>
       <div class="jp">入荷通知</div>
-      <p>New work is released irregularly. To be notified when a study or commission slot opens, leave an email address.</p>
+      <p>New work is released irregularly. Leave an email address and you'll hear first when a sheet or a commission slot opens.</p>
     </div>
     <form class="news-form" id="newsForm" novalidate>
       <div class="news-row">
         <input type="email" id="newsEmail" placeholder="you@example.com" autocomplete="email" required aria-label="Email address">
-        <button type="submit">Notify</button>
+        <button type="submit">Join</button>
       </div>
       <p class="news-msg tiny" id="newsMsg" role="status"></p>
     </form>
@@ -184,7 +178,7 @@
       <div class="fc"><h5>Shop*</h5><a href="#shop">All editions</a><a href="commissions.html">Commissions</a></div>
       <div class="fc"><h5>Studio*</h5><a href="#process">Process</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
       <div class="fc"><h5>Info*</h5><a href="shipping.html">Shipping</a><a href="returns.html">Returns</a><a href="faq.html">FAQ</a></div>
-      <div class="fc"><h5>Elsewhere*</h5><a href="https://instagram.com/plotflow" target="_blank" rel="noopener">@plotflow</a><a href="#newsletter">Newsletter</a><span class="est">est. 2026</span></div>
+      <div class="fc"><h5>Elsewhere*</h5><a href="https://instagram.com/plotflow" target="_blank" rel="noopener">@plotflow</a><a href="#droplist">Droplist</a><span class="est">est. 2026</span></div>
     </div>
     <div class="foot-bot tiny"><span>© 2026 PLOTFLOW* · PLOTTED IN THE U.S.A.</span><span>AXIDRAW · PIGMENT INK · BRISTOL</span></div>
   </div>
@@ -196,7 +190,7 @@
 <script src="scripts/shop.js"></script>
 <script src="scripts/plotter.js"></script>
 <script>
-  // Control-strip caption — mirrors whichever study the plotter is drawing.
+  // Rail caption: mirrors whichever study the plotter is drawing.
   (function () {
     var sel = document.getElementById('suit'), cap = document.getElementById('capName');
     if (!sel || !cap || !window.PLOTFLOW) return;

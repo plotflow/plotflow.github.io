@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-gen_concepts.py — mock up NEW post/reel design directions for review.
+gen_concepts.py: mock up NEW post/reel design directions for review.
 
 Renders to  mockups/  so you can thumbs-up/down before any of these graduate
 into tools/gen_posts.py. Run from the repo root:  python tools/gen_concepts.py
 
 Concepts:
-  A  gradient   — the path colored start→end to show the draw order
-  B  blueprint  — dark technical schematic, cyan on navy, grid + reg marks
-  C  macro      — extreme abstract crop of the linework, gallery-object energy
-  D  roster     — all six suits as a contact-sheet collection poster
-  E  statement  — bold typographic philosophy card
+  A  gradient  : the path colored start→end to show the draw order
+  B  blueprint : dark technical schematic, cyan on navy, grid + reg marks
+  C  macro     : extreme abstract crop of the linework, gallery-object energy
+  D  roster    : all six suits as a contact-sheet collection poster
+  E  statement : bold typographic philosophy card
 """
 import json, math, os, re
 from PIL import Image, ImageDraw, ImageFont
@@ -87,7 +87,7 @@ def brand(d, xy, color, px=14):
     d.text(xy, 'PLOTFLOW*', font=F(BOLD, px*SS), fill=color)
 
 # ============================================================
-# A · GRADIENT — color the path start→end (proves one line)
+# A · GRADIENT: color the path start→end (proves one line)
 # ============================================================
 def concept_gradient(key, dark=False):
     s = SUITS[key]; sp = parse_path(s['d']); bb = bbox(sp)
@@ -118,7 +118,7 @@ def concept_gradient(key, dark=False):
     print(f'  gradient {key}{" dark" if dark else ""}')
 
 # ============================================================
-# B · BLUEPRINT — cyan schematic on navy, grid + reg marks
+# B · BLUEPRINT: cyan schematic on navy, grid + reg marks
 # ============================================================
 def concept_blueprint(key):
     s = SUITS[key]; sp = parse_path(s['d']); bb = bbox(sp)
@@ -146,12 +146,12 @@ def concept_blueprint(key):
     print(f'  blueprint {key}')
 
 # ============================================================
-# C · MACRO — extreme abstract crop of the linework
+# C · MACRO: extreme abstract crop of the linework
 # ============================================================
 def concept_macro(key):
     s = SUITS[key]; sp = parse_path(s['d']); bb = bbox(sp)
     minx, miny, maxx, maxy = bb
-    # crop to the upper-center third — dense, abstract
+    # crop to the upper-center third: dense, abstract
     cw, ch = (maxx-minx), (maxy-miny)
     crop = (minx+cw*0.18, miny+ch*0.02, minx+cw*0.82, miny+ch*0.40)
     img = Image.new('RGB', (C, C), PAPER); d = ImageDraw.Draw(img, 'RGBA')
@@ -169,7 +169,7 @@ def concept_macro(key):
     print(f'  macro {key}')
 
 # ============================================================
-# D · ROSTER — contact sheet of all six editions
+# D · ROSTER: contact sheet of all six editions
 # ============================================================
 def concept_roster():
     img = Image.new('RGB', (C, C), PAPER); d = ImageDraw.Draw(img, 'RGBA')
@@ -191,7 +191,7 @@ def concept_roster():
     print('  roster')
 
 # ============================================================
-# E · STATEMENT — typographic philosophy card
+# E · STATEMENT: typographic philosophy card
 # ============================================================
 def concept_statement(key='zaku'):
     s = SUITS[key]; sp = parse_path(s['d']); bb = bbox(sp)
@@ -210,10 +210,10 @@ def concept_statement(key='zaku'):
 
 
 # ============================================================
-# F · SPECTRUM EDITION — plotter-HONEST banded gradient
+# F · SPECTRUM EDITION: plotter-HONEST banded gradient
 #     The path split into N arc-length bands, each a solid pen color.
 #     This is what a real multi-pen swap plot would produce (stepped, not
-#     smooth) — and export_spectrum_layers() writes the actual per-pen SVGs.
+#     smooth): and export_spectrum_layers() writes the actual per-pen SVGs.
 # ============================================================
 RAMP = [(0.0, INDIGO), (0.5, RED), (1.0, GOLD)]
 def band_color(b, bands): return grad(RAMP, (b + 0.5) / max(1, bands))
@@ -278,13 +278,13 @@ def export_spectrum_layers(key, bands=8):
         open(os.path.join(outdir, f'pen-{b+1:02d}_{hh}.svg'), 'w').write(svg)
         plan.append(f'PEN {b+1:02d}  #{hh}  ({len(runs[b])} strokes)')
     open(os.path.join(outdir, 'PLOT_PLAN.txt'), 'w').write(
-        f"SPECTRUM EDITION — {s['code']} {s['name']}\n"
+        f"SPECTRUM EDITION: {s['code']} {s['name']}\n"
         f"{bands}-pen layered plot · all layers share the suit's coordinate space.\n\n"
         f"Plot each layer in order, swapping to the matching pen between layers:\n\n"
         + '\n'.join(plan) +
         "\n\nLoad pen-NN.svg files into the AxiDraw app (or vpype/saxi) and plot in\n"
         "sequence. Registration is exact, so the bands align into one flowing path.\n"
-        "Note: this is a stepped (banded) gradient — the honest limit of a pen.\n")
+        "Note: this is a stepped (banded) gradient: the honest limit of a pen.\n")
     print(f'  spectrum layers → {outdir}/ ({bands} pens + PLOT_PLAN.txt)')
 
 

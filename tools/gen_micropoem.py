@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-gen_micropoem.py — micro-lettering poem sheets for the plotter.
+gen_micropoem.py: micro-lettering poem sheets for the plotter.
 
 Sets a poem in single-stroke Hershey lettering at ~2.4 mm cap height and
-repeats it to fill the sheet — from viewing distance the page reads as a
+repeats it to fill the sheet: from viewing distance the page reads as a
 grey field; up close it is language. Output is M/L-only SVG (same
 dialect as the rest of the pipeline) plus a full-sheet PNG preview and a
 4x detail crop.

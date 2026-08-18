@@ -2,7 +2,7 @@
 
 **Independent pen-plotter studio.** Universal-Century mobile suits, redrawn as precise vector line work and drawn in ink by machine.
 
-マシンドロー — *machine-draw*: drawn by machine, never printed.
+マシンドロー: *machine-draw*: drawn by machine, never printed.
 
 🌐 **[plotflow.io](https://plotflow.io)**
 
@@ -12,26 +12,26 @@
 
 PlotFlow rebuilds each mobile suit as precise vector line work and traces it in technical pen on archival paper with an AxiDraw plotter. Nothing is printed. Every impression is *drawn*, so each carries the minor variation of the medium; editions are limited, made to order, signed, and numbered.
 
-This repository is the PlotFlow homepage — a no-build static site (plain HTML/CSS/JS, no framework, no bundler) hosted on GitHub Pages. Its centerpiece is an interactive **Live Plot** that animates a suit being drawn line-by-line by a virtual plotter, alongside the shop of current editions.
+This repository is the PlotFlow homepage: a no-build static site (plain HTML/CSS/JS, no framework, no bundler) hosted on GitHub Pages. Its centerpiece is an interactive **Live Plot** that animates a suit being drawn line-by-line by a virtual plotter, alongside the shop of current editions.
 
 ## The work
 
-- **Technical pen on archival stock** — Staedtler fineliner on 300gsm Bristol
-- **Drawn by machine** — an AxiDraw traces every stroke, pen up and pen down
-- **Limited editions** — made to order, signed and numbered
+- **Technical pen on archival stock**: Staedtler fineliner on 300gsm Bristol
+- **Drawn by machine**: an AxiDraw traces every stroke, pen up and pen down
+- **Limited editions**: made to order, signed and numbered
 - Variation in line and ink is a feature of the medium, not a flaw
 
 ## Process
 
-1. **Vectorize** (ベクター化) — the suit is rebuilt as clean vector line work
-2. **Plot** (作画) — an AxiDraw traces it in ink; a single A1 can run for hours
-3. **Finish** (仕上げ) — inspected, signed, and numbered
+1. **Vectorize** (ベクター化): the suit is rebuilt as clean vector line work
+2. **Plot** (作画): an AxiDraw traces it in ink; a single A1 can run for hours
+3. **Finish** (仕上げ): inspected, signed, and numbered
 
 ---
 
 ## Run locally
 
-No build step or dependencies — the edition data is inlined as a script.
+No build step or dependencies: the edition data is inlined as a script.
 
 ```bash
 python3 -m http.server 8000
@@ -63,4 +63,4 @@ git add -A && git commit -m "update site" && git push
 
 ---
 
-<sub>© 2026 PLOTFLOW* — plotted in the U.S.A. · マシンドロー · drawn by machine</sub>
+<sub>© 2026 PLOTFLOW*: plotted in the U.S.A. · マシンドロー · drawn by machine</sub>

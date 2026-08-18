@@ -3,7 +3,7 @@
    Builds the console's study list from window.PLOTFLOW
    (data/editions.js): one row per study with stats computed from
    its stroke program. The Universal-Century sheets are fan works,
-   displayed only — commercial work goes through commissions.
+   displayed only: commercial work goes through commissions.
    ============================================================ */
 (function () {
   var P = window.PLOTFLOW || {};
@@ -42,29 +42,31 @@
     return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
   }
 
-  ORDER.forEach(function (key) {
+  ORDER.forEach(function (key, i) {
     var s = SUITS[key]; if (!s) return;
     var t = stats(s.d), p = Math.max(t.bb[2], t.bb[3]) * 0.05;
     var href = 'product.html?id=' + encodeURIComponent(key);
-    var row = document.createElement('article');
-    row.className = 'qrow';
-    row.dataset.key = key;
-    row.innerHTML =
-      '<a class="thumb" href="' + href + '" aria-label="' + s.name + ' study record">' +
+    var plate = document.createElement('article');
+    plate.className = 'plate';
+    plate.dataset.key = key;
+    plate.innerHTML =
+      '<a class="pl-sheet" href="' + href + '">' +
+        '<span class="pl-no">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="pl-code">' + s.code + '</span>' +
         '<svg viewBox="' + (t.bb[0] - p) + ' ' + (t.bb[1] - p) + ' ' +
           (t.bb[2] + 2 * p) + ' ' + (t.bb[3] + 2 * p) + '" preserveAspectRatio="xMidYMid meet">' +
           '<path d="' + s.d + '"/></svg>' +
-        '<button class="qplot" data-plot="' + key + '" aria-label="Plot ' + s.name + '">▶︎ Plot</button>' +
+        '<button class="pl-plot" data-plot="' + key + '" aria-label="Plot ' + s.name + '">▶&#xFE0E; Plot this sheet</button>' +
       '</a>' +
-      '<div class="des"><span class="code">№ ' + s.code + '</span>' +
-        '<a class="nm" href="' + href + '">' + s.name + '</a>' +
-        '<span class="jp">' + s.jp + '</span></div>' +
-      '<div class="qstat"><label>Ink</label>' + t.ink.toFixed(1) + ' m</div>' +
-      '<div class="qstat"><label>Strokes</label>' + t.strokes.toLocaleString() + '</div>' +
-      '<div class="qstat"><label>Plot time</label>' + fmt(t.min) + '</div>' +
-      '<div class="act"><span class="study">Study · not for sale</span>' +
-        '<a class="rec" href="' + href + '">Open record →</a></div>';
-    grid.appendChild(row);
+      '<a class="pl-name" href="' + href + '">' + s.name +
+        '<span class="jp">' + s.jp + '</span></a>' +
+      '<div class="pl-stats">' +
+        '<span><label>Ink</label>' + t.ink.toFixed(1) + ' m</span>' +
+        '<span><label>Strokes</label>' + t.strokes.toLocaleString() + '</span>' +
+        '<span><label>Plot</label>' + fmt(t.min) + '</span>' +
+      '</div>' +
+      '<div class="pl-foot">Study · not for sale</div>';
+    grid.appendChild(plate);
   });
 
   // "▶ Plot" hands the study to the hero plotter (button sits inside the record link).

@@ -12,7 +12,7 @@ browser cart  ──POST {items:[{key,qty,color}]}──▶  Worker  ──▶  
 
 Prices and product names live in `src/index.js` → `CATALOG` as ad-hoc
 `price_data` line items, so **there is nothing to create in the Stripe
-dashboard** — no products, no Price IDs to paste. Editing a price is a
+dashboard**: no products, no Price IDs to paste. Editing a price is a
 one-line change to `cents`.
 
 Pen color (`black`/`red`/`blue`) is a free variant: it's validated against
@@ -65,7 +65,7 @@ wrangler deploy
 
 Notes:
 - Until the namespace exists and is bound, `/stock` returns full counts (25) and
-  the frontend simply shows no badges — nothing breaks.
+  the frontend simply shows no badges: nothing breaks.
 - The sold tally is keyed `sold_<edition>`. To correct a count manually:
   `wrangler kv key put --binding=STOCK sold_zaku 3`
 - This also requires the Stripe **webhook** to be configured (Stripe Dashboard →
@@ -79,10 +79,10 @@ cart is cleared there.
 
 ## Going live
 Set the **live** `sk_live_…` secret (`wrangler secret put STRIPE_SECRET_KEY`)
-and redeploy. No price changes needed — `CATALOG` is the same in both modes.
+and redeploy. No price changes needed: `CATALOG` is the same in both modes.
 
 ## Config (top of `src/index.js`)
-- `CATALOG` — edition name + price in cents. Keys must match `data/editions.js`.
-- `SHIPPING_OPTIONS` — selectable rates at checkout (free U.S., flat $20 intl).
-- `EDITION_SIZE` — pieces per numbered edition (25); drives the `/stock` count.
+- `CATALOG`: edition name + price in cents. Keys must match `data/editions.js`.
+- `SHIPPING_OPTIONS`: selectable rates at checkout (free U.S., flat $20 intl).
+- `EDITION_SIZE`: pieces per numbered edition (25); drives the `/stock` count.
 - `ALLOWED_ORIGINS`, `SHIP_COUNTRIES`, `SUCCESS_URL`, `CANCEL_URL`.
