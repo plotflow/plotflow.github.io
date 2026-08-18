@@ -179,10 +179,10 @@ async function handleWebhook(request, env) {
     const meta = sessionDetail.metadata || {};
 
     const itemLines = items.map(li =>
-      `${li.quantity}× ${li.description} — $${(li.amount_total / 100).toFixed(2)}`
+      `${li.quantity}× ${li.description} · $${(li.amount_total / 100).toFixed(2)}`
     ).join("\n");
 
-    const total = sessionDetail.amount_total ? `$${(sessionDetail.amount_total / 100).toFixed(2)}` : "—";
+    const total = sessionDetail.amount_total ? `$${(sessionDetail.amount_total / 100).toFixed(2)}` : "n/a";
 
     const shipAddr = [
       ship.name || cust.name || "",
@@ -192,16 +192,16 @@ async function handleWebhook(request, env) {
     ].filter(Boolean).join("\n");
 
     const text = [
-      "NEW ORDER — PLOTFLOW",
+      "NEW ORDER · PLOTFLOW",
       "═".repeat(40),
       "",
-      `Customer: ${cust.name || "—"}`,
-      `Email:    ${cust.email || "—"}`,
-      `Phone:    ${cust.phone || "—"}`,
+      `Customer: ${cust.name || "n/a"}`,
+      `Email:    ${cust.email || "n/a"}`,
+      `Phone:    ${cust.phone || "n/a"}`,
       "",
       "EDITIONS",
       "─".repeat(20),
-      itemLines || meta.editions || "—",
+      itemLines || meta.editions || "n/a",
       "",
       `Subtotal + shipping: ${total}`,
       "",
@@ -216,16 +216,16 @@ async function handleWebhook(request, env) {
 
     const html = `
       <div style="font-family:monospace;max-width:600px;margin:0 auto;padding:20px">
-        <h2 style="margin:0 0 4px">NEW ORDER — PLOTFLOW*</h2>
+        <h2 style="margin:0 0 4px">NEW ORDER · PLOTFLOW*</h2>
         <hr style="border:2px solid #e8351f;margin:8px 0 20px">
         <table style="font-size:14px;line-height:1.6">
-          <tr><td style="color:#888;padding-right:12px">Customer</td><td><strong>${esc(cust.name || "—")}</strong></td></tr>
-          <tr><td style="color:#888;padding-right:12px">Email</td><td>${esc(cust.email || "—")}</td></tr>
-          <tr><td style="color:#888;padding-right:12px">Phone</td><td>${esc(cust.phone || "—")}</td></tr>
+          <tr><td style="color:#888;padding-right:12px">Customer</td><td><strong>${esc(cust.name || "n/a")}</strong></td></tr>
+          <tr><td style="color:#888;padding-right:12px">Email</td><td>${esc(cust.email || "n/a")}</td></tr>
+          <tr><td style="color:#888;padding-right:12px">Phone</td><td>${esc(cust.phone || "n/a")}</td></tr>
         </table>
         <h3 style="margin:20px 0 6px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#e8351f">Editions</h3>
         <div style="background:#f5f4ef;padding:12px 16px;border-left:3px solid #e8351f;font-size:14px">
-          ${items.map(li => `<div>${li.quantity}× <strong>${esc(li.description)}</strong> — $${(li.amount_total / 100).toFixed(2)}</div>`).join("") || esc(meta.editions || "—")}
+          ${items.map(li => `<div>${li.quantity}× <strong>${esc(li.description)}</strong> · $${(li.amount_total / 100).toFixed(2)}</div>`).join("") || esc(meta.editions || "n/a")}
         </div>
         <p style="font-size:15px;margin:12px 0"><strong>Total: ${esc(total)}</strong></p>
         <h3 style="margin:20px 0 6px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#e8351f">Ship To</h3>
@@ -260,7 +260,7 @@ async function handleWebhook(request, env) {
         console.error("Order email FAILED (network)", String(e), "session:", session.id);
       }
     } else {
-      console.error("Order email SKIPPED — RESEND_API_KEY not set. session:", session.id);
+      console.error("Order email SKIPPED: RESEND_API_KEY not set. session:", session.id);
     }
 
     // Decrement remaining stock per purchased edition. metadata.skus looks

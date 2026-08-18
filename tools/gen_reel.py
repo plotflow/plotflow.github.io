@@ -206,7 +206,7 @@ def render(key, color, dur=15, fps=30, out=None):
         if pen:
             d.text((col4x, r2y), f'X {round(pen[0]*mm_per_unit)}  Y {round(pen[1]*mm_per_unit)}', font=f_stat, fill=hc)
         else:
-            d.text((col4x, r2y), '— —', font=f_stat, fill=hud_rgba(0.15))
+            d.text((col4x, r2y), ': :', font=f_stat, fill=hud_rgba(0.15))
 
         # pen head crosshair
         if pen and 0 < prog < 1:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 PlotFlow Post Exporter
-Turns the scheduled queue into ready-to-post packs you can publish by hand —
+Turns the scheduled queue into ready-to-post packs you can publish by hand :
 no Meta API, no app approval, no account dependency. For each scheduled post it
 writes a folder with the media file + caption.txt, and builds a single review
 board (index.html) with per-post media preview, the scheduled time, and a
@@ -100,7 +100,7 @@ def export_queue(only_queued: bool = True) -> Path:
             "scheduled_at": post.get('scheduled_at', ''),
             "caption": caption,
             "media_rel": media_rel,
-            "media_name": media_name or "(no media — run media_generator build)",
+            "media_name": media_name or "(no media: run media_generator build)",
         })
 
     (out_dir / 'index.html').write_text(_render_board(cards, stamp), encoding='utf-8')
@@ -123,7 +123,7 @@ def _render_board(cards: List[Dict[str, Any]], stamp: str) -> str:
         try:
             return datetime.fromisoformat(iso).strftime('%a %b %d · %H:%M')
         except Exception:
-            return iso or '—'
+            return iso or ':'
 
     items = []
     for c in cards:
@@ -204,7 +204,7 @@ def _render_board(cards: List[Dict[str, Any]], stamp: str) -> str:
 
 
 # ============================================================
-# CARD LIBRARY EXPORT — the 5 editorial card styles (assets/posts)
+# CARD LIBRARY EXPORT: the 5 editorial card styles (assets/posts)
 # ============================================================
 
 CARDS_DIR = SCRIPT_DIR.parent / 'assets' / 'posts'
@@ -215,7 +215,7 @@ EDITIONS_FILE = SCRIPT_DIR.parent / 'data' / 'editions.js'
 CARD_TYPES = ['process', 'lore', 'spec', 'drop']
 
 BRAND_CAPTION = (
-    "PLOTFLOW* — マシンドロー, drawn by machine.\n\n"
+    "PLOTFLOW*: マシンドロー, drawn by machine.\n\n"
     "Universal-Century mobile suits, redrawn as vector line work and "
     "traced in pigment ink on archival paper by an AxiDraw plotter. "
     "Every impression is drawn to order.\n\n"

@@ -82,7 +82,7 @@ def draw_asterisk(d, cx, cy, r, color, width):
 
 
 # ============================================================
-# TEE 1: BACK PRINT — full suit, centered, code below
+# TEE 1: BACK PRINT: full suit, centered, code below
 # Output: 4500×5400 (print-ready ~15×18″ @ 300dpi)
 # ============================================================
 def tee_back(key, variant='black'):
@@ -135,7 +135,7 @@ def tee_back(key, variant='black'):
 
 
 # ============================================================
-# TEE 2: FRONT — small chest logo (asterisk + PLOTFLOW*)
+# TEE 2: FRONT: small chest logo (asterisk + PLOTFLOW*)
 # ============================================================
 def tee_front(variant='black'):
     SS = 3
@@ -169,7 +169,7 @@ def tee_front(variant='black'):
 
 
 # ============================================================
-# TEE 3: LINEUP — all 6 suits in a grid (2×3), back print
+# TEE 3: LINEUP: all 6 suits in a grid (2×3), back print
 # ============================================================
 def tee_lineup(variant='black'):
     W, H = 4500, 5400
@@ -210,7 +210,7 @@ def tee_lineup(variant='black'):
         ctw = d.textlength(ct, font=f_code)
         d.text((cx + cell_w/2 - ctw/2, cy + cell_h - 50), ct, font=f_code, fill=text_color + (140,))
 
-    # footer — JP in the JP font (Latin fonts render it as tofu), Latin below
+    # footer: JP in the JP font (Latin fonts render it as tofu), Latin below
     f_foot = ImageFont.truetype(REG, 24)
     f_foot_jp = ImageFont.truetype(JP, 24)
     jt = 'マシンドロー'
@@ -225,7 +225,7 @@ def tee_lineup(variant='black'):
 
 
 # ============================================================
-# POSTER — 18×24″ @ 300dpi (5400×7200), dark technical readout
+# POSTER: 18×24″ @ 300dpi (5400×7200), dark technical readout
 # ============================================================
 def poster(key):
     s = SUITS[key]
@@ -256,7 +256,7 @@ def poster(key):
     # red line
     d.rectangle([140, 190, W-140, 194], fill=RED + (80,))
 
-    # suit — hero, centered
+    # suit: hero, centered
     suit_margin = 300
     suit_top = 280
     suit_h = int(H * 0.62)
@@ -335,7 +335,7 @@ def poster(key):
 
 
 # ============================================================
-# STICKER — die-cut style, suit on transparent (saved as white bg for preview)
+# STICKER: die-cut style, suit on transparent (saved as white bg for preview)
 # 1500×1500 (5″ @ 300dpi)
 # ============================================================
 def sticker(key):
@@ -369,7 +369,7 @@ def sticker(key):
 
 
 # ============================================================
-# TOTE BAG — minimal, vertical format (3000×3600)
+# TOTE BAG: minimal, vertical format (3000×3600)
 # ============================================================
 def tote(key, variant='natural'):
     s = SUITS[key]
@@ -410,7 +410,7 @@ def tote(key, variant='natural'):
 
 
 # ============================================================
-# MUG WRAP — panoramic band (3600×1200)
+# MUG WRAP: panoramic band (3600×1200)
 # ============================================================
 def mug_wrap():
     W, H = 3600, 1200
@@ -430,7 +430,7 @@ def mug_wrap():
         cw = d.textlength(ct, font=f_code)
         d.text((x + suit_w/2 - cw/2, H - 100), ct, font=f_code, fill=DIM)
 
-    # brand centered at very bottom — JP part in the JP font (avoids tofu)
+    # brand centered at very bottom: JP part in the JP font (avoids tofu)
     f_brand = ImageFont.truetype(BOLD, 22)
     f_brand_jp = ImageFont.truetype(JP, 22)
     latin, jt = 'PLOTFLOW*  ·  ', 'マシンドロー'
@@ -445,7 +445,7 @@ def mug_wrap():
 
 
 # ============================================================
-# ENAMEL PIN DESIGN — individual suit badge (800×800)
+# ENAMEL PIN DESIGN: individual suit badge (800×800)
 # ============================================================
 def pin_design(key):
     s = SUITS[key]
@@ -475,7 +475,7 @@ def pin_design(key):
 
 
 # ============================================================
-# PRESENTATION MOCKUPS — the print composited onto a flat garment
+# PRESENTATION MOCKUPS: the print composited onto a flat garment
 # silhouette (brand-consistent flat style, honest: a mockup, not a photo)
 # ============================================================
 
@@ -541,7 +541,7 @@ def present_tote(print_path, out_name, label):
 
     bw_, bh = CV*0.46, CV*0.56
     bx, by = CV/2 - bw_/2, CV*0.26
-    bag_col = (240, 235, 220)          # natural canvas — matches the tote print bg
+    bag_col = (240, 235, 220)          # natural canvas: matches the tote print bg
     edge = (0, 0, 0, 70)
 
     # handles

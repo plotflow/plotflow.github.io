@@ -3,9 +3,9 @@
 PlotFlow Media Generator
 Renders each edition's continuous-line path into Instagram-ready media:
 
-  • process video (.mp4) — the suit drawn line-by-line, the way the site's
+  • process video (.mp4): the suit drawn line-by-line, the way the site's
     Live Plot animates it, on Strathmore Bristol paper in red ink.
-  • showcase still (.png) — the finished plot, composed as a feed image.
+  • showcase still (.png): the finished plot, composed as a feed image.
 
 Self-contained: parses the M/L path data straight out of data/editions.js,
 draws with Pillow, and encodes with the ffmpeg binary bundled by
@@ -75,7 +75,7 @@ class PlotRenderer:
         """Parse an M/L-only path string into a list of polylines.
 
         In this data 'M' is a pen lift (start of a new stroke) and 'L' draws
-        to the next point — exactly how the AxiDraw walks the geometry.
+        to the next point: exactly how the AxiDraw walks the geometry.
         """
         tokens = d.replace(',', ' ').split()
         polylines: List[List[Point]] = []
@@ -304,7 +304,7 @@ class PlotRenderer:
         jp = suit.get('jp', '')
         bbox_jp = d.textbbox((0, 0), jp, font=f_jp)
         d.text((W - pad - (bbox_jp[2] - bbox_jp[0]), by + int(W * 0.030)), jp, font=f_jp, fill=DIM)
-        # drawn-by-machine signature (no price — gallery, not storefront)
+        # drawn-by-machine signature (no price: gallery, not storefront)
         d.text((W - pad - int(W * 0.22), by), 'マシンドロー', font=self._font(FONT_JP, int(W * 0.024)), fill=RED)
 
         out_path = out_path or (self.export_dir / f"{key}_showcase.png")
@@ -333,7 +333,7 @@ class PlotRenderer:
 
         The manifest maps each edition key to its media filenames and (if a
         site URL is configured) the public URLs the Instagram API will fetch.
-        When publish_dir is given, media is also copied there — point it at a
+        When publish_dir is given, media is also copied there: point it at a
         folder served by GitHub Pages (e.g. ../assets/social) so the files are
         publicly reachable at your domain.
         """

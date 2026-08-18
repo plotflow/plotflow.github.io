@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-gen_bismuth.py — randomized 3D bismuth hopper crystals for the plotter.
+gen_bismuth.py: randomized 3D bismuth hopper crystals for the plotter.
 
 Real bismuth grows skeletal "hopper" crystals: the rim of each face
 grows faster than the centre, so the face develops as a square spiral
 staircase descending into the crystal. Here each crystal is modelled in
-3D — a block prism whose top face carries an inverted ziggurat of
-terraces (closed rings stepping down and inward, with corner risers) —
+3D: a block prism whose top face carries an inverted ziggurat of
+terraces (closed rings stepping down and inward, with corner risers) :
 then the whole cluster is axonometrically projected to the sheet.
 Wireframe only: what the pen can draw.
 
@@ -40,7 +40,7 @@ def hopper3d(rng, s0):
     Returns a list of 3D polylines (Nx3 arrays)."""
     aspect = rng.uniform(0.9, 1.1)
     shrink = rng.uniform(0.78, 0.88)
-    dz = rng.uniform(0.016, 0.030) * s0          # step depth per terrace — shallow:
+    dz = rng.uniform(0.016, 0.030) * s0          # step depth per terrace: shallow:
     # a hopper pit is much wider than deep, or it projects as a spike
     twist = rng.uniform(-0.03, 0.03)
     sink = rng.uniform(0, 2 * math.pi)           # drift direction of the funnel

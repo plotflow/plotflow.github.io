@@ -27,7 +27,7 @@ class InstagramAPI:
         self.api_version = ig['api_version']
         # Two valid hosts depending on how you set up the app in Meta:
         #   graph.instagram.com  → "Instagram API with Instagram login"
-        #                          (no Facebook Page needed — simplest for
+        #                          (no Facebook Page needed: simplest for
         #                           publishing to your own @plotflow account)
         #   graph.facebook.com   → "Instagram API with Facebook login"
         #                          (requires an IG account linked to a FB Page)

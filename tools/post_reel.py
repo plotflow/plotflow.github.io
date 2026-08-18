@@ -10,7 +10,7 @@ Graph API Content Publishing flow:
 The video MUST already be live at a public HTTPS URL (we serve it from
 GitHub Pages at https://plotflow.io/reels/<key>-<color>-reel.mp4).
 
-Secrets are read from the environment — NEVER hard-code them:
+Secrets are read from the environment: NEVER hard-code them:
     IG_USER_ID        Instagram Business account id (numeric)
     IG_ACCESS_TOKEN   long-lived access token (60-day, refreshable)
     GRAPH_VERSION     optional, defaults to v21.0
@@ -56,7 +56,7 @@ def api(method, path, params, version):
         raise SystemExit(f"Graph API error {e.code} on {path}:\n{body}")
 
 def url_is_live(url, tries=30, delay=10):
-    """GitHub Pages can take ~1 min to deploy a new file — poll until 200."""
+    """GitHub Pages can take ~1 min to deploy a new file: poll until 200."""
     for i in range(tries):
         try:
             req = urllib.request.Request(url, method="HEAD")

@@ -42,7 +42,7 @@ class ContentGenerator:
         with open(EDITIONS_PATH) as f:
             content = f.read()
 
-        # The file is `window.PLOTFLOW = { ... };` — valid JSON once the
+        # The file is `window.PLOTFLOW = { ... };`: valid JSON once the
         # assignment wrapper and trailing semicolon are stripped.
         m = re.search(r'window\.PLOTFLOW\s*=\s*', content)
         if not m:
@@ -85,7 +85,7 @@ class ContentGenerator:
 
         prompt = f"""Generate an engaging Instagram caption for a machine-drawn artwork with these details:
 
-Edition: {edition['code']} — {edition['name']}
+Edition: {edition['code']}: {edition['name']}
 Japanese: {edition['name_jp']}
 Edition run: {edition['edition']}
 Price: {edition['price']}
@@ -98,7 +98,7 @@ Style guidelines:
 - Tone: {SETTINGS['ai']['tone']}
 - Keep it concise (2-4 sentences)
 - Include both English and Japanese elements
-- Emphasize マシンドロー — drawn by machine, stroke by stroke, never printed
+- Emphasize マシンドロー: drawn by machine, stroke by stroke, never printed
 - Mention it's machine-drawn by an AxiDraw plotter
 - Make it compelling for art collectors and Gundam fans
 
@@ -120,8 +120,8 @@ Do not include hashtags in the caption (those are added separately).
         """Template-based caption generation as fallback."""
         templates = {
             "showcase": [
-                f"{edition['code']} — {edition['name']}\n{edition['name_jp']}\n\n{edition['description']}\n\nDrawn by machine. Never printed. Limited edition.",
-                f"マシンドロー — drawn by machine.\n\n{edition['name']} ({edition['code']}), traced stroke by stroke in ink by an AxiDraw plotter.\n\nEvery line, every detail — machine precision meets artistic vision.",
+                f"{edition['code']}: {edition['name']}\n{edition['name_jp']}\n\n{edition['description']}\n\nDrawn by machine. Never printed. Limited edition.",
+                f"マシンドロー: drawn by machine.\n\n{edition['name']} ({edition['code']}), traced stroke by stroke in ink by an AxiDraw plotter.\n\nEvery line, every detail: machine precision meets artistic vision.",
                 f"{edition['name_jp']}\n{edition['name']} · {edition['code']}\n\n{edition['description']}\n\n{edition['price']} · {edition['edition']} · Plotted to order"
             ],
             "process": [

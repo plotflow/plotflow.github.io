@@ -49,11 +49,10 @@
 
 <!-- MASTHEAD -->
 <header class="mast">
-  <span class="reg l">+</span><span class="reg r">+</span>
   <div class="wrap mast-in">
     <div>
       <div class="mast-label">STUDY ARCHIVE ｜<span class="jp">習作</span> · LIVE SIMULATION</div>
-      <h1>Lines into form:<br>computational simulacrum.</h1>
+      <h1>Computational art,<br>drawn line by line</h1>
       <p class="mast-lede">A pen-plotter studio. Universal-Century studies are catalogued below and
       displayed, not sold. Original linework is taken on through commissions.</p>
     </div>
@@ -64,51 +63,12 @@
   </div>
 </header>
 
-<!-- LIVE PLOT: control rail left, sheet right -->
+<!-- LIVE PLOT: the sheet, with its control strip beneath -->
 <section class="plot" id="feature">
-  <div class="plot-rail">
-    <div class="rail-sec">
-      <h5>MACHINE</h5>
-      <div class="rail-live"><span class="dot"></span>PLOTTING</div>
-      <div class="rail-cap" id="capName">READY</div>
-      <div class="rail-pct"><b><span id="pct">0</span></b><i>%</i></div>
-      <div class="pbar"><b id="pbar"></b></div>
-    </div>
-
-    <div class="rail-sec">
-      <h5>CONTROL</h5>
-      <button class="rail-big" id="play">Pause</button>
-      <div class="rail-row2">
-        <button class="rail-btn" id="restart">Restart</button>
-        <button class="rail-btn" id="skip">Skip ▸︎▸︎</button>
-      </div>
-    </div>
-
-    <div class="rail-sec">
-      <h5>SPEED</h5>
-      <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
-      <p class="rail-note" id="simx"></p>
-    </div>
-
-    <div class="rail-sec rail-tel">
-      <h5>TELEMETRY</h5>
-      <div class="rail-grid">
-        <div><label>INK LAID</label><b><span id="ink">0.00</span><i>/ <span id="inktot">0.00</span> m</i></b></div>
-        <div><label>POSITION</label><b><span id="cx">000</span> · <span id="cy">000</span><i>mm</i></b></div>
-        <div><label>ELAPSED</label><b><span id="elapsed">00:00</span></b></div>
-        <div><label>PLOT TIME</label><b><span id="total">00:00</span></b></div>
-      </div>
-      <p class="rail-foot">PEN 0.3 MM · FEED 1100 MM/MIN · 11×14″ BRISTOL</p>
-    </div>
-
-    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
-  </div>
-
   <div class="plot-stage">
     <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
     <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
     <div class="bed" id="bed">
-      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <canvas id="pcanvas"></canvas>
       <svg id="stage" viewBox="0 0 1493 801" preserveAspectRatio="xMidYMid meet">
         <path id="ppath" d=""></path>
@@ -119,6 +79,23 @@
       </svg>
     </div>
     <img class="pf-seal" src="assets/logo-seal.svg" alt="" width="48" height="48">
+  </div>
+
+  <div class="plot-strip">
+    <div class="pbar"><b id="pbar"></b></div>
+    <button class="strip-btn" id="play">Pause</button>
+    <button class="strip-btn" id="restart">Restart</button>
+    <button class="strip-btn" id="skip">Skip ▸︎▸︎</button>
+    <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+    <span class="strip-note" id="simx"></span>
+    <span class="strip-sp"></span>
+    <span class="strip-live">● PLOTTING</span>
+    <span class="strip-cap" id="capName">READY</span>
+    <span class="strip-stat"><b><span id="pct">0</span>%</b></span>
+    <span class="strip-stat">INK <b><span id="ink">0.00</span></b> / <span id="inktot">0.00</span> m</span>
+    <span class="strip-stat tm"><b><span id="elapsed">00:00</span></b> / <span id="total">00:00</span></span>
+    <span class="strip-stat pos">X <b id="cx">000</b> · Y <b id="cy">000</b> mm</span>
+    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
   </div>
 </section>
 

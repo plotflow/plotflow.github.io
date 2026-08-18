@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-gen_diffline.py — differential line growth for the plotter.
+gen_diffline.py: differential line growth for the plotter.
 
 An original implementation of the classic differential-growth technique
 (a closed loop of nodes: each node springs toward its two chain
@@ -9,8 +9,8 @@ stretch past a limit are split). Recording the loop every few steps and
 drawing all snapshots on one sheet produces the layered, sheet-like
 forms this family of algorithms is known for.
 
-Output is plotter-honest SVG — M/L polylines only, one subpath per
-recorded generation — so a piece can drop straight into the site
+Output is plotter-honest SVG: M/L polylines only, one subpath per
+recorded generation: so a piece can drop straight into the site
 pipeline (tools/build_data.py) or PlotGrid.
 
 Usage:  python tools/gen_diffline.py            # all presets
@@ -71,7 +71,7 @@ def grow(seed=1, steps=950, snap_grow=1.10,
 
         force += rng.normal(0, k_noise, size=pts.shape)
 
-        # soft boundary: past the margin, push back proportionally —
+        # soft boundary: past the margin, push back proportionally :
         # a hard clamp stacks nodes on the wall and blows up the pair count
         over = np.zeros_like(pts)
         over[:, 0] += np.maximum(0, MARGIN - pts[:, 0]) - np.maximum(0, pts[:, 0] - (W - MARGIN))
@@ -93,7 +93,7 @@ def grow(seed=1, steps=950, snap_grow=1.10,
             mids += rng.normal(0, 0.08, size=mids.shape)
             pts = np.insert(pts, long_idx + 1, mids, axis=0)
 
-        # continuous growth: also insert midpoints on random edges — this is
+        # continuous growth: also insert midpoints on random edges: this is
         # what drives the buckling. Without it the loop settles and stops.
         if len(pts) < n_max:
             n_ins = max(1, len(pts) // ins_rate)
@@ -103,7 +103,7 @@ def grow(seed=1, steps=950, snap_grow=1.10,
             mids += rng.normal(0, 0.08, size=mids.shape)
             pts = np.insert(pts, ins + 1, mids, axis=0)
 
-        # record a generation each time the loop has grown ~10% in length —
+        # record a generation each time the loop has grown ~10% in length :
         # geometric spacing keeps the drawn sheets separated instead of
         # burying the plot under hundreds of coincident loops
         total = float(np.sum(np.linalg.norm(np.roll(pts, -1, axis=0) - pts, axis=1)))
@@ -143,7 +143,7 @@ def to_png(snaps, path, scale=1.0, ss=2):
 
 
 PRESETS = {
-    # round bloom growing from centre — the classic
+    # round bloom growing from centre: the classic
     "bloom":  dict(steps=950, n0=48, r0=40),
     # long diagonal band, like sheeted fabric
     "band":   dict(steps=950, n0=72, r0=30, stretch=(6.5, 0.55),
@@ -151,7 +151,7 @@ PRESETS = {
     # tall column, tighter repulsion → denser folds
     "column": dict(steps=950, n0=56, r0=26, stretch=(0.6, 4.6),
                    r_rep=19.0),
-    # organic labyrinth (after Pedersen & Singh) — confined growth tuned for
+    # organic labyrinth (after Pedersen & Singh): confined growth tuned for
     # even corridor spacing; only the FINAL curve is drawn, one closed line
     "labyrinth": dict(steps=1600, n0=60, r0=40, r_rep=14.0, d_split=4.2,
                       ins_rate=70, n_max=30000, k_noise=0.3, step_max=1.8,

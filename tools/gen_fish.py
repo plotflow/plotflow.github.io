@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-gen_fish.py — procedural fish via LingDong Huang's fishdraw (MIT).
+gen_fish.py: procedural fish via LingDong Huang's fishdraw (MIT).
 
 Runs the vendored fishdraw.js (tools/vendor/fishdraw/, MIT © 2021
 Lingdong Huang) under node, takes its polylines, and fits the fish onto
 the studio sheet in the pipeline's M/L-only SVG dialect, with a PNG
-preview. The seed string names the fish — same seed, same fish.
+preview. The seed string names the fish: same seed, same fish.
 
 Usage:  python tools/gen_fish.py               # seed "plotflow"
         python tools/gen_fish.py "koi dream"   # chosen seed

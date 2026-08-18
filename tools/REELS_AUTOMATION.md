@@ -50,7 +50,7 @@ Use the **Graph API Explorer** (Tools menu) with your app selected:
 ### 4. App Review
 To publish to the public, submit `instagram_content_publish` for **App Review**.
 While the app is in *Development* mode you can only publish to accounts that
-have a role on the app — add @plotflow's user as a *Tester* (App Roles) to test
+have a role on the app: add @plotflow's user as a *Tester* (App Roles) to test
 end-to-end before review is approved.
 
 ### 5. Add repo secrets
@@ -75,7 +75,7 @@ poster will start failing ~60 days after setup.
 
 ## Testing without posting
 ```bash
-# Local dry run — builds the caption + URL, no API call:
+# Local dry run: builds the caption + URL, no API call:
 python3 tools/post_reel.py --key zaku --dry-run
 ```
 Or in Actions: *Run workflow* with **dry_run = true**.
@@ -85,7 +85,7 @@ Edit `tools/captions.json`. Each edition has its own body; `_footer` (link +
 hashtags) is appended to all of them. No code changes needed.
 
 ## Notes & limits
-- Instagram allows **50 API-published posts per 24h** — far above our cadence.
+- Instagram allows **50 API-published posts per 24h**: far above our cadence.
 - The video must be reachable at its public URL before publishing; the poster
   polls GitHub Pages until the file is live (Pages deploys take ~1 min).
-- Secrets live only in GitHub Actions — never commit tokens to the repo.
+- Secrets live only in GitHub Actions: never commit tokens to the repo.
