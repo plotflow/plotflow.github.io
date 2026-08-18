@@ -66,7 +66,10 @@
 <!-- LIVE PLOT: the sheet, with its control strip beneath -->
 <section class="plot" id="feature">
   <div class="plot-stage">
-    <span class="bl" id="bedlabel">BED 01 · ARCHIVAL</span>
+    <div class="bed-pick">
+      <label for="suit">BED 01</label>
+      <div class="selwrap"><select id="suit" aria-label="Design on the bed"></select></div>
+    </div>
     <span class="pf-view">PROGRAM VIEW · DRAWN IN EXECUTION ORDER · INK 0.30 MM</span>
     <div class="bed" id="bed">
       <canvas id="pcanvas"></canvas>
@@ -95,7 +98,6 @@
     <span class="strip-stat">INK <b><span id="ink">0.00</span></b> / <span id="inktot">0.00</span> m</span>
     <span class="strip-stat tm"><b><span id="elapsed">00:00</span></b> / <span id="total">00:00</span></span>
     <span class="strip-stat pos">X <b id="cx">000</b> · Y <b id="cy">000</b> mm</span>
-    <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
   </div>
 </section>
 
