@@ -42,21 +42,101 @@
     return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
   }
 
+  // Parse the stroke program into polylines once, for the hover animation.
+  function polysOf(d) {
+    var re = /([ML])\s*(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, m, cur = null, out = [];
+    while ((m = re.exec(d)) !== null) {
+      var x = +m[2], y = +m[3];
+      if (m[1] === 'M') { cur = [[x, y]]; out.push(cur); }
+      else if (cur) cur.push([x, y]);
+    }
+    return out;
+  }
+
+  // Hovering a plate replays its stroke program inside the card: the canvas
+  // draws the polylines in execution order, the way the machine lays them.
+  var PLOT_MS = 2400, INK = '#e8351f';
+  function attachHoverPlot(sheet, canvas, polys, vb) {
+    var ctx = canvas.getContext('2d'), raf = null, tf = null, segs = 0;
+    for (var i = 0; i < polys.length; i++) segs += Math.max(0, polys[i].length - 1);
+
+    function setup() {
+      var w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return false;
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      var sc = Math.min(w / vb.w, h / vb.h);
+      tf = { s: sc * dpr, ox: ((w - vb.w * sc) / 2) * dpr, oy: ((h - vb.h * sc) / 2) * dpr };
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = Math.max(1, 0.85 * dpr);
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      return true;
+    }
+    function mx(x) { return tf.ox + (x - vb.x) * tf.s; }
+    function my(y) { return tf.oy + (y - vb.y) * tf.s; }
+
+    // Stroke every segment up to `upto`, in program order.
+    function paint(upto) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      var n = 0;
+      for (var i = 0; i < polys.length && n < upto; i++) {
+        var pl = polys[i];
+        if (pl.length < 2) continue;
+        ctx.moveTo(mx(pl[0][0]), my(pl[0][1]));
+        for (var j = 1; j < pl.length && n < upto; j++, n++) ctx.lineTo(mx(pl[j][0]), my(pl[j][1]));
+      }
+      ctx.stroke();
+    }
+
+    function stop() {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      sheet.classList.remove('plotting');
+      if (tf) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function start() {
+      if (raf) return;
+      if (!setup()) return;
+      sheet.classList.add('plotting');
+      var t0 = null;
+      raf = requestAnimationFrame(function step(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / PLOT_MS);
+        paint(Math.round(segs * k));
+        if (k < 1) { raf = requestAnimationFrame(step); }
+        else { raf = null; }   // finished: the drawn canvas stays until pointer-out
+      });
+    }
+
+    sheet.addEventListener('pointerenter', function (e) {
+      if (e.pointerType === 'touch') return;   // no hover on touch: leave the static plate
+      start();
+    });
+    sheet.addEventListener('pointerleave', stop);
+    sheet.addEventListener('focusin', start);
+    sheet.addEventListener('focusout', stop);
+  }
+
   ORDER.forEach(function (key, i) {
     var s = SUITS[key]; if (!s) return;
     var t = stats(s.d), p = Math.max(t.bb[2], t.bb[3]) * 0.05;
+    var vb = { x: t.bb[0] - p, y: t.bb[1] - p, w: t.bb[2] + 2 * p, h: t.bb[3] + 2 * p };
     var href = 'product.html?id=' + encodeURIComponent(key);
     var plate = document.createElement('article');
     plate.className = 'plate';
     plate.dataset.key = key;
     plate.innerHTML =
-      '<a class="pl-sheet" href="' + href + '">' +
+      '<a class="pl-sheet" href="' + href + '" aria-label="' + s.name + ' study record">' +
         '<span class="pl-no">' + String(i + 1).padStart(2, '0') + '</span>' +
         '<span class="pl-code">' + s.code + '</span>' +
-        '<svg viewBox="' + (t.bb[0] - p) + ' ' + (t.bb[1] - p) + ' ' +
-          (t.bb[2] + 2 * p) + ' ' + (t.bb[3] + 2 * p) + '" preserveAspectRatio="xMidYMid meet">' +
+        '<svg viewBox="' + vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h + '" preserveAspectRatio="xMidYMid meet">' +
           '<path d="' + s.d + '"/></svg>' +
-        '<button class="pl-plot" data-plot="' + key + '" aria-label="Plot ' + s.name + '">▶&#xFE0E; Plot this sheet</button>' +
+        '<canvas class="pl-canvas" aria-hidden="true"></canvas>' +
       '</a>' +
       '<a class="pl-name" href="' + href + '">' + s.name +
         '<span class="jp">' + s.jp + '</span></a>' +
@@ -67,15 +147,7 @@
       '</div>' +
       '<div class="pl-foot">Study · not for sale</div>';
     grid.appendChild(plate);
-  });
-
-  // "▶ Plot" hands the study to the hero plotter (button sits inside the record link).
-  grid.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-plot]');
-    if (!b) return;
-    e.preventDefault();
-    if (window.PlotflowPlotter) window.PlotflowPlotter.load(b.dataset.plot);
-    var feature = document.getElementById('feature');
-    if (feature) feature.scrollIntoView({ behavior: 'smooth' });
+    attachHoverPlot(plate.querySelector('.pl-sheet'), plate.querySelector('.pl-canvas'),
+                    polysOf(s.d), vb);
   });
 })();
