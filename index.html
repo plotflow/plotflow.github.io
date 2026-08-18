@@ -85,18 +85,18 @@
 
   <div class="plot-strip">
     <div class="pbar"><b id="pbar"></b></div>
+    <button class="strip-btn" id="play">Pause</button>
+    <button class="strip-btn" id="restart">Restart</button>
+    <button class="strip-btn" id="skip">Skip ▸︎▸︎</button>
+    <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+    <span class="strip-note" id="simx"></span>
+    <span class="strip-sp"></span>
     <span class="strip-live">● PLOTTING</span>
     <span class="strip-cap" id="capName">—</span>
     <span class="strip-stat"><b><span id="pct">0</span>%</b></span>
     <span class="strip-stat">INK <b><span id="ink">0.00</span></b> / <span id="inktot">0.00</span> m</span>
     <span class="strip-stat tm"><b><span id="elapsed">00:00</span></b> / <span id="total">00:00</span></span>
     <span class="strip-stat pos">X <b id="cx">000</b> · Y <b id="cy">000</b> mm</span>
-    <span class="strip-sp"></span>
-    <span class="strip-note" id="simx"></span>
-    <button class="strip-btn" id="play">Pause</button>
-    <button class="strip-btn" id="restart">Restart</button>
-    <button class="strip-btn" id="skip">Skip ▸︎▸︎</button>
-    <div class="seg" id="speed"><button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
     <div class="selwrap" hidden><select id="suit" aria-label="Edition"></select></div>
   </div>
 </section>
