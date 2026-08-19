@@ -145,7 +145,6 @@
 .pfr-sheet #pdCanvas{position:absolute;left:7%;top:7%;z-index:2;
   width:86%;height:86%}
 .pfr-sheet #pdSvg{position:absolute;width:0;height:0;overflow:hidden}
-.pfr-sheet .pd-replay{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4}
 .pfr-panel{background:transparent;border-left:2px solid var(--ink);display:flex;flex-direction:column}
 .pfr-sec{padding:18px;border-bottom:1px solid rgba(21,22,15,.18)}
 .pfr-sec h5{font-weight:800;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
